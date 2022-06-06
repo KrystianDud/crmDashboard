@@ -1,0 +1,23 @@
+.formHandler {
+    display: flex;
+    flex-direction: column;
+
+    font-size: small;
+
+}
+
+.inputLabel {}
+
+.inputClass {
+    border-radius: 10px;
+    border: 1px solid rgba(233, 239, 241, 0.534);
+
+    padding: 5px;
+
+    transition: .2s;
+}
+
+.inputClass:focus {
+    border: 1px solid rgba(142, 149, 152, 0.534);
+
+}

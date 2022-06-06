@@ -1,0 +1,125 @@
+.sidebarBody {
+    position: relative; 
+    width: 200px;
+    transition: 0.2s;
+
+    flex: 0.8;
+    overflow: hidden;
+}
+
+.sideScreenShow {
+    width: 200px;
+
+}
+
+.sideScreenHide {
+    width: 0;
+
+}
+
+.cardBox {
+    background-color: rgb(224, 135, 135);
+    border-radius: 15px;
+    /* padding: 15px; */
+    width: 90%;
+    height: 200px;
+    margin: 10px auto;
+
+    transition: 0.5;
+}
+
+
+
+
+.topSection {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    height: 40px;
+    width: 100%;
+}
+
+.closeSidebar {
+    position: static;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column-reverse;
+    align-items: center;
+    border-radius: 100px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: .4s;
+}
+
+.hideClose {
+    display: none;
+}
+
+.showTitle {
+    height: 2vh;
+
+    /* padding-top: 15px; */
+
+    margin-bottom: 5px;
+}
+
+.showDetails {
+    min-height: 20vh;
+
+    padding-top: 15px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start
+}
+
+.showPrice { 
+    margin: 15px auto;
+}
+
+.financeSection {
+    min-height: 20vh;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 15px;
+}
+
+
+
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgb(112 171 248);
+    cursor: pointer;
+}
+
+input[type=range]::-ms-track {
+    width: 100%;
+    cursor: pointer;
+
+    /* Hides the slider so custom styles can be added */
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    background: rgb(223 238 251);
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #00000036, 0px 0px 1px #0d0d0d31;
+
+    height: 5px;
+}

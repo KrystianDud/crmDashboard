@@ -1,0 +1,58 @@
+.navBar {
+    width: 100%;
+    min-height: 60px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: rgb(252, 252, 252);
+
+}
+
+.search-ele {
+    background: white;
+    border-radius: 15px;
+    border: 1px solid rgb(194, 194, 194);
+    width: 200px;
+    height: 35px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-right: 15px;
+    transition: transform 2s;
+}
+
+.search-ele:hover {
+    border: 1px solid black;
+}
+
+.search-icon {
+    margin: 0 0 0 5px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.search-text {
+    border: none;
+    background: none;
+    height: 100%;
+}
+
+input:focus {
+    /* border: 1px solid black; */
+    background: none;
+    outline: none;
+}
+
+.section {
+    /* font-size: 1.2rem; */
+    /* font-weight: bold; */
+    margin: 0;
+    margin-left: 15px;
+}
+
+/* cursor: 'pointer', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' */

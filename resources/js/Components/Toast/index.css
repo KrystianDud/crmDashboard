@@ -1,0 +1,108 @@
+.toastBoxContainer {
+    display: flex;
+    flex-direction: column;
+
+    position: fixed;
+    height: 100%;
+}
+.box {
+    width: 350px;
+    height: 80px;
+    background-color: #fff;
+}
+
+.border {
+    border-radius: 5px;
+}
+
+.bSuccess {
+    border-left: 5px solid #0de35c;
+}
+
+.bWarning {
+    border-left: 5px solid #ffbf68;
+}
+
+.bDanger {
+    border-left: 5px solid #e62f2f;
+}
+
+.bInfo {
+    border-left: 5px solid #388eff;
+}
+
+.closeIcon {
+    width: 40px;
+    height: 40px;
+
+    cursor: pointer;
+
+    transform: 0.3s;
+}
+
+.closeIcon {}
+
+.toastContainer {
+    font-size: 14px;
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 999999;
+}
+
+.top-right {
+    top: 80px;
+    right: 30px;
+    transition: transform .6s ease-in-out;
+    animation: slideRight .7s;
+}
+.top-right-hide {
+    top: 12px;
+    right: 12px;
+    transition: transform .6s ease-in-out;
+    animation: slideLeft .7s;
+}
+
+.stopper {
+    right: -400px;
+    position: relative;
+    margin-left: auto
+}
+
+@keyframes slideToast {
+    0% {
+        right: -350px;
+    }
+
+    25% {
+        right: 200px;
+    }
+
+    75% {
+        right: 200px;
+    }
+
+    100% {
+        right: -350px;
+    }
+}
+
+@keyframes slideRight {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideLeft {
+    from {
+        transform: translateX(-100%);
+
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}

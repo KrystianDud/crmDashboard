@@ -1,0 +1,120 @@
+.authView {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    height: 100%;
+    width: 100%;
+}
+
+.interactView {
+    display: flex;
+    flex: 0.5;
+    justify-content: center;
+    align-items: center;
+
+    margin: 5px 0 50px;
+
+}
+
+.interactContainer {
+    width: 50%;
+    height: auto;
+
+}
+
+.splashView {
+    display: flex;
+    flex: 0.5;
+    background: #7F7FD5;
+    /* fallback for old browsers */
+/* background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+/* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+/* .splashView {
+    display: flex;
+    flex: 0.5;
+    background: url('../../../public/images/shape_background_deep_blue.svg');
+    z-index: 100;
+} */
+
+.showCharacter {
+    height: 493px;
+    width: 429px;
+    background-image: url('../../../public/images/undraw_statistic_chart_re_w0pk.svg');
+    z-index: 101;
+    background-repeat: no-repeat;
+    margin: 25% auto;
+}
+
+.welcomeElement {
+    margin: 0 0 50px;
+}
+
+.welcomeElement p {
+    font-size: smaller;
+}
+
+.welcomeElement h3 {
+    margin: 5px;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+.loginForm button {
+    border: none;
+    color: white;
+    background: #388eff;
+    border-radius: 5px;
+    min-width: 100px;
+    height: 30px;
+
+
+    margin-top: 10px;
+    padding: 5px;
+
+    cursor: pointer;
+}
+
+.signupLine {
+    margin-top: 25px;
+    margin-inline: auto;
+}
+
+.signupText {
+    color: #388eff;
+
+    cursor: pointer;
+}
+
+/* Box Animation */
+
+.flip-vertical-bck {
+    animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+/* ----------------------------------------------
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+
+@keyframes flip-vertical-bck {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    100% {
+        -webkit-transform: translateX(-100px);
+        transform: translateX(-100px);
+    }
+}

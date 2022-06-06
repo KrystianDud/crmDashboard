@@ -1,0 +1,54 @@
+.showTabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    margin-top: 5px;
+}
+
+.table-header {
+    font-size: 1.1rem;
+    font-weight: 600;
+
+    border-bottom: 1px solid ;
+}
+
+.table-spacer{
+    margin-top: 5px;
+}
+
+.button-secondary {
+    height: 30px;
+    min-width: 85px;
+
+    margin: 5px;
+
+    color: rgb(203, 203, 209);
+    border: 2px solid rgb(203, 203, 204);
+    background-color: #fff;
+
+    transition: .5s;
+}
+
+.button-secondary:hover {
+    background-color: rgb(184, 181, 181);
+    color: rgb(255, 255, 255);
+
+}
+
+.table-control{
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 0 20px;
+    padding: 10px 0;
+
+}
+
+.tableView {
+    background-color: #fff;
+    width: 95%;
+    min-height: 95%;
+    margin: 5px auto 0;
+    border-radius: 15px;
+}
