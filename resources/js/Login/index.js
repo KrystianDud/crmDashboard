@@ -5,33 +5,63 @@ import Welcome from '../Components/Login/Welcome'
 import LoginView from '../Components/Login/LoginView'
 import RegisterView from '../Components/Login/RegisterView'
 import SplashView from '../Components/Login/SplashView'
-import axios from 'axios'
+import axios from 'axios';
 
-export default function Login() {
-    const [newUser, setNewUser] = useState(false)
+import Toast, { newToast } from '../Components/Toast/Index'
 
-    // check cookies to see if user has used this service before
-    useEffect(() => {
-
-
-        return () => {
-
-        }
-    }, [])
+export default function Login({ processUser }) {
+    const [newUser, setNewUser] = useState(true)
+    const [toastList, setToastList] = useState([])
 
     const verifyCredidentials = (data, type) => {
-        console.log(JSON.stringify(data))
+        let newData = data; 
 
-        if (data.email === '' || !data.email.includes('@')) return
+        if (newData.email === '' || !newData.email.includes('@')) {
+            setToastList([...toastList, newToast('Email structure is not correct', 'Warning')])
+            return
+        } 
+
+        if (newData.type) {
+            newData.type = 'client';
+        }
+        else{
+            newData.type = 'service';
+        }
+        console.log('changing the type', newData)
 
         axios({
             method: 'POST',
-            url: `api/auth/${type}`,
+            url: `api/${type}`,
             headers: { 'content-type': 'application/json' },
-            data: JSON.stringify(data)
+            data: JSON.stringify(newData)
         })
             .then((response) => {
                 console.log(response)
+                if (response.status == 200) {
+                    let user = response.data.user;
+                    let userData = {
+                        id: user.id,
+                        email: user.email,
+                        name: user.name
+                    }
+                    if (typeof user.type != 'undefined' || user.type != '') {
+                        const type = user.type
+                        Object.assign(userData, type)
+                    }
+                    console.log(userData)
+                    processUser(userData)
+                }
+                else if (response.status == 201) {
+                    setToastList([...toastList, newToast('New account has been created', 'Success')])
+                    setNewUser(false)
+                }
+                else {
+                    setToastList([...toastList, newToast('User cannot be verified.', 'Warning')])
+                }
+            })
+            .catch((error) => {
+                setToastList([...toastList, newToast('Something went wrong, please try again.', 'Warning')])
+                console.error('some details are incorrect', error)
             })
     }
 
@@ -58,6 +88,11 @@ export default function Login() {
                 </div>
             </div>
             <SplashView />
+            <Toast
+                toastList={toastList}
+                autoDelete={true}
+                autoDeleteTime={3000}
+            />
         </div>
     )
 }

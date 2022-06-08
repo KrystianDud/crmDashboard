@@ -21,7 +21,12 @@ export const ToastContext = createContext({
 });
 
 function App() {
-    const [token, setToken] = useState(null)
+    // const [user, setUser] = useState(null)
+    const [user, setUser] = useState({
+        id: 0,
+        email: 'test',
+        name: 'test'
+    })
 
     const [section, setSection] = useState(0)
     const [toastList, setToastList] = useState([])
@@ -32,7 +37,6 @@ function App() {
     );
 
     useEffect(() => {
-
         switch (window.location.pathname) {
             case "/":
                 setSection(0)
@@ -58,23 +62,24 @@ function App() {
                 setSection(7)
                 break;
         }
-
-        return () => {
-            // second
-        }
     }, [])
 
+    useEffect(() => {
+        
+    }, [user])
+    
+
+    const processUser = (userData) => {
+        setUser(userData)
+    }
 
     const getDirectory = (id) => {
         setSection(id)
     }
 
-    
-
-    if(!token){
-        return <Login />
+    if (!user) {
+        // return <Login processUser={processUser} />
     }
-
 
     return (
         <React.StrictMode>
@@ -92,7 +97,7 @@ function App() {
                                 section={section}
                             />
                             <Routes>
-                                <Route path="/" element={<Dashboard section={section} />} />
+                                <Route path="/" element={<Dashboard section={section} user={user}/>} />
                                 <Route path="orders" element={<Orders section={section} />} />
                                 <Route path="products" element={<Products section={section} />} />
                                 {/* <Route path="overview" element={<Dashboard section={section} />} /> */}
@@ -113,7 +118,6 @@ function App() {
                 />
             </ToastContext.Provider>
         </React.StrictMode>
-
     );
 }
 const root = createRoot(document.getElementById('main'));
