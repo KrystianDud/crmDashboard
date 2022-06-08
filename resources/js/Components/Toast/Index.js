@@ -25,7 +25,6 @@ export default function Toast({ toastList, autoDelete, autoDeleteTime }) {
 
 
     useEffect(() => {
-        console.log('log')
         const interval = setInterval(() => {
             if (autoDelete && toastList.length && list.length) {
 
