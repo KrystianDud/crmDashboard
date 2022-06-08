@@ -114,6 +114,27 @@
 
 }
 
+/* CONTENT */
+
+.fitW{
+    width: fit-content;
+}
+.maxW{
+    width: max-content;
+}
+.minW{
+    width:min-content;
+}
+
+.fitH{
+    height: fit-content;
+}
+.maxH{
+    height: max-content;
+}
+.minH{
+    height:min-content;
+}
 
 
 /* DECORATIVE ELEMENTS, MISC */
