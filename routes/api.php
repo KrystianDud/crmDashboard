@@ -22,11 +22,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::get('/dashboard/transactions', function (){
 //     return new transactionLog()
 // })
-
 // Route::post('/register', function () {
 //     return view('home');
 // });
-
 // Route::get('/products', [ProductController::class, 'index']);
 
 Route::post('/products', [ProductController::class, 'store']);
@@ -38,13 +36,15 @@ Route::put('/products/{$id}', [ProductController::class, 'update']);
 Route::get('/customers', []);
 
 
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['auth:sanctum'],
     'namespace' => 'App\Http\Controllers',
     'prefix' => 'auth'
 ], function () {
-    Route::post('/login', 'AuthController@login');
-    Route::post('/register', 'AuthController@register');
+    Route::post('/logout', 'AuthController@logout');
 });
 
 
