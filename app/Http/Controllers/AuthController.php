@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
 use Illuminate\support\Facades\auth;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
@@ -10,48 +12,64 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function register(Request $request) {
-        $request->validate([
+    public function register(Request $request)
+    {
+        $fields = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|string|unique:users',
+            'email' => 'required|string|unique:users|email',
+            'password' => 'required|string|min:6',
+            'type' => 'string'
+        ]);
+
+        $user = User::create([
+            'name' => $fields['name'],
+            'email' => $fields['email'],
+            'password' => bcrypt($fields['password']),
+            'type' => $fields['type']
+        ]);
+
+        $token = $user->createToken('myapptoken')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
+    }
+
+    public function logout(Request $request) {
+        auth()->user()->tokens()->delete();
+
+        return [
+            'message' => 'Logged out'
+        ];
+    }
+
+
+    public function login(Request $request)
+    {
+        $fields = $request->validate([
+            'email' => 'required|string',
             'password' => 'required|string|min:6'
         ]);
 
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
+        // check email
+        $user = User::where('email', $fields['email'])->first();
 
-        $user->save();
-        return response()->json(['message' => 'User has been registered'], 200);
-    }
-
-    public function login(Request $request) {
-        // $request->header('Content-Type', 'application/javascript');
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required|string'
-        ]);
-
-        $credentials = request(['email', 'password']);
-
-        if(!Auth::attempt($credentials)){
-            return response()->json(['message' => 'Unauthorised'], 401);
+        if(!$user || !Hash::check($fields['password'], $user->password)) {
+            return response([
+                'message' => 'bad creds'
+            ], 401);
         }
 
-        $user = $request->user();
-        $tokenResult = $user->tokens()->createToken('Personal Access Token');
-        $token = $tokenResult->token;
-        $token->expires_at = Carbon::now()->addWeeks(1);
-        $token->save();
+        $token = $user->createToken('myapptoken')->plainTextToken;
 
-        return response()->json(['data' => [
-            'user' => Auth::user(),
-            'Content-Type' => 'application/javascript',
-            'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
-        ]]);
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 200);
     }
 }
