@@ -7,17 +7,6 @@
     margin-top: 5px;
 }
 
-.table-header {
-    font-size: 1.1rem;
-    font-weight: 600;
-
-    border-bottom: 1px solid ;
-}
-
-.table-spacer{
-    margin-top: 5px;
-}
-
 .button-secondary {
     height: 30px;
     min-width: 85px;
@@ -37,18 +26,3 @@
 
 }
 
-.table-control{
-    display: flex;
-    flex-direction: row-reverse;
-    margin: 0 20px;
-    padding: 10px 0;
-
-}
-
-.tableView {
-    background-color: #fff;
-    width: 95%;
-    min-height: 95%;
-    margin: 5px auto 0;
-    border-radius: 15px;
-}
