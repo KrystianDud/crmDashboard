@@ -1,4 +1,4 @@
-.viewProducts{
+.viewProducts {
     display: flex;
     flex-wrap: wrap;
 
@@ -6,28 +6,25 @@
     height: 100%;
 }
 
-.productList{
+.productList {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     margin: 0 auto;
 
     transition: 1s;
-
+    height: 80%;
+    overflow: hidden;
 }
 
-.mainProductView{
-    flex: 4;
-}
 
-.sideScreen{
+
+.sideScreen {
     transition: .5s;
 
     position: sticky;
 
-    top: 0; 
+    top: 0;
 
     background-color: rgb(255, 255, 255);
 }
-
-

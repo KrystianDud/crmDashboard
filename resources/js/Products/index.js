@@ -3,18 +3,28 @@ import React, { useState, useEffect, useContext } from 'react';
 import './index.css';
 import '../../css/globals.css'
 
+import { faFilter, faList, faGripHorizontal } from '@fortawesome/free-solid-svg-icons'
+
+
 import ImageCard from '../Components/ImageCard/Index';
+import Table from '../Components/Table';
+
 import ProductSidebar from '../Components/ProductSidebar';
 import axios from 'axios';
 
 import Toast, { newToast } from '../Components/Toast/Index';
 import { ToastContext } from '../App';
 
+import ButtonRectangle from '../Components/IconButtons/ButtonRectangle';
+import TwinButtonRectangle from '../Components/IconButtons/TwinButtonRectangle';
+import CardList from '../Components/CardList';
+
 export default function Products() {
     const { toastList, setToastList } = useContext(ToastContext);
 
     const [showDetails, setShowDetails] = useState(false);
-    const [selectedCard, setSelectedCard] = useState(0);
+    const [selectedCard, setSelectedCard] = useState(null);
+
     const [newItem, setNewItem] = useState(false);
     const [productList, setProductList] = useState([])
     const [currentItem, setCurrentItem] = useState({
@@ -25,12 +35,32 @@ export default function Products() {
         slug: ''
     })
 
+    // The reason for hardcoded columns is becuase sometime there might be a 
+    // chance that the name of the item for the table might have undescore which will result in bad UX
+    const [columns, setColumns] = useState([
+        {
+            name: 'Name',
+            keyName: 'name'
+        },
+        {
+            name: 'Description',
+            keyName: 'description'
+        },
+        {
+            name: 'Price',
+            keyName: 'price'
+        },
+        {
+            name: 'Options',
+            keyName: 'options'
+        }
+    ])
+    const [currentView, setCurrentView] = useState(1)
+
     useEffect(() => {
         getList()
 
         return () => {
-            // setProductList([])
-
             setCurrentItem({
                 name: '',
                 description: '',
@@ -114,10 +144,8 @@ export default function Products() {
         });
         setShowDetails(true);
         setNewItem(true);
+        setSelectedCard(null)
     }
-
-
-
 
     const closeItem = () => {
         setShowDetails(false)
@@ -129,43 +157,70 @@ export default function Products() {
         // With the api if the index is zero, that means the new product is meant to be created. Otherwise it will be update
         setShowDetails(true);
         setSelectedCard(id);
-        setCurrentItem(productList.filter(item => item.id == id)[0])
+
+        setCurrentItem(productList.filter((item, index) => index == id)[0])
+        setNewItem(false)
     }
 
-
-
+    const buyItem = () => {
+        console.log('Item added to the Basket')
+    }
 
     const createProduct = (value, id) => {
         setCurrentItem({ ...currentItem, [id]: value })
     }
 
+    const viewType = (ref) => {
+        setCurrentView(ref)
+    }
 
+    const filterList = () => {
+
+    }
+
+    const DisplayCardList = (
+        <CardList
+            list={productList}
+            editItem={editItem}
+            selectedCard={selectedCard}
+            showSidebar={showDetails}
+        />
+    );
+
+    const displayProductsTable = (
+        <Table
+            columns={columns}
+            list={productList}
+            showDetails={showDetails}
+            options={true}
+            editItem={editItem}
+            buyItem={buyItem}
+        />
+    );
 
     return (
         <div className='viewProducts'>
-            <div className='mainProductView'>
-                <div className="flexRow flexCenter w100 m5 flexAround">
-                    <h3 className='m5'>List of Items</h3>
-                    <button className='bMain' onClick={addNewProduct}>Add New</button>
+            <div className='mainView'>
+                <h3 className='m5'>List of Items</h3>
+
+                <div className="flexRow flexCenter w100 m5 flexBetween">
+                <button className='bMain' onClick={() => addNewProduct()}>Add New</button>
+
+                    <div className='flexRow alignCenter'>
+                        <ButtonRectangle
+                            icon={faFilter}
+                            onClick={filterList}
+                        />
+                        <TwinButtonRectangle
+                            defaultView={currentView}
+                            onClick={viewType}
+                            iconOne={faList}
+                            iconTwo={faGripHorizontal}
+                        />
+                    </div>
                 </div>
                 <div className='productList'>
-                    {productList.length ? productList.map((item, index) => (
-                        <ImageCard
-                            key={'product' + item.id}
-                            onClose={() => closeItem()}
-                            // img={ }
-                            heading={item.name}
-                            subtitle={item.description}
-                            price={item.price}
-
-                            edit={() => editItem(item.id)}
-                            deleteProduct={deleteProduct}
-
-                            showSidebar={showDetails}
-                            selectedCard={selectedCard}
-                            id={item.id}
-                        />
-                    )) : null}
+                    {productList.length > 0 && currentView == 0 ? displayProductsTable : DisplayCardList}
                 </div>
             </div>
 
