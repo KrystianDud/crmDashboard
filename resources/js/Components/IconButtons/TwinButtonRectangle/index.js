@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import '../index.css'
 
-
-export default function TwinButtonRectangle({ onClick, iconOne, iconTwo }) {
+export default function TwinButtonRectangle({ defaultView, onClick, iconOne, iconTwo }) {
     // set default value using props to change it later on
-    const [active, setActive] = useState(0)
+    const [active, setActive] = useState(defaultView)
 
     const activateButton = (ref) => {
         setActive(ref)
@@ -13,12 +13,12 @@ export default function TwinButtonRectangle({ onClick, iconOne, iconTwo }) {
 
     return (
         <div className='rectangleBtnWide' >
-            <button  onClick={() => activateButton(0)} className={active == 0 ? 'BtnSibling BtnSiblingActive cornerLeft' : 'BtnSibling cornerLeft'}>
-                <FontAwesomeIcon icon={iconOne} />
+            <button  onClick={() => activateButton(0)} className={defaultView == 0 ? 'BtnSibling BtnSiblingActive cornerLeft' : 'BtnSibling cornerLeft'}>
+                <FontAwesomeIcon size='xl' icon={iconOne} />
             </button>
 
-            <button onClick={() => activateButton(1)} className={active == 1 ? 'BtnSibling BtnSiblingActive cornerRight' : 'BtnSibling cornerRight'}>
-                <FontAwesomeIcon icon={iconTwo}  />
+            <button onClick={() => activateButton(1)} className={defaultView == 1 ? 'BtnSibling BtnSiblingActive cornerRight' : 'BtnSibling cornerRight'}>
+                <FontAwesomeIcon size='xl' icon={iconTwo}  />
             </button>
         </div>
     )
