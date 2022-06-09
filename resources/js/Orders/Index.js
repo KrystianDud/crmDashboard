@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import './index.css'
+import React, { useState, useEffect } from 'react';
+import './index.css';
 import { v4 as uuidv4 } from 'uuid';
 import Tablist from '../Components/Tablist';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFilter, faPaperclip } from '@fortawesome/free-solid-svg-icons'
+import Table from '../Components/Table';
+import ButtonRectangle from '../Components/IconButtons/ButtonRectangle';
 
-import ListBox from '../Components/ListBox/Index';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter, faPaperclip, faList } from '@fortawesome/free-solid-svg-icons';
 
 export default function Orders() {
     const [x, setX] = useState(0)
@@ -14,6 +15,31 @@ export default function Orders() {
     const [active, setActive] = useState(0)
     const [filterView, setFilterView] = useState(false)
     const [currentList, setCurrentlist] = useState()
+
+    // The reason for hardcoded columns is becuase sometime there might be a 
+    // chance that the name of the item for the table might have undescore which will result in bad UX
+    const [columns, setColumns] = useState([
+        {
+            name: 'Id',
+            keyName: 'id'
+        },
+        {
+            name: 'Customer',
+            keyName: 'customer'
+        },
+        {
+            name: 'Order',
+            keyName: 'order'
+        },
+        {
+            name: 'Date',
+            keyName: 'date'
+        },
+        {
+            name: 'Price',
+            keyName: 'price'
+        },
+    ]);
 
     useEffect(
         () => {
@@ -25,7 +51,6 @@ export default function Orders() {
                     let top = e.target.offsetTop
                     let height = e.target.offsetHeight
                     let width = e.target.offsetWidth
-
                     if (e.target.offsetLeft > (window.innerWidth / 2)) {
                         setX((left - width) + 'px')
                         setY(top + height + 'px')
@@ -33,9 +58,7 @@ export default function Orders() {
                     else {
                         setX(left + width + 'px')
                         setY(top + height + 'px')
-
                     }
-
                     setFilterView(true)
                 }
                 else if (e.target.className.includes('listBox')) setFilterView(true)
@@ -57,6 +80,7 @@ export default function Orders() {
     )
 
     const filterList = (filterId) => {
+        // provide the functionality to show the small dialog
         setActive(filterId)
 
         switch (filterId) {
@@ -68,66 +92,30 @@ export default function Orders() {
     }
 
     const filterTable = (e) => {
-
-
     }
 
     const attachments = (e) => {
-
     }
+
+    const viewType = () => {
+    }
+
     return (
-        <div style={{height: '90%'}} >
-            <ListBox
-                show={filterView}
-                list={['Sort by', 'Declined', 'Accepted', 'Fullfiled']} // array
-                position={{ x: x, y: y }}
-            />
-
-            <div className='showTabs'>
-                {tabs.map(({ name }, index) => (
-                    <Tablist
-                        key={`tab${index}`}
-                        func={filterList}
-                        name={name}
-                        activeTab={active}
-                        index={index}
-
-                    />
-                ))}
-            </div>
-
-
-            <div className='tableView'>
+        <div style={{ height: '90%' }} >
+            <div className='mainView'>
                 <div className='table-control'>
-                    <button className='button-secondary listBoxButton' onClick={(e) => console.log()}>
-                        <FontAwesomeIcon icon={faFilter} /> Filter
-                    </button>
-                    <button className='button-secondary' onClick={() => attachments()}>
-                        <FontAwesomeIcon icon={faPaperclip} /> Attachment
-                    </button>
-
+                    <ButtonRectangle
+                        icon={faFilter}
+                        onClick={filterList}
+                    />
                 </div>
-
-                <table className='table table-spacer'>
-                    <tbody>
-                        <tr className='table-header'>
-                            <td>order ID</td>
-                            <td>Customer</td>
-                            <td>Order</td>
-                            <td>Date</td>
-                            <td>Price</td>
-                        </tr>
-                        {orderHistory.map(({ id, customer, order, date, price }, index) => (
-                            <tr className='w row' key={index}>
-                                <td className='table-element '>{id.slice(0, 8)}</td>
-                                <td className='table-element '>{customer}</td>
-                                <td className='table-element '>{order}</td>
-                                <td className='table-element '>{date}</td>
-                                <td className='table-element '>{price}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <Table
+                    columns={columns}
+                    list={orderHistory}
+                    showDetails={null}
+                    options={false}
+                    editItem={null}
+                />
             </div>
         </div>
     )
@@ -200,52 +188,4 @@ const orderHistory = [
         date: '10/04/2022',
         price: '$100'
     },
-]
-
-
-
-
-
-
-// Elisabeth White
-// Maddy Ross
-// Rayan Osborne
-// Tamar Berry
-// Jude Petty
-// Monique Fulton
-// Dougie Swanson
-// Ela Cousins
-// Chance Mac
-// Clay Charlton
-// Eesa Contreras
-// Bjorn Matthams
-// Rosa Bonner
-// Neve Carty
-// Charlie Keith
-// Misty Seymour
-// Shiv Gibbs
-// Faizan Atkinson
-// Ceara Bain
-// Summer-Louise Mcpherson
-// Michael Churchill
-// Hari Grainger
-// Dione Chester
-// Amin Boyle
-// Adil Magana
-// Archie Bellamy
-// Liyah Higgins
-// Jadine Stein
-// Renee Roy
-// Kay Wormald
-// Johnathon Compton
-// Chantel Wallis
-// Jedd Nava
-// Zoha Crowther
-// Blake Wilder
-// Rowan Sutherland
-// Carys Abbott
-// Mary Dunne
-// Luqman Pope
-// Hibba Shepard
-// Onur Mcgowan
-// Hubert O'Reilly
+]; 
