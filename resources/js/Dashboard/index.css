@@ -47,32 +47,7 @@
     font-weight: 300;
 }
 
-.row {
-    transition: 0.3s;
-    background-color: none;
 
-    padding: 0 15px;
-
-}
-
-.row:hover {
-    background-color: none;
-    border-radius: 15px;
-
-    box-shadow: 0px 1px 1px rgb(0, 0, 0, 0.12),
-        0px 2px 2px rgb(0, 0, 0, 0.12),
-        0px 4px 4px rgb(0, 0, 0, 0.12),
-        0px 8px 8px rgb(0, 0, 0, 0.12),
-        0px 16px 16px rgb(0, 0, 0, 0.12);
-
-    color: #1c1c1d;
-    /* font-weight: 400 */
-}
-
-.table-element {
-    min-width: 150px;
-    min-height: 50px;
-}
 
 .in {
     color: chartreuse !important;
