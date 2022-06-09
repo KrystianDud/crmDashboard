@@ -1,0 +1,48 @@
+.dropdown {
+    min-width: 200px;
+    background-color: #fff;
+    margin-inline: 15px;
+    border-radius: 15px;
+    padding: 15px 5px;
+}
+
+.dropdown-container {
+    margin: 5px;
+    font-weight: 500;
+    /* transition: 0.5s; */
+}
+
+.dropdown-content {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.dropdown-content:hover {
+    background-color: rgba(233, 239, 241, 0.534);
+}
+
+.dropdown-block {
+    display: block;
+}
+
+.dropdown-none {
+    display: hidden;
+}
+
+.content-image {
+    border-radius: 50%;
+    background-color: black;
+
+    width: 60px;
+    height: 60px;
+}
+
+.cartTitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.cartPrice {
+    font-size: 0.8rem;
+    font-weight: 400;
+
+}
