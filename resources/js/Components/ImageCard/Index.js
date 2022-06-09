@@ -9,12 +9,6 @@ import { faClose } from '@fortawesome/free-solid-svg-icons'
 export default function ImageCard({ onClose, img, heading, subtitle, price, edit, showSidebar, selectedCard, id, deleteProduct  }) {
     return (
         <div className={`cardBody ${selectedCard == id ? 'selectedCard' : ''}`} >
-            
-            <div className='closeIcons' onClick={() => onClose}>
-                <div style={{ }} onClick={() => deleteProduct(id)}>
-                    <FontAwesomeIcon icon={faClose} />
-                </div>
-            </div>
             <div className='imageBody'></div>
 
             <div className='textBody'>
