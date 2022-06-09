@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import './index.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-
+import Avatar from '../Components/Avatar';
+import Cart from '../Components/Cart';
 export default function Navbar({ section }) {
-    
+
 
     return (
         <div className="navBar">
@@ -12,12 +13,17 @@ export default function Navbar({ section }) {
                 <h2 className='section'>{section != null ? sections[section] : ''}</h2>
             </div>
 
-            <form className="search-ele" action="">
-                <button className='search-icon'>
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </button>
-                <input type="text" className='search-text' placeholder="Search.." />
-            </form>
+            <div className='flexRow'>
+                <form className="search-ele" action="">
+                    <button className='search-icon'>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
+                    </button>
+                    <input type="text" className='search-text' placeholder="Search.." />
+                </form>
+                <Cart />
+                <Avatar/>
+            </div>
+
 
         </div>
     )
