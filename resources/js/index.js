@@ -9,4 +9,3 @@ require('./app')
 
 // use this to simluate user type.
 // when true, act like a service, false is client
-const productTest = true;

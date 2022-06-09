@@ -78,11 +78,11 @@ function App() {
     }
 
     if (!user) {
-        // return <Login processUser={processUser} />
+        return <Login processUser={processUser} />
     }
 
     return (
-        <React.StrictMode>
+        // <React.StrictMode>
             <ToastContext.Provider value={toastState} >
 
                 <div className="App">
@@ -117,7 +117,7 @@ function App() {
                     autoDeleteTime={3000}
                 />
             </ToastContext.Provider>
-        </React.StrictMode>
+        // </React.StrictMode> 
     );
 }
 const root = createRoot(document.getElementById('main'));

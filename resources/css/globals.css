@@ -1,10 +1,16 @@
+/* Main component operators such as containers that are typical for each view */
+.mainView {
+    flex: 4;
+    margin: 32px;
+}
+
 .subtleInput {}
 
 .w100 {
     width: 100%;
 }
 
-.minH10vh{
+.minH10vh {
     min-height: 10vh;
 }
 
@@ -13,8 +19,9 @@
 
 .bMain {
     min-width: 60px;
-    height: 28px;
-
+    height: 40px;
+    padding: 8px 32px;
+    text-align: center;
     background-color: rgb(223 238 251);
     color: rgb(112 171 248);
 
@@ -65,11 +72,11 @@
     margin-bottom: 0 0 15px 0;
 }
 
-.mInline5{
+.mInline5 {
     margin-inline: 5px;
 }
 
-.mInline15{
+.mInline15 {
     margin-inline: 15px;
 }
 
@@ -79,6 +86,15 @@
 .flex {
     display: flex;
 }
+
+.flexOne {
+    flex: 1;
+}
+
+.flexWrap {
+    flex-wrap: wrap;
+}
+
 .flexColumn {
     display: flex;
     flex-direction: column;
@@ -111,29 +127,54 @@
 
 .justifyCenter {
     justify-content: center;
+}
 
+.alignCenter {
+    align-items: center;
+}
+
+.alignStart {
+    align-items: flex-start;
+}
+
+.alignEnd {
+    align-items: flex-end;
 }
 
 /* CONTENT */
 
-.fitW{
+.fitW {
     width: fit-content;
 }
-.maxW{
+
+.maxW {
     width: max-content;
 }
-.minW{
-    width:min-content;
+
+.minW {
+    width: min-content;
 }
 
-.fitH{
+.fitH {
     height: fit-content;
 }
-.maxH{
+
+.maxH {
     height: max-content;
 }
-.minH{
-    height:min-content;
+
+.minH {
+    height: min-content;
+}
+
+/* Position */
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
 }
 
 
@@ -177,7 +218,7 @@
         1px 16px 16px rgb(0, 0, 0, 0.1);
 }
 
-.boxShadow{
+.boxShadow {
     box-shadow: 1px 1px 1px #00000036, 0px 0px 1px #0d0d0d31;
 }
 
@@ -185,4 +226,18 @@
 
 .transition1S {
     transition: 10s;
+}
+
+/* colors */
+
+/* use for main component bckgs 
+for example background
+*/
+.pure-white {}
+
+.text-black {}
+
+/* greys for borders */
+.border-grey-secondary {
+    border-color: #d3d3d3
 }
