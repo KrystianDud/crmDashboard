@@ -14,13 +14,17 @@ import axios from 'axios';
 
 import Toast, { newToast } from '../Components/Toast/Index';
 import { ToastContext } from '../App';
+import {UserDataContext} from '../app'
 
 import ButtonRectangle from '../Components/IconButtons/ButtonRectangle';
 import TwinButtonRectangle from '../Components/IconButtons/TwinButtonRectangle';
 import CardList from '../Components/CardList';
+import Button from '../Components/Button';
+
 
 export default function Products() {
     const { toastList, setToastList } = useContext(ToastContext);
+    const { userData, setUserData } = useContext(UserDataContext);
 
     const [showDetails, setShowDetails] = useState(false);
     const [selectedCard, setSelectedCard] = useState(null);
@@ -70,6 +74,11 @@ export default function Products() {
         }
     }, [])
 
+    useEffect(() => {
+        console.log('user data: ', userData)
+    }, [userData])
+
+
     const getList = () => {
         axios.get('/api/products', {
             'Content-Type': 'application/javascript'
@@ -106,8 +115,8 @@ export default function Products() {
             .then((response) => {
                 let message = 'New item was saved successfully!'
                 setToastList([...toastList, newToast(message, 'Success')])
-
-                getList()
+                console.log()
+                getList(message)
             })
             .catch(function (error) {
                 let message = 'There was a problem with adding new product! Please try again later.'
@@ -181,7 +190,7 @@ export default function Products() {
     const DisplayCardList = (
         <CardList
             list={productList}
-            editItem={editItem}
+            onClick={editItem}
             selectedCard={selectedCard}
             showSidebar={showDetails}
         />
@@ -203,8 +212,16 @@ export default function Products() {
             <div className='mainView'>
                 <h3 className='m5'>List of Items</h3>
 
-                <div className="flexRow flexCenter w100 m5 flexBetween">
-                <button className='bMain' onClick={() => addNewProduct()}>Add New</button>
+                <div className="flexRow flexCenter w100 m5 flexBetween ">
+                    <Button
+                        text={'Add New'}
+                        type={'contained'}
+                        disabled={false}
+                        color={'normal'}
+                        size={'lg'}
+                        icon={null}
+                        callback={() => addNewProduct()}
+                    />
 
                     <div className='flexRow alignCenter'>
                         <ButtonRectangle
@@ -228,7 +245,6 @@ export default function Products() {
                 <ProductSidebar
                     showSidebar={showDetails}
                     closeItem={() => closeItem()}
-
                     // Key props for the api  
                     currentItem={currentItem}
                     newItem={newItem}
