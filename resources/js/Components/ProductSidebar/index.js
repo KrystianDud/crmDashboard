@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
 
 import BorderLine from '../BorderLine'
+import Button from '../Button'
 
 export default function ProductSidebar({ showSidebar, closeItem, currentItem, newItem, createProduct, saveProduct }) {
     const [display, setDisplay] = useState(true)
@@ -70,7 +71,15 @@ export default function ProductSidebar({ showSidebar, closeItem, currentItem, ne
             <BorderLine />
 
             <div className="w100 minH10vh" style={{ margin: '15px' }}>
-                <button className='bMain' onClick={() => saveProduct()}>Update</button>
+                <Button
+                    text={'Update'}
+                    type={'contained'}
+                    disabled={false}
+                    color={'normal'}
+                    size={'lg'}
+                    icon={null}
+                    callback={() => saveProduct()}
+                />
             </div>
 
 
