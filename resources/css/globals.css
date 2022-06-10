@@ -15,38 +15,6 @@
 }
 
 
-/* BUTTON */
-
-.bMain {
-    min-width: 60px;
-    height: 40px;
-    padding: 8px 32px;
-    text-align: center;
-    background-color: rgb(223 238 251);
-    color: rgb(112 171 248);
-
-    border: none;
-
-    border-radius: 5px;
-
-    font-size: medium;
-    font-weight: 600;
-
-    transition: .4s;
-    cursor: pointer;
-}
-
-.bMain:hover {
-    background-color: rgb(169, 211, 245);
-    color: #0783f0;
-}
-
-.bSecondary {}
-
-.bSecondary:hover {}
-
-
-
 /* MARGIN */
 .m5 {
     margin: 5px;
@@ -127,6 +95,18 @@
 
 .justifyCenter {
     justify-content: center;
+}
+
+.alignContentCenter {
+    align-content: center;
+}
+
+.alignContentStart {
+    align-content: flex-start;
+}
+
+.alignContentEnd {
+    align-content: flex-end;
 }
 
 .alignCenter {
