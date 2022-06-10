@@ -16999,7 +16999,8 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ToastContext": () => (/* binding */ ToastContext)
+/* harmony export */   "ToastContext": () => (/* binding */ ToastContext),
+/* harmony export */   "UserDataContext": () => (/* binding */ UserDataContext)
 /* harmony export */ });
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
@@ -17045,27 +17046,28 @@ var ToastContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_1__.createCont
     return [];
   }
 });
+var UserDataContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_1__.createContext)({
+  userData: [],
+  setUserData: function setUserData() {
+    return [];
+  }
+});
 
 function App() {
-  // const [user, setUser] = useState(null)
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
-    id: 0,
-    email: 'test',
-    name: 'test'
-  }),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0),
       _useState2 = _slicedToArray(_useState, 2),
-      user = _useState2[0],
-      setUser = _useState2[1];
+      section = _useState2[0],
+      setSection = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
       _useState4 = _slicedToArray(_useState3, 2),
-      section = _useState4[0],
-      setSection = _useState4[1];
+      toastList = _useState4[0],
+      setToastList = _useState4[1];
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
       _useState6 = _slicedToArray(_useState5, 2),
-      toastList = _useState6[0],
-      setToastList = _useState6[1];
+      userData = _useState6[0],
+      setUserData = _useState6[1];
 
   var toastState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useMemo)(function () {
     return {
@@ -17073,6 +17075,12 @@ function App() {
       setToastList: setToastList
     };
   }, [toastList]);
+  var userDataState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useMemo)(function () {
+    return {
+      userData: userData,
+      setUserData: setUserData
+    };
+  }, [userData]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     switch (window.location.pathname) {
       case "/":
@@ -17104,24 +17112,35 @@ function App() {
         setSection(7);
         break;
     }
+
+    return function () {
+      setUserData({});
+    };
   }, []);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {}, [user]);
 
   var processUser = function processUser(userData) {
-    setUser(userData);
+    console.log(userData);
+    setUserData(userData);
   };
 
   var getDirectory = function getDirectory(id) {
     setSection(id);
   };
 
-  if (!user) {// return <Login processUser={processUser} />
+  console.log('co jest?');
+
+  if (!Object.keys(userData.length)) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Login_index__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      processUser: processUser
+    });
   }
 
   return (
     /*#__PURE__*/
     // <React.StrictMode>
     react__WEBPACK_IMPORTED_MODULE_1___default().createElement(ToastContext.Provider, {
+      value: userDataState
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(UserDataContext.Provider, {
       value: toastState
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
       className: "App"
@@ -17136,7 +17155,7 @@ function App() {
       path: "/",
       element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_5__["default"], {
         section: section,
-        user: user
+        user: userData.name
       })
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
       path: "orders",
@@ -17152,13 +17171,12 @@ function App() {
       toastList: toastList,
       autoDelete: true,
       autoDeleteTime: 3000
-    })) // </React.StrictMode> 
+    }))) // </React.StrictMode> 
 
   );
 }
 
-var root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_0__.createRoot)(document.getElementById('main'));
-root.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(App, null));
+;
 
 /***/ }),
 
@@ -17197,7 +17215,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function Avatar() {
+function Avatar(_ref) {
+  var logoutUser = _ref.logoutUser;
+
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       open = _useState2[0],
@@ -17230,12 +17250,35 @@ function Avatar() {
   };
 
   var logout = function logout() {
-    axios__WEBPACK_IMPORTED_MODULE_3___default().post('/api/auth/logout', {
+    console.log(document.cookie);
+    var cookieValue = document.cookie.split('; ').find(function (row) {
+      return row.startsWith('Bearer');
+    }).split('=')[1];
+    (axios__WEBPACK_IMPORTED_MODULE_3___default().defaults.withCredentials) = true; // axios.post('/api/auth/logout', {
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Accept': 'application/json',
+    //         'Authorization': `Bearer ${cookieValue}`
+    //     }
+    // })# 
+
+    axios__WEBPACK_IMPORTED_MODULE_3___default()('/api/auth/logout', {
+      method: 'POST',
+      // withCredentials: true,
       headers: {
-        'accept': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': "Bearer ".concat(cookieValue)
       }
     }).then(function (response) {
       console.log(response);
+
+      if (response.status === 200) {
+        // remove the cookie, and use router to move the user to the login screen
+        logoutUser();
+      }
+    })["catch"](function (error) {
+      console.log(error);
     });
   };
 
@@ -17304,6 +17347,69 @@ function BorderLine() {
 
 /***/ }),
 
+/***/ "./resources/js/Components/Button/index.js":
+/*!*************************************************!*\
+  !*** ./resources/js/Components/Button/index.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Button)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.css */ "./resources/js/Components/Button/index.css");
+
+
+
+/**
+ * @param {text} - button text
+ * @param {type} - text , contained , outlined, outlineNormal, outlineSuccess, outlineDanger
+ * @param {disabled} - true / false
+ * @param {color} - success, danger, normal (note, when the outline is supposed to be outlined, dont use this prop )
+ * @param {size} -  sm , lg , xl 
+ * @param {icon} - - (optional) - accepts icon  
+ * @param {iconSide} - (optional) -  left, right
+ * @param {callback} - callback function
+ * 
+ * ToDo: improve class names readibility
+ * ToDo: invert on hover increasing saturation vals
+ */
+
+function Button(_ref) {
+  var text = _ref.text,
+      type = _ref.type,
+      disabled = _ref.disabled,
+      color = _ref.color,
+      size = _ref.size,
+      icon = _ref.icon,
+      iconSide = _ref.iconSide,
+      callback = _ref.callback;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    className: disabled ? "disabled ".concat(size) : "".concat(color, " ").concat(size, " ").concat(iconSide ? iconSide : '', " ").concat(type == 'outlined' ? 'outlined outline' : type, " "),
+    onClick: disabled ? null : callback
+  }, icon ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(FontAwesomeIcon, {
+    size: size,
+    icon: iconOne
+  }) : null, " ", text);
+} // Sample
+
+{
+  /* <Button
+     text={''}
+     type={''}
+     disabled={false}
+     color={''}
+     size={''}
+     icon={null}
+     callback={}
+  /> */
+}
+
+/***/ }),
+
 /***/ "./resources/js/Components/CardList/index.js":
 /*!***************************************************!*\
   !*** ./resources/js/Components/CardList/index.js ***!
@@ -17329,11 +17435,11 @@ function CardList(_ref) {
       selectedCard = _ref.selectedCard,
       showDetails = _ref.showDetails;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flexRow flex-start flexWrap"
+    className: "flexRow flex-start flexWrap alignContentStart"
   }, list != 'undefined' ? list && list.map(function (item, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ImageCard_Index__WEBPACK_IMPORTED_MODULE_1__["default"], {
       key: 'product' + (0,lodash__WEBPACK_IMPORTED_MODULE_2__.uniqueId)(),
-      edit: editItem,
+      onClick: editItem,
       id: index // img={ }
       ,
       heading: item.name,
@@ -17826,14 +17932,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.css */ "./resources/js/Components/ImageCard/index.css");
 /* harmony import */ var _css_globals_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../css/globals.css */ "./resources/css/globals.css");
-/* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
+/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Button */ "./resources/js/Components/Button/index.js");
+/* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
+
 
 
 
 
 
 function ImageCard(_ref) {
-  var onClose = _ref.onClose,
+  var onClick = _ref.onClick,
       img = _ref.img,
       heading = _ref.heading,
       subtitle = _ref.subtitle,
@@ -17848,6 +17956,8 @@ function ImageCard(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "imageBody"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flexColumn flexBetween"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "textBody"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "headingBody"
@@ -17857,12 +17967,17 @@ function ImageCard(_ref) {
     className: "bottomSection"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "priceBody"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, price)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-    className: "bMain",
-    onClick: function onClick() {
-      return edit(id);
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, price)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    text: 'Edit',
+    type: 'contained',
+    disabled: false,
+    color: 'normal',
+    size: 'sm',
+    icon: null,
+    callback: function callback() {
+      return onClick(id);
     }
-  }, 'VIEW')));
+  }))));
 }
 
 /***/ }),
@@ -17995,8 +18110,8 @@ function RegisterView(_ref) {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     email: '',
     password: '',
-    // repeat_password: '',
-    type: false
+    type: false,
+    company: ''
   }),
       _useState2 = _slicedToArray(_useState, 2),
       formDetails = _useState2[0],
@@ -18007,6 +18122,11 @@ function RegisterView(_ref) {
       showPasswordWarn = _useState4[0],
       setPasswordWarn = _useState4[1];
 
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      allowMore = _useState6[0],
+      setAllowMore = _useState6[1];
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (formDetails.password != formDetails.repeat_password) setPasswordWarn(true);else setPasswordWarn(false);
   }, [formDetails.password, formDetails.repeat_password]);
@@ -18016,6 +18136,7 @@ function RegisterView(_ref) {
       setFormDetails(_objectSpread(_objectSpread({}, formDetails), {}, {
         type: e.target.checked
       }));
+      if (e.target.checked) setAllowMore(true);
     } else {
       setFormDetails(_objectSpread(_objectSpread({}, formDetails), {}, _defineProperty({}, e.target.id, e.target.value)));
     }
@@ -18028,6 +18149,22 @@ function RegisterView(_ref) {
     type: 'text',
     margin: ['5px'],
     label: 'Name',
+    onChange: function onChange(e) {
+      return updateForms(e);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Global_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    id: 'type',
+    type: 'checkbox',
+    margin: ['5px'],
+    label: 'I\'m user of business involved in buying the products ',
+    onChange: function onChange(e) {
+      return updateForms(e);
+    }
+  }), allowMore && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Global_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    id: 'company',
+    type: 'text',
+    margin: ['5px'],
+    label: 'Company Name',
     onChange: function onChange(e) {
       return updateForms(e);
     }
@@ -18047,19 +18184,7 @@ function RegisterView(_ref) {
     onChange: function onChange(e) {
       return updateForms(e);
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Global_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    id: 'type',
-    type: 'checkbox',
-    margin: ['5px'],
-    label: 'I\'m user of business involved in buying the products ',
-    onChange: function onChange(e) {
-      return updateForms(e);
-    }
-  }), showPasswordWarn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
-    style: {
-      color: 'red'
-    }
-  }, " The passwords do not match") : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     className: "loginButton",
     onClick: function onClick() {
       return verifyCredidentials(formDetails, 'register');
@@ -18126,6 +18251,93 @@ function Welcome(props) {
 
 /***/ }),
 
+/***/ "./resources/js/Components/Modal/index.js":
+/*!************************************************!*\
+  !*** ./resources/js/Components/Modal/index.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Modal)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Button */ "./resources/js/Components/Button/index.js");
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.css */ "./resources/js/Components/Modal/index.css");
+/* harmony import */ var _css_globals_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../css/globals.css */ "./resources/css/globals.css");
+var _excluded = ["title", "confirmationMessage", "cancelMessage", "onClose", "onAccept"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+
+
+
+function Modal(_ref) {
+  var title = _ref.title,
+      confirmationMessage = _ref.confirmationMessage,
+      cancelMessage = _ref.cancelMessage,
+      onClose = _ref.onClose,
+      onAccept = _ref.onAccept,
+      props = _objectWithoutProperties(_ref, _excluded);
+
+  var func = function func() {};
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "modal-container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "backdrop"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "modal-box smooth-shadow"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "modal-head"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
+    className: "title"
+  }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    className: "close-icon",
+    onClick: function onClick() {
+      return onClose();
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__.FontAwesomeIcon, {
+    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faClose,
+    size: "lg"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "modal-content"
+  }, props.children), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "modal-footer"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    text: cancelMessage,
+    type: 'outlineDanger',
+    disabled: false,
+    color: '',
+    size: 'lg',
+    icon: null,
+    callback: function callback() {
+      return onClose();
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    text: confirmationMessage,
+    type: 'contained',
+    disabled: false,
+    color: 'normal',
+    size: 'lg',
+    icon: null,
+    callback: function callback() {
+      return onAccept();
+    }
+  }))));
+}
+
+/***/ }),
+
 /***/ "./resources/js/Components/ProductSidebar/index.js":
 /*!*********************************************************!*\
   !*** ./resources/js/Components/ProductSidebar/index.js ***!
@@ -18142,8 +18354,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.css */ "./resources/js/Components/ProductSidebar/index.css");
 /* harmony import */ var _css_globals_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../css/globals.css */ "./resources/css/globals.css");
 /* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 /* harmony import */ var _BorderLine__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../BorderLine */ "./resources/js/Components/BorderLine/index.js");
+/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Button */ "./resources/js/Components/Button/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -18155,6 +18368,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -18191,7 +18405,7 @@ function ProductSidebar(_ref) {
       return closeItem();
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_3__.FontAwesomeIcon, {
-    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faClose
+    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faClose
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_BorderLine__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "productName w100 minH10vh"
   }, newItem ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -18252,12 +18466,17 @@ function ProductSidebar(_ref) {
     style: {
       margin: '15px'
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-    className: "bMain",
-    onClick: function onClick() {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    text: 'Update',
+    type: 'contained',
+    disabled: false,
+    color: 'normal',
+    size: 'lg',
+    icon: null,
+    callback: function callback() {
       return saveProduct();
     }
-  }, "Update")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "financeSection"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "subtitleDetails"
@@ -18282,6 +18501,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.css */ "./resources/js/Components/Table/index.css");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Button */ "./resources/js/Components/Button/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -18293,6 +18513,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -18347,20 +18568,30 @@ function Table(_ref) {
   var provideOptions = productTest ?
   /*#__PURE__*/
   // service
-  react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-    className: "bMain",
-    onClick: function onClick() {
+  react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    text: 'Update',
+    type: 'contained',
+    disabled: false,
+    color: 'normal',
+    size: 'lg',
+    icon: null,
+    callback: function callback() {
       return editItem(index);
     }
-  }, "Edit")) :
+  })) :
   /*#__PURE__*/
   // client
-  react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-    className: "bMain",
-    onClick: function onClick() {
+  react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    text: 'Update',
+    type: 'contained',
+    disabled: false,
+    color: 'normal',
+    size: 'lg',
+    icon: null,
+    callback: function callback() {
       return buyItem(index);
     }
-  }, "Buy"));
+  }));
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("table", {
     className: "table"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", {
@@ -18568,7 +18799,9 @@ function Dashboard(_ref) {
     className: "viewWindow"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "fitW m15"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", null, "Welcome ".concat(user.name, "!"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", null, "Welcome ".concat(user, "!"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "userReminder"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "card-inline"
   }, cardElements.map(function (_ref2, index) {
     var icon = _ref2.icon,
@@ -18662,6 +18895,12 @@ function Login(_ref) {
       toastList = _useState4[0],
       setToastList = _useState4[1];
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // Check on load what cookies are in there. 
+    // If sign of token then assume that user has visited page before thus will prefer login page.
+    if (document.cookie.includes('Bearer')) setNewUser(false);
+  }, []);
+
   var verifyCredidentials = function verifyCredidentials(data, type) {
     var newData = data;
 
@@ -18670,13 +18909,14 @@ function Login(_ref) {
       return;
     }
 
-    if (newData.type) {
-      newData.type = 'client';
-    } else {
-      newData.type = 'service';
+    if (type) {
+      if (newData.type) {
+        newData.type = 'client';
+      } else {
+        newData.type = 'service';
+      }
     }
 
-    console.log('changing the type', newData);
     axios__WEBPACK_IMPORTED_MODULE_7___default()({
       method: 'POST',
       url: "api/".concat(type),
@@ -18685,8 +18925,6 @@ function Login(_ref) {
       },
       data: JSON.stringify(newData)
     }).then(function (response) {
-      console.log(response);
-
       if (response.status == 200) {
         var user = response.data.user;
         var userData = {
@@ -18696,11 +18934,13 @@ function Login(_ref) {
         };
 
         if (typeof user.type != 'undefined' || user.type != '') {
-          var _type = user.type;
+          var _type = {
+            type: user.type
+          };
           Object.assign(userData, _type);
         }
 
-        console.log(userData);
+        document.cookie = "Bearer=".concat(response.data.token);
         processUser(userData);
       } else if (response.status == 201) {
         setToastList([].concat(_toConsumableArray(toastList), [(0,_Components_Toast_Index__WEBPACK_IMPORTED_MODULE_8__.newToast)('New account has been created', 'Success')]));
@@ -18766,7 +19006,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Navbar(_ref) {
-  var section = _ref.section;
+  var section = _ref.section,
+      logoutUser = _ref.logoutUser;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "navBar"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
@@ -18784,7 +19025,9 @@ function Navbar(_ref) {
     type: "text",
     className: "search-text",
     placeholder: "Search.."
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Cart__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Avatar__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Cart__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Avatar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    logoutUser: logoutUser
+  })));
 }
 var sections = {
   0: 'Dashboard',
@@ -19029,7 +19272,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.css */ "./resources/js/Products/index.css");
 /* harmony import */ var _css_globals_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../css/globals.css */ "./resources/css/globals.css");
-/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 /* harmony import */ var _Components_ImageCard_Index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Components/ImageCard/Index */ "./resources/js/Components/ImageCard/Index.js");
 /* harmony import */ var _Components_Table__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Components/Table */ "./resources/js/Components/Table/index.js");
 /* harmony import */ var _Components_ProductSidebar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Components/ProductSidebar */ "./resources/js/Components/ProductSidebar/index.js");
@@ -19037,9 +19280,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _Components_Toast_Index__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Components/Toast/Index */ "./resources/js/Components/Toast/Index.js");
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../App */ "./resources/js/App.js");
-/* harmony import */ var _Components_IconButtons_ButtonRectangle__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Components/IconButtons/ButtonRectangle */ "./resources/js/Components/IconButtons/ButtonRectangle/index.js");
-/* harmony import */ var _Components_IconButtons_TwinButtonRectangle__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Components/IconButtons/TwinButtonRectangle */ "./resources/js/Components/IconButtons/TwinButtonRectangle/index.js");
-/* harmony import */ var _Components_CardList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Components/CardList */ "./resources/js/Components/CardList/index.js");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
+/* harmony import */ var _Components_IconButtons_ButtonRectangle__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Components/IconButtons/ButtonRectangle */ "./resources/js/Components/IconButtons/ButtonRectangle/index.js");
+/* harmony import */ var _Components_IconButtons_TwinButtonRectangle__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Components/IconButtons/TwinButtonRectangle */ "./resources/js/Components/IconButtons/TwinButtonRectangle/index.js");
+/* harmony import */ var _Components_CardList__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Components/CardList */ "./resources/js/Components/CardList/index.js");
+/* harmony import */ var _Components_Button__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Components/Button */ "./resources/js/Components/Button/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -19079,10 +19324,16 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 function Products() {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_App__WEBPACK_IMPORTED_MODULE_8__.ToastContext),
       toastList = _useContext.toastList,
       setToastList = _useContext.setToastList;
+
+  var _useContext2 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_app__WEBPACK_IMPORTED_MODULE_9__.UserDataContext),
+      userData = _useContext2.userData,
+      setUserData = _useContext2.setUserData;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -19150,6 +19401,9 @@ function Products() {
       });
     };
   }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log('user data: ', userData);
+  }, [userData]);
 
   var getList = function getList() {
     axios__WEBPACK_IMPORTED_MODULE_6___default().get('/api/products', {
@@ -19187,7 +19441,8 @@ function Products() {
     }).then(function (response) {
       var message = 'New item was saved successfully!';
       setToastList([].concat(_toConsumableArray(toastList), [(0,_Components_Toast_Index__WEBPACK_IMPORTED_MODULE_7__.newToast)(message, 'Success')]));
-      getList();
+      console.log();
+      getList(message);
     })["catch"](function (error) {
       var message = 'There was a problem with adding new product! Please try again later.';
       setToastList([].concat(_toConsumableArray(toastList), [(0,_Components_Toast_Index__WEBPACK_IMPORTED_MODULE_7__.newToast)(message, 'Danger')]));
@@ -19254,9 +19509,9 @@ function Products() {
 
   var filterList = function filterList() {};
 
-  var DisplayCardList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_CardList__WEBPACK_IMPORTED_MODULE_11__["default"], {
+  var DisplayCardList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_CardList__WEBPACK_IMPORTED_MODULE_12__["default"], {
     list: productList,
-    editItem: editItem,
+    onClick: editItem,
     selectedCard: selectedCard,
     showSidebar: showDetails
   });
@@ -19275,22 +19530,27 @@ function Products() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
     className: "m5"
   }, "List of Items"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flexRow flexCenter w100 m5 flexBetween"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-    className: "bMain",
-    onClick: function onClick() {
+    className: "flexRow flexCenter w100 m5 flexBetween "
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Button__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    text: 'Add New',
+    type: 'contained',
+    disabled: false,
+    color: 'normal',
+    size: 'lg',
+    icon: null,
+    callback: function callback() {
       return addNewProduct();
     }
-  }, "Add New"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flexRow alignCenter"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_IconButtons_ButtonRectangle__WEBPACK_IMPORTED_MODULE_9__["default"], {
-    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_12__.faFilter,
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_IconButtons_ButtonRectangle__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_14__.faFilter,
     onClick: filterList
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_IconButtons_TwinButtonRectangle__WEBPACK_IMPORTED_MODULE_10__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_IconButtons_TwinButtonRectangle__WEBPACK_IMPORTED_MODULE_11__["default"], {
     defaultView: currentView,
     onClick: viewType,
-    iconOne: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_12__.faList,
-    iconTwo: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_12__.faGripHorizontal
+    iconOne: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_14__.faList,
+    iconTwo: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_14__.faGripHorizontal
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "productList"
   }, productList.length > 0 && currentView == 0 ? displayProductsTable : DisplayCardList)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -19423,22 +19683,26 @@ function Sidebar(_ref) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ToastContext": () => (/* binding */ ToastContext)
+/* harmony export */   "ToastContext": () => (/* binding */ ToastContext),
+/* harmony export */   "UserDataContext": () => (/* binding */ UserDataContext)
 /* harmony export */ });
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var _app_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app.css */ "./resources/js/app.css");
-/* harmony import */ var _css_mainApp_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../css/mainApp.css */ "./resources/css/mainApp.css");
-/* harmony import */ var _Login_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Login/index */ "./resources/js/Login/index.js");
-/* harmony import */ var _Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Dashboard/Dashboard */ "./resources/js/Dashboard/Dashboard.js");
-/* harmony import */ var _Orders_Index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Orders/Index */ "./resources/js/Orders/Index.js");
-/* harmony import */ var _Sidebar_Index__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Sidebar/Index */ "./resources/js/Sidebar/Index.js");
-/* harmony import */ var _NavBar_NavBar__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./NavBar/NavBar */ "./resources/js/NavBar/NavBar.js");
-/* harmony import */ var _Products_index__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Products/index */ "./resources/js/Products/index.js");
-/* harmony import */ var _Components_Toast_Index__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Components/Toast/Index */ "./resources/js/Components/Toast/Index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _app_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app.css */ "./resources/js/app.css");
+/* harmony import */ var _css_mainApp_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../css/mainApp.css */ "./resources/css/mainApp.css");
+/* harmony import */ var _Login_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Login/index */ "./resources/js/Login/index.js");
+/* harmony import */ var _Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Dashboard/Dashboard */ "./resources/js/Dashboard/Dashboard.js");
+/* harmony import */ var _Orders_Index__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Orders/Index */ "./resources/js/Orders/Index.js");
+/* harmony import */ var _Sidebar_Index__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Sidebar/Index */ "./resources/js/Sidebar/Index.js");
+/* harmony import */ var _NavBar_NavBar__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./NavBar/NavBar */ "./resources/js/NavBar/NavBar.js");
+/* harmony import */ var _Products_index__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Products/index */ "./resources/js/Products/index.js");
+/* harmony import */ var _Components_Toast_Index__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Components/Toast/Index */ "./resources/js/Components/Toast/Index.js");
+/* harmony import */ var _Components_Modal__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Components/Modal */ "./resources/js/Components/Modal/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -19463,33 +19727,36 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var ToastContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_1__.createContext)({
   toastList: [],
   setToastList: function setToastList() {
     return [];
   }
 });
+var UserDataContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_1__.createContext)({
+  userData: [],
+  setUserData: function setUserData() {
+    return [];
+  }
+});
 
 function App() {
-  // const [user, setUser] = useState(null)
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
-    id: 0,
-    email: 'test',
-    name: 'test'
-  }),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0),
       _useState2 = _slicedToArray(_useState, 2),
-      user = _useState2[0],
-      setUser = _useState2[1];
+      section = _useState2[0],
+      setSection = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
       _useState4 = _slicedToArray(_useState3, 2),
-      section = _useState4[0],
-      setSection = _useState4[1];
+      toastList = _useState4[0],
+      setToastList = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
       _useState6 = _slicedToArray(_useState5, 2),
-      toastList = _useState6[0],
-      setToastList = _useState6[1];
+      userData = _useState6[0],
+      setUserData = _useState6[1];
 
   var toastState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useMemo)(function () {
     return {
@@ -19497,7 +19764,21 @@ function App() {
       setToastList: setToastList
     };
   }, [toastList]);
+  var userDataState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useMemo)(function () {
+    return {
+      userData: userData,
+      setUserData: setUserData
+    };
+  }, [userData]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    // update session from the storage if available, otherwise ask to login.
+    var userItems = JSON.parse(localStorage.getItem('userData'));
+
+    if (!(0,lodash__WEBPACK_IMPORTED_MODULE_2__.isEmpty)(userItems)) {
+      console.log('current Data in storage', userItems);
+      setUserData(userItems);
+    }
+
     switch (window.location.pathname) {
       case "/":
         setSection(0);
@@ -19528,19 +19809,39 @@ function App() {
         setSection(7);
         break;
     }
-  }, []);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {}, [user]);
+
+    return function () {
+      setUserData({});
+    };
+  }, []); // useEffect(() => {
+  //     if (!isEmpty(userData)) {
+  //         setUserData(userData)
+  //     }
+  // }, [userData])
 
   var processUser = function processUser(userData) {
-    setUser(userData);
+    localStorage.setItem('userData', JSON.stringify(userData));
+    setUserData(userData);
+    console.log('userData processed', JSON.parse(localStorage.getItem('userData')));
   };
 
   var getDirectory = function getDirectory(id) {
     setSection(id);
   };
 
-  if (!user) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Login_index__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  var logoutUser = function logoutUser() {
+    // Logout should occur on timeout but also by the user.
+    // Clear local storage of user data to return to login page 
+    // but make it remember that this computer does not need registration
+    var userItems = JSON.parse(localStorage.getItem('userData'));
+    console.log('current Data in storage', userItems);
+    localStorage.removeItem('userData');
+    console.info('user Data has been cleared', JSON.parse(localStorage.getItem('userData')));
+    setUserData({});
+  };
+
+  if ((0,lodash__WEBPACK_IMPORTED_MODULE_2__.isEmpty)(userData)) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Login_index__WEBPACK_IMPORTED_MODULE_5__["default"], {
       processUser: processUser
     });
   }
@@ -19549,41 +19850,69 @@ function App() {
     /*#__PURE__*/
     // <React.StrictMode>
     react__WEBPACK_IMPORTED_MODULE_1___default().createElement(ToastContext.Provider, {
+      value: userDataState
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(UserDataContext.Provider, {
       value: toastState
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
       className: "App"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Sidebar_Index__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Sidebar_Index__WEBPACK_IMPORTED_MODULE_8__["default"], {
       getDirectory: getDirectory,
       section: section
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
       className: "view"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_NavBar_NavBar__WEBPACK_IMPORTED_MODULE_8__["default"], {
-      section: section
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_NavBar_NavBar__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      section: section,
+      logoutUser: logoutUser
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
       path: "/",
-      element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_6__["default"], {
         section: section,
-        user: user
+        user: userData.name
       })
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
       path: "orders",
-      element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Orders_Index__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Orders_Index__WEBPACK_IMPORTED_MODULE_7__["default"], {
         section: section
       })
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
       path: "products",
-      element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Products_index__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Products_index__WEBPACK_IMPORTED_MODULE_10__["default"], {
         section: section
       })
-    }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Components_Toast_Index__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+      path: "overview",
+      element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        section: section
+      })
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+      path: "customer",
+      element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        section: section
+      })
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+      path: "message",
+      element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        section: section
+      })
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+      path: "settings",
+      element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        section: section
+      })
+    })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Components_Toast_Index__WEBPACK_IMPORTED_MODULE_11__["default"], {
       toastList: toastList,
       autoDelete: true,
       autoDeleteTime: 3000
-    })) // </React.StrictMode> 
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Components_Modal__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      title: "Title for the modal.",
+      confirmationMessage: "Accept",
+      cancelMessage: "Discard"
+    }, "this is modal")))) // </React.StrictMode> 
 
   );
 }
 
+;
 var root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_0__.createRoot)(document.getElementById('main'));
 root.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(App, null));
 
@@ -19662,7 +19991,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "/* Main component operators such as containers that are typical for each view */\r\n.mainView {\r\n    flex: 4;\r\n    margin: 32px;\r\n}\r\n\r\n.subtleInput {}\r\n\r\n.w100 {\r\n    width: 100%;\r\n}\r\n\r\n.minH10vh {\r\n    min-height: 10vh;\r\n}\r\n\r\n\r\n/* BUTTON */\r\n\r\n.bMain {\r\n    min-width: 60px;\r\n    height: 40px;\r\n    padding: 8px 32px;\r\n    text-align: center;\r\n    background-color: rgb(223 238 251);\r\n    color: rgb(112 171 248);\r\n\r\n    border: none;\r\n\r\n    border-radius: 5px;\r\n\r\n    font-size: medium;\r\n    font-weight: 600;\r\n\r\n    transition: .4s;\r\n    cursor: pointer;\r\n}\r\n\r\n.bMain:hover {\r\n    background-color: rgb(169, 211, 245);\r\n    color: #0783f0;\r\n}\r\n\r\n.bSecondary {}\r\n\r\n.bSecondary:hover {}\r\n\r\n\r\n\r\n/* MARGIN */\r\n.m5 {\r\n    margin: 5px;\r\n}\r\n\r\n.mt5 {\r\n    margin-top: 5px 0 0 0;\r\n}\r\n\r\n.mb5 {\r\n    margin-bottom: 0 0 5px 0;\r\n}\r\n\r\n.m15 {\r\n    margin: 15px;\r\n}\r\n\r\n.mt15 {\r\n    margin-top: 15px 0 0 0;\r\n}\r\n\r\n.mb15 {\r\n    margin-bottom: 0 0 15px 0;\r\n}\r\n\r\n.mInline5 {\r\n    margin-inline: 5px;\r\n}\r\n\r\n.mInline15 {\r\n    margin-inline: 15px;\r\n}\r\n\r\n\r\n\r\n/* FLEX BOX CLASSESS */\r\n.flex {\r\n    display: flex;\r\n}\r\n\r\n.flexOne {\r\n    flex: 1;\r\n}\r\n\r\n.flexWrap {\r\n    flex-wrap: wrap;\r\n}\r\n\r\n.flexColumn {\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n.flexRow {\r\n    display: flex;\r\n    flex-direction: row;\r\n}\r\n\r\n.flexCenter {\r\n    align-items: center;\r\n}\r\n\r\n.flexLeft {\r\n    align-items: flex-start;\r\n}\r\n\r\n.flexRight {\r\n    align-items: flex-start;\r\n}\r\n\r\n.flexBetween {\r\n    justify-content: space-between;\r\n}\r\n\r\n.flexAround {\r\n    justify-content: space-around;\r\n}\r\n\r\n.justifyCenter {\r\n    justify-content: center;\r\n}\r\n\r\n.alignCenter {\r\n    align-items: center;\r\n}\r\n\r\n.alignStart {\r\n    align-items: flex-start;\r\n}\r\n\r\n.alignEnd {\r\n    align-items: flex-end;\r\n}\r\n\r\n/* CONTENT */\r\n\r\n.fitW {\r\n    width: -webkit-fit-content;\r\n    width: -moz-fit-content;\r\n    width: fit-content;\r\n}\r\n\r\n.maxW {\r\n    width: -webkit-max-content;\r\n    width: -moz-max-content;\r\n    width: max-content;\r\n}\r\n\r\n.minW {\r\n    width: -webkit-min-content;\r\n    width: -moz-min-content;\r\n    width: min-content;\r\n}\r\n\r\n.fitH {\r\n    height: -webkit-fit-content;\r\n    height: -moz-fit-content;\r\n    height: fit-content;\r\n}\r\n\r\n.maxH {\r\n    height: -webkit-max-content;\r\n    height: -moz-max-content;\r\n    height: max-content;\r\n}\r\n\r\n.minH {\r\n    height: -webkit-min-content;\r\n    height: -moz-min-content;\r\n    height: min-content;\r\n}\r\n\r\n/* Position */\r\n\r\n.relative {\r\n    position: relative;\r\n}\r\n\r\n.absolute {\r\n    position: absolute;\r\n}\r\n\r\n\r\n/* DECORATIVE ELEMENTS, MISC */\r\n\r\n.line100 {\r\n    width: 100%;\r\n    height: 1px;\r\n    background-color: rgba(233, 239, 241, 0.534);\r\n    margin: 5px 0;\r\n}\r\n\r\n.line80 {\r\n    width: 80%;\r\n    height: 1px;\r\n    background-color: rgba(233, 239, 241, 0.534);\r\n    margin: 5px 0;\r\n}\r\n\r\n\r\n/* TEXT OPTIONS TYPOGRAPHY*/\r\n\r\n.paragraphThin {\r\n    font-weight: 400;\r\n    font-size: 12px;\r\n}\r\n\r\n.paragraphMedium {\r\n    font-weight: 600;\r\n    font-size: 20px;\r\n\r\n}\r\n\r\n/* SHADOW */\r\n\r\n.smooth-shadow {\r\n    box-shadow: 0px 1px 1px rgb(0, 0, 0, 0.1),\r\n        1px 2px 2px rgb(0, 0, 0, 0.1),\r\n        1px 4px 4px rgb(0, 0, 0, 0.1),\r\n        1px 8px 8px rgb(0, 0, 0, 0.1),\r\n        1px 16px 16px rgb(0, 0, 0, 0.1);\r\n}\r\n\r\n.boxShadow {\r\n    box-shadow: 1px 1px 1px #00000036, 0px 0px 1px #0d0d0d31;\r\n}\r\n\r\n/* ANIMATION */\r\n\r\n.transition1S {\r\n    transition: 10s;\r\n}\r\n\r\n/* colors */\r\n\r\n/* use for main component bckgs \r\nfor example background\r\n*/\r\n.pure-white {}\r\n\r\n.text-black {}\r\n\r\n/* greys for borders */\r\n.border-grey-secondary {\r\n    border-color: #d3d3d3\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "/* Main component operators such as containers that are typical for each view */\r\n.mainView {\r\n    flex: 4;\r\n    margin: 32px;\r\n}\r\n\r\n.subtleInput {}\r\n\r\n.w100 {\r\n    width: 100%;\r\n}\r\n\r\n.minH10vh {\r\n    min-height: 10vh;\r\n}\r\n\r\n\r\n/* MARGIN */\r\n.m5 {\r\n    margin: 5px;\r\n}\r\n\r\n.mt5 {\r\n    margin-top: 5px 0 0 0;\r\n}\r\n\r\n.mb5 {\r\n    margin-bottom: 0 0 5px 0;\r\n}\r\n\r\n.m15 {\r\n    margin: 15px;\r\n}\r\n\r\n.mt15 {\r\n    margin-top: 15px 0 0 0;\r\n}\r\n\r\n.mb15 {\r\n    margin-bottom: 0 0 15px 0;\r\n}\r\n\r\n.mInline5 {\r\n    margin-inline: 5px;\r\n}\r\n\r\n.mInline15 {\r\n    margin-inline: 15px;\r\n}\r\n\r\n\r\n\r\n/* FLEX BOX CLASSESS */\r\n.flex {\r\n    display: flex;\r\n}\r\n\r\n.flexOne {\r\n    flex: 1;\r\n}\r\n\r\n.flexWrap {\r\n    flex-wrap: wrap;\r\n}\r\n\r\n.flexColumn {\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n.flexRow {\r\n    display: flex;\r\n    flex-direction: row;\r\n}\r\n\r\n.flexCenter {\r\n    align-items: center;\r\n}\r\n\r\n.flexLeft {\r\n    align-items: flex-start;\r\n}\r\n\r\n.flexRight {\r\n    align-items: flex-start;\r\n}\r\n\r\n.flexBetween {\r\n    justify-content: space-between;\r\n}\r\n\r\n.flexAround {\r\n    justify-content: space-around;\r\n}\r\n\r\n.justifyCenter {\r\n    justify-content: center;\r\n}\r\n\r\n.alignContentCenter {\r\n    align-content: center;\r\n}\r\n\r\n.alignContentStart {\r\n    align-content: flex-start;\r\n}\r\n\r\n.alignContentEnd {\r\n    align-content: flex-end;\r\n}\r\n\r\n.alignCenter {\r\n    align-items: center;\r\n}\r\n\r\n.alignStart {\r\n    align-items: flex-start;\r\n}\r\n\r\n.alignEnd {\r\n    align-items: flex-end;\r\n}\r\n\r\n/* CONTENT */\r\n\r\n.fitW {\r\n    width: -webkit-fit-content;\r\n    width: -moz-fit-content;\r\n    width: fit-content;\r\n}\r\n\r\n.maxW {\r\n    width: -webkit-max-content;\r\n    width: -moz-max-content;\r\n    width: max-content;\r\n}\r\n\r\n.minW {\r\n    width: -webkit-min-content;\r\n    width: -moz-min-content;\r\n    width: min-content;\r\n}\r\n\r\n.fitH {\r\n    height: -webkit-fit-content;\r\n    height: -moz-fit-content;\r\n    height: fit-content;\r\n}\r\n\r\n.maxH {\r\n    height: -webkit-max-content;\r\n    height: -moz-max-content;\r\n    height: max-content;\r\n}\r\n\r\n.minH {\r\n    height: -webkit-min-content;\r\n    height: -moz-min-content;\r\n    height: min-content;\r\n}\r\n\r\n/* Position */\r\n\r\n.relative {\r\n    position: relative;\r\n}\r\n\r\n.absolute {\r\n    position: absolute;\r\n}\r\n\r\n\r\n/* DECORATIVE ELEMENTS, MISC */\r\n\r\n.line100 {\r\n    width: 100%;\r\n    height: 1px;\r\n    background-color: rgba(233, 239, 241, 0.534);\r\n    margin: 5px 0;\r\n}\r\n\r\n.line80 {\r\n    width: 80%;\r\n    height: 1px;\r\n    background-color: rgba(233, 239, 241, 0.534);\r\n    margin: 5px 0;\r\n}\r\n\r\n\r\n/* TEXT OPTIONS TYPOGRAPHY*/\r\n\r\n.paragraphThin {\r\n    font-weight: 400;\r\n    font-size: 12px;\r\n}\r\n\r\n.paragraphMedium {\r\n    font-weight: 600;\r\n    font-size: 20px;\r\n\r\n}\r\n\r\n/* SHADOW */\r\n\r\n.smooth-shadow {\r\n    box-shadow: 0px 1px 1px rgb(0, 0, 0, 0.1),\r\n        1px 2px 2px rgb(0, 0, 0, 0.1),\r\n        1px 4px 4px rgb(0, 0, 0, 0.1),\r\n        1px 8px 8px rgb(0, 0, 0, 0.1),\r\n        1px 16px 16px rgb(0, 0, 0, 0.1);\r\n}\r\n\r\n.boxShadow {\r\n    box-shadow: 1px 1px 1px #00000036, 0px 0px 1px #0d0d0d31;\r\n}\r\n\r\n/* ANIMATION */\r\n\r\n.transition1S {\r\n    transition: 10s;\r\n}\r\n\r\n/* colors */\r\n\r\n/* use for main component bckgs \r\nfor example background\r\n*/\r\n.pure-white {}\r\n\r\n.text-black {}\r\n\r\n/* greys for borders */\r\n.border-grey-secondary {\r\n    border-color: #d3d3d3\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -19741,6 +20070,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".avatar {\r\n    height: 40px;\r\n    
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Button/index.css":
+/*!************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Button/index.css ***!
+  \************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "/* Type */\r\nbutton {\r\n    border-radius: 5px;\r\n    font-weight: 600;\r\n    background: none;\r\n    cursor: pointer;\r\n    transition: 0.3s;\r\n}\r\n\r\n.text {\r\n    font-weight: 600;\r\n    border: none;\r\n    color: #1280df;\r\n\r\n}\r\n\r\n.text:hover {\r\n    background: hsl(208deg 85% 80%);\r\n}\r\n\r\n.contained {\r\n    border: none;\r\n}\r\n\r\n.outlineNormal {\r\n    border: 2px solid #1280df;\r\n    background: #fff;\r\n    color: #1280df;\r\n}\r\n\r\n.outlineNormal:hover {\r\n    border: 2px solid hsl(208deg 85% 80%);\r\n    background: hsl(208deg 85% 80%);\r\n    color: hsl(208deg 80% 60%);\r\n}\r\n\r\n.outlineSuccess {\r\n    border: 2px solid #0de35c;\r\n    background: #fff;\r\n    color: #0de35c;\r\n}\r\n\r\n.outlineSuccess:hover {\r\n    border: 2px solid hsl(142deg 80% 80%);\r\n    background: hsl(142deg 80% 80%);\r\n    color: hsl(142deg 80% 60%);\r\n}\r\n\r\n.outlineDanger {\r\n    border: 2px solid #e62f2f;\r\n    background: #fff;\r\n    color: #e62f2f;\r\n}\r\n\r\n.outlineDanger:hover {\r\n    border: 2px solid hsl(0deg 80% 80%);\r\n    background: hsl(0deg 80% 80%);\r\n    color: hsl(0deg 80% 60%);\r\n}\r\n\r\n\r\n/* Disabled */\r\n.disabled {\r\n    background: #cfcfcf88;\r\n    color: #9b9b9b;\r\n    border: none;\r\n    cursor: inherit;\r\n}\r\n\r\n/* Color */\r\n.normal {\r\n    background-color: hsl(208deg 85% 65%);\r\n    color: #062d4e;\r\n}\r\n\r\n.normal:hover {\r\n    background-color: #1280df;\r\n    background: hsl(208deg 85% 80%);\r\n\r\n}\r\n\r\n.success {\r\n    background-color: #0de35c;\r\n}\r\n\r\n.success:hover {\r\n    background: hsl(142deg 80% 80%);\r\n}\r\n\r\n.danger {\r\n    background-color: #e62f2f;\r\n}\r\n\r\n.danger:hover {\r\n    background: hsl(0deg 80% 80%);\r\n}\r\n\r\n/* Size */\r\n\r\n.sm {\r\n    font-size: 0.8rem;\r\n\r\n    width: -webkit-fit-content;\r\n\r\n    width: -moz-fit-content;\r\n\r\n    width: fit-content;\r\n    height: 1.875rem;\r\n    padding: 0.16rem 0.8rem;\r\n    margin: 8px;\r\n}\r\n\r\n.lg {\r\n    font-size: 1rem;\r\n\r\n    width: -webkit-fit-content;\r\n\r\n    width: -moz-fit-content;\r\n\r\n    width: fit-content;\r\n    height: 2.28rem;\r\n    padding: 6px 1rem;\r\n    margin: 8px;\r\n}\r\n\r\n.xl {\r\n    font-size: 1.2rem;\r\n\r\n    width: -webkit-fit-content;\r\n\r\n    width: -moz-fit-content;\r\n\r\n    width: fit-content;\r\n    height: 2.64rem;\r\n    padding: 0.18rem 1rem;\r\n    margin: 8px;\r\n}\r\n\r\n/* Icon sides */\r\n\r\n.left {\r\n    display: flex;\r\n    flex-direction: row;\r\n}\r\n\r\n.right {\r\n    display: flex;\r\n    flex-direction: row-reverse;\r\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Card/index.css":
 /*!**********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Card/index.css ***!
@@ -19782,7 +20135,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".cart {\r\n    width: 40px;\r\n    height: 40px;\r\n    background: none;\r\n\r\n    border: none;\r\n    border-radius: 50%;\r\n    margin-inline: 15px;\r\n    cursor: pointer;\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".cart {\r\n    width: 40px;\r\n    height: 40px;\r\n    background: none;\r\n\r\n    border: none;\r\n    border-radius: 50%;\r\n    margin-inline: 15px;\r\n    padding: 5px;\r\n    cursor: pointer;\r\n}\r\n\r\n.cart:hover {\r\n    background-color: rgb(139, 139, 132);\r\n}\r\n\r\n.cart:focus {\r\n    background-color: rgb(87, 87, 81);\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -19878,7 +20231,31 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".cardBody {\r\n    transition: 0.3s;\r\n    position: relative;\r\n\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n\r\n    background-color: #fff;\r\n\r\n    border-radius: 15px;\r\n\r\n    height: 350px;\r\n    width: 245px;\r\n    margin: 10px;\r\n\r\n    box-shadow: 0px 1px 1px rgba(116, 128, 138, 0.08),\r\n        0px 2px 2px rgb(116, 128, 138, 0.08),\r\n        0px 3px 3px rgb(116, 128, 138, 0.08),\r\n        0px 7px 7px rgb(116, 128, 138, 0.08),\r\n        0px 10px 10px rgb(116, 128, 138, 0.08);\r\n}\r\n\r\n.selectedCard {\r\n    background-color: rgb(212, 228, 247);\r\n}\r\n\r\n.icon {\r\n    margin: auto;\r\n    height: 15px;\r\n    width: 15px;\r\n}\r\n\r\n\r\n.imageBody {\r\n    border-radius: 15px 15px 0 0;\r\n    background-color: black;\r\n    width: 100%;\r\n    height: 35%;\r\n\r\n    flex: 1;\r\n}\r\n\r\n.textBody {\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: flex-start;\r\n    text-align: left;\r\n\r\n    margin: 0 15px 10px;\r\n\r\n}\r\n\r\n.headingBody h3{\r\n    margin: 5px;\r\n}\r\n\r\n.subtitleBody {\r\n    font-weight: 400;\r\n    font-size: 12px;\r\n}\r\n\r\n.bottomSection {\r\n    position: relative;\r\n\r\n    display: flex;\r\n    flex-direction: row;\r\n    align-items: center;\r\n    justify-content: space-between;\r\n\r\n    margin: 0 15px 15px;\r\n}\r\n\r\n.priceBody{\r\n    font-weight: 700;\r\n    font-size: medium;\r\n\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".cardBody {\r\n    transition: 0.3s;\r\n    position: relative;\r\n\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n\r\n    background-color: #fff;\r\n\r\n    border-radius: 15px;\r\n\r\n    height: 350px;\r\n    width: 245px;\r\n    margin: 5px;\r\n\r\n    box-shadow: 0px 1px 1px rgba(116, 128, 138, 0.08),\r\n        0px 2px 2px rgb(116, 128, 138, 0.08),\r\n        0px 3px 3px rgb(116, 128, 138, 0.08),\r\n        0px 7px 7px rgb(116, 128, 138, 0.08),\r\n        0px 10px 10px rgb(116, 128, 138, 0.08);\r\n}\r\n\r\n.selectedCard {\r\n    background-color: rgb(212, 228, 247);\r\n}\r\n\r\n.icon {\r\n    margin: auto;\r\n    height: 15px;\r\n    width: 15px;\r\n}\r\n\r\n\r\n.imageBody {\r\n    border-radius: 15px 15px 0 0;\r\n    background-color: black;\r\n    width: 100%;\r\n    height: 35%;\r\n\r\n    flex: 1;\r\n}\r\n\r\n.textBody {\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: flex-start;\r\n    text-align: left;\r\n\r\n    margin: 5px 10px 5px;\r\n\r\n}\r\n\r\n.headingBody h3{\r\n    margin: 0;\r\n}\r\n\r\n.subtitleBody {\r\n    font-weight: 400;\r\n    font-size: 12px;\r\n}\r\n\r\n.bottomSection {\r\n    position: relative;\r\n\r\n    display: flex;\r\n    flex-direction: row;\r\n    align-items: center;\r\n    justify-content: space-between;\r\n\r\n    margin: 0 10px 2px;\r\n}\r\n\r\n.priceBody{\r\n    font-weight: 700;\r\n    font-size: medium;\r\n\r\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Modal/index.css":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Modal/index.css ***!
+  \***********************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".modal-container {\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n\r\n}\r\n\r\n.backdrop {\r\n    z-index: 999;\r\n\r\n    width: 100%;\r\n    height: 100%;\r\n    background: rgba(0, 0, 0, 0.4);\r\n    position: relative;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n\r\n.modal-box {\r\n    z-index: 1000;\r\n    height: 600px;\r\n    width: 600px;\r\n    position: absolute;\r\n\r\n    margin: auto;\r\n    left: 25%;\r\n    top: 25%;\r\n\r\n    background-color: #fff;\r\n    border-radius: 15px;\r\n\r\n    padding: 15px 15px 0;\r\n\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n}\r\n\r\n.modal-head {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: center;\r\n    align-items: center;\r\n    align-content: stretch;\r\n    flex-wrap: nowrap;\r\n    width: 100%;\r\n}\r\n\r\n.modal-head>.title {\r\n    margin: 5px;\r\n    flex-grow: 1;\r\n}\r\n\r\n.close-icon {\r\n    background-color: rgb(240, 240, 240);\r\n    cursor: pointer;\r\n    width: 30px;\r\n    height: 30px;\r\n    border: none;\r\n    border-radius: 50%;\r\n    margin: 5px;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\n.close-icon:hover {\r\n    background-color: rgb(202, 202, 202);\r\n}\r\n\r\n.modal-content {\r\n    width: 100%;\r\n    height: -webkit-fit-content;\r\n    height: -moz-fit-content;\r\n    height: fit-content;\r\n}\r\n\r\n.modal-footer {\r\n    width: 100%;\r\n    height: -webkit-fit-content;\r\n    height: -moz-fit-content;\r\n    height: fit-content;\r\n\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: flex-end;\r\n    align-items: center;\r\n\r\n    border-radius: 0px 0px 15px 15px;\r\n    background-color: rgba(233, 233, 233, 0.582);\r\n    padding: 10px 15px 10px;\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -19974,7 +20351,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".toastBoxContainer {\r\n    display: flex;\r\n    flex-direction: column;\r\n\r\n    position: fixed;\r\n    height: 100%;\r\n}\r\n.box {\r\n    width: 350px;\r\n    height: 80px;\r\n    background-color: #fff;\r\n}\r\n\r\n.border {\r\n    border-radius: 5px;\r\n}\r\n\r\n.bSuccess {\r\n    border-left: 5px solid #0de35c;\r\n}\r\n\r\n.bWarning {\r\n    border-left: 5px solid #ffbf68;\r\n}\r\n\r\n.bDanger {\r\n    border-left: 5px solid #e62f2f;\r\n}\r\n\r\n.bInfo {\r\n    border-left: 5px solid #388eff;\r\n}\r\n\r\n.closeIcon {\r\n    width: 40px;\r\n    height: 40px;\r\n\r\n    cursor: pointer;\r\n\r\n    transform: 0.3s;\r\n}\r\n\r\n.closeIcon {}\r\n\r\n.toastContainer {\r\n    font-size: 14px;\r\n    box-sizing: border-box;\r\n    position: fixed;\r\n    z-index: 999999;\r\n}\r\n\r\n.top-right {\r\n    top: 80px;\r\n    right: 30px;\r\n    transition: transform .6s ease-in-out;\r\n    -webkit-animation: slideRight .7s;\r\n            animation: slideRight .7s;\r\n}\r\n.top-right-hide {\r\n    top: 12px;\r\n    right: 12px;\r\n    transition: transform .6s ease-in-out;\r\n    -webkit-animation: slideLeft .7s;\r\n            animation: slideLeft .7s;\r\n}\r\n\r\n.stopper {\r\n    right: -400px;\r\n    position: relative;\r\n    margin-left: auto\r\n}\r\n\r\n@-webkit-keyframes slideToast {\r\n    0% {\r\n        right: -350px;\r\n    }\r\n\r\n    25% {\r\n        right: 200px;\r\n    }\r\n\r\n    75% {\r\n        right: 200px;\r\n    }\r\n\r\n    100% {\r\n        right: -350px;\r\n    }\r\n}\r\n\r\n@keyframes slideToast {\r\n    0% {\r\n        right: -350px;\r\n    }\r\n\r\n    25% {\r\n        right: 200px;\r\n    }\r\n\r\n    75% {\r\n        right: 200px;\r\n    }\r\n\r\n    100% {\r\n        right: -350px;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes slideRight {\r\n    from {\r\n        transform: translateX(100%);\r\n    }\r\n\r\n    to {\r\n        transform: translateX(0);\r\n    }\r\n}\r\n\r\n@keyframes slideRight {\r\n    from {\r\n        transform: translateX(100%);\r\n    }\r\n\r\n    to {\r\n        transform: translateX(0);\r\n    }\r\n}\r\n\r\n@-webkit-keyframes slideLeft {\r\n    from {\r\n        transform: translateX(-100%);\r\n\r\n    }\r\n\r\n    to {\r\n        transform: translateX(0);\r\n    }\r\n}\r\n\r\n@keyframes slideLeft {\r\n    from {\r\n        transform: translateX(-100%);\r\n\r\n    }\r\n\r\n    to {\r\n        transform: translateX(0);\r\n    }\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".toastBoxContainer {\r\n    display: flex;\r\n    flex-direction: column;\r\n\r\n    position: absolute;\r\n\r\n    height: 100%;\r\n}\r\n.box {\r\n    width: 350px;\r\n    height: 80px;\r\n    background-color: #fff;\r\n}\r\n\r\n.border {\r\n    border-radius: 5px;\r\n}\r\n\r\n.bSuccess {\r\n    border-left: 5px solid #0de35c;\r\n}\r\n\r\n.bWarning {\r\n    border-left: 5px solid #ffbf68;\r\n}\r\n\r\n.bDanger {\r\n    border-left: 5px solid #e62f2f;\r\n}\r\n\r\n.bInfo {\r\n    border-left: 5px solid #388eff;\r\n}\r\n\r\n.closeIcon {\r\n    width: 40px;\r\n    height: 40px;\r\n\r\n    cursor: pointer;\r\n\r\n    transform: 0.3s;\r\n}\r\n\r\n.closeIcon {}\r\n\r\n.toastContainer {\r\n    font-size: 14px;\r\n    box-sizing: border-box;\r\n    position: fixed;\r\n    z-index: 999999;\r\n}\r\n\r\n.top-right {\r\n    top: 80px;\r\n    right: 30px;\r\n    transition: transform .6s ease-in-out;\r\n    -webkit-animation: slideRight .7s;\r\n            animation: slideRight .7s;\r\n}\r\n.top-right-hide {\r\n    top: 12px;\r\n    right: 12px;\r\n    transition: transform .6s ease-in-out;\r\n    -webkit-animation: slideLeft .7s;\r\n            animation: slideLeft .7s;\r\n}\r\n\r\n.stopper {\r\n    right: -400px;\r\n    position: relative;\r\n    margin-left: auto\r\n}\r\n\r\n@-webkit-keyframes slideToast {\r\n    0% {\r\n        right: -350px;\r\n    }\r\n\r\n    25% {\r\n        right: 200px;\r\n    }\r\n\r\n    75% {\r\n        right: 200px;\r\n    }\r\n\r\n    100% {\r\n        right: -350px;\r\n    }\r\n}\r\n\r\n@keyframes slideToast {\r\n    0% {\r\n        right: -350px;\r\n    }\r\n\r\n    25% {\r\n        right: 200px;\r\n    }\r\n\r\n    75% {\r\n        right: 200px;\r\n    }\r\n\r\n    100% {\r\n        right: -350px;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes slideRight {\r\n    from {\r\n        transform: translateX(100%);\r\n    }\r\n\r\n    to {\r\n        transform: translateX(0);\r\n    }\r\n}\r\n\r\n@keyframes slideRight {\r\n    from {\r\n        transform: translateX(100%);\r\n    }\r\n\r\n    to {\r\n        transform: translateX(0);\r\n    }\r\n}\r\n\r\n@-webkit-keyframes slideLeft {\r\n    from {\r\n        transform: translateX(-100%);\r\n\r\n    }\r\n\r\n    to {\r\n        transform: translateX(0);\r\n    }\r\n}\r\n\r\n@keyframes slideLeft {\r\n    from {\r\n        transform: translateX(-100%);\r\n\r\n    }\r\n\r\n    to {\r\n        transform: translateX(0);\r\n    }\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20028,7 +20405,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_1___default()(_public_images_undraw_statistic_chart_re_w0pk_svg__WEBPACK_IMPORTED_MODULE_2__["default"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".authView {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: center;\r\n\r\n    height: 100%;\r\n    width: 100%;\r\n}\r\n\r\n.interactView {\r\n    display: flex;\r\n    flex: 0.5;\r\n    justify-content: center;\r\n    align-items: center;\r\n\r\n    margin: 5px 0 50px;\r\n\r\n}\r\n\r\n.interactContainer {\r\n    width: 50%;\r\n    height: auto;\r\n\r\n}\r\n\r\n.splashView {\r\n    display: flex;\r\n    flex: 0.5;\r\n    background: #7F7FD5;\r\n    /* fallback for old browsers */\r\n/* background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);\r\n/* Chrome 10-25, Safari 5.1-6 */\r\n    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);\r\n/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */\r\n\r\n}\r\n\r\n/* .splashView {\r\n    display: flex;\r\n    flex: 0.5;\r\n    background: url('../../../public/images/shape_background_deep_blue.svg');\r\n    z-index: 100;\r\n} */\r\n\r\n.showCharacter {\r\n    height: 493px;\r\n    width: 429px;\r\n    background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\r\n    z-index: 101;\r\n    background-repeat: no-repeat;\r\n    margin: 25% auto;\r\n}\r\n\r\n.welcomeElement {\r\n    margin: 0 0 50px;\r\n}\r\n\r\n.welcomeElement p {\r\n    font-size: smaller;\r\n}\r\n\r\n.welcomeElement h3 {\r\n    margin: 5px;\r\n}\r\n\r\n.loginForm {\r\n    display: flex;\r\n    flex-direction: column;\r\n\r\n    justify-content: center;\r\n}\r\n\r\n.loginForm button {\r\n    border: none;\r\n    color: white;\r\n    background: #388eff;\r\n    border-radius: 5px;\r\n    min-width: 100px;\r\n    height: 30px;\r\n\r\n\r\n    margin-top: 10px;\r\n    padding: 5px;\r\n\r\n    cursor: pointer;\r\n}\r\n\r\n.signupLine {\r\n    margin-top: 25px;\r\n    margin-inline: auto;\r\n}\r\n\r\n.signupText {\r\n    color: #388eff;\r\n\r\n    cursor: pointer;\r\n}\r\n\r\n/* Box Animation */\r\n\r\n.flip-vertical-bck {\r\n    -webkit-animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;\r\n            animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;\r\n}\r\n\r\n/* ----------------------------------------------\r\n * w: http://animista.net, t: @cssanimista\r\n * ---------------------------------------------- */\r\n\r\n\r\n@-webkit-keyframes flip-vertical-bck {\r\n    0% {\r\n        transform: translateX(0);\r\n    }\r\n\r\n    100% {\r\n        transform: translateX(-100px);\r\n    }\r\n}\r\n\r\n\r\n@keyframes flip-vertical-bck {\r\n    0% {\r\n        transform: translateX(0);\r\n    }\r\n\r\n    100% {\r\n        transform: translateX(-100px);\r\n    }\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".authView {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: center;\r\n\r\n    height: 100%;\r\n    width: 100%;\r\n}\r\n\r\n.interactView {\r\n    display: flex;\r\n    flex: 0.5;\r\n    justify-content: center;\r\n    align-items: center;\r\n\r\n    margin: 5px 0 50px;\r\n\r\n}\r\n\r\n.interactContainer {\r\n    width: 50%;\r\n    height: auto;\r\n\r\n}\r\n\r\n.splashView {\r\n    display: flex;\r\n    flex: 0.5;\r\n    background: #7F7FD5;\r\n    /* fallback for old browsers */\r\n/* background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);\r\n/* Chrome 10-25, Safari 5.1-6 */\r\n    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);\r\n/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */\r\n\r\n}\r\n\r\n/* .splashView {\r\n    display: flex;\r\n    flex: 0.5;\r\n    background: url('../../../public/images/shape_background_deep_blue.svg');\r\n    z-index: 100;\r\n} */\r\n\r\n.showCharacter {\r\n    height: 493px;\r\n    width: 429px;\r\n    background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\r\n    z-index: 101;\r\n    background-repeat: no-repeat;\r\n    margin: 25% auto;\r\n}\r\n\r\n.welcomeElement {\r\n    margin: 0 0 50px;\r\n}\r\n\r\n.welcomeElement p {\r\n    font-size: smaller;\r\n}\r\n\r\n.welcomeElement h3 {\r\n    margin: 5px 0 ;\r\n}\r\n\r\n.loginForm {\r\n    display: flex;\r\n    flex-direction: column;\r\n\r\n    justify-content: center;\r\n}\r\n\r\n.loginForm button {\r\n    border: none;\r\n    color: white;\r\n    background: #388eff;\r\n    border-radius: 5px;\r\n    min-width: 100px;\r\n    height: 30px;\r\n\r\n\r\n    margin-top: 10px;\r\n    padding: 5px;\r\n\r\n    cursor: pointer;\r\n}\r\n\r\n.signupLine {\r\n    margin-top: 25px;\r\n    margin-inline: auto;\r\n}\r\n\r\n.signupText {\r\n    color: #388eff;\r\n\r\n    cursor: pointer;\r\n}\r\n\r\n/* Box Animation */\r\n\r\n.flip-vertical-bck {\r\n    -webkit-animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;\r\n            animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;\r\n}\r\n\r\n/* ----------------------------------------------\r\n * w: http://animista.net, t: @cssanimista\r\n * ---------------------------------------------- */\r\n\r\n\r\n@-webkit-keyframes flip-vertical-bck {\r\n    0% {\r\n        transform: translateX(0);\r\n    }\r\n\r\n    100% {\r\n        transform: translateX(-100px);\r\n    }\r\n}\r\n\r\n\r\n@keyframes flip-vertical-bck {\r\n    0% {\r\n        transform: translateX(0);\r\n    }\r\n\r\n    100% {\r\n        transform: translateX(-100px);\r\n    }\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20154,7 +20531,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "/* @font-face {\n  font-family: 'poppins';\n  src: local('MyFont'), url(https://fonts.google.com/specimenTab?standard-styles) format('sans-serif');\n} */\n\n* {\n  font-family: 'Poppins', sans-serif;\n}\n\nbody {\n  overflow: hidden;\n\n}\n\n#root {\n  height: 100vh;\n  overflow: hidden;\n\n}\n\n.App {\n  text-align: center;\n  display: flex;\n  flex-direction: row;\n  height: 100%;\n}\n\n.view {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 100%;\n  background: #eff1fa;\n  overflow-y: auto;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "/* @font-face {\n  font-family: 'poppins';\n  src: local('MyFont'), url(https://fonts.google.com/specimenTab?standard-styles) format('sans-serif');\n} */\n\n* {\n  font-family: 'Poppins', sans-serif;\n}\n\nbody {\n  overflow: hidden;\n\n}\n\n#root {\n  height: 100vh;\n  overflow: hidden;\n\n}\n\n.App {\n  text-align: center;\n  display: flex;\n  flex-direction: row;\n  height: 100%;\n  position: relative;\n}\n\n.view {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 100%;\n  background: #eff1fa;\n  overflow: hidden;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -74460,6 +74837,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./resources/js/Components/Button/index.css":
+/*!**************************************************!*\
+  !*** ./resources/js/Components/Button/index.css ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./index.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Button/index.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./resources/js/Components/Card/index.css":
 /*!************************************************!*\
   !*** ./resources/js/Components/Card/index.css ***!
@@ -74624,6 +75031,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./index.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/ImageCard/index.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./resources/js/Components/Modal/index.css":
+/*!*************************************************!*\
+  !*** ./resources/js/Components/Modal/index.css ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./index.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Modal/index.css");
 
             
 
