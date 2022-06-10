@@ -4,11 +4,11 @@ import { uniqueId } from 'lodash';
 export default function CardList({ list, editItem, selectedCard, showDetails }) { 
 
     return (
-        <div className='flexRow flex-start flexWrap'>
+        <div className='flexRow flex-start flexWrap alignContentStart'>
             {list != 'undefined' ? list && list.map((item, index) => (
                 <ImageCard
                     key={'product' + uniqueId()}
-                    edit={editItem}
+                    onClick={editItem}
 
                     id={index}
                     // img={ }
