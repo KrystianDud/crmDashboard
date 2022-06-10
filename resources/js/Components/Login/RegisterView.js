@@ -6,10 +6,11 @@ export default function RegisterView({ verifyCredidentials, changeView }) {
     const [formDetails, setFormDetails] = useState({
         email: '',
         password: '',
-        // repeat_password: '',
-        type: false
+        type: false,
+        company: ''
     })
     const [showPasswordWarn, setPasswordWarn] = useState(false);
+    const [allowMore, setAllowMore] = useState(false);
 
     useEffect(() => {
         if (formDetails.password != formDetails.repeat_password) setPasswordWarn(true);
@@ -19,10 +20,13 @@ export default function RegisterView({ verifyCredidentials, changeView }) {
     const updateForms = (e) => {
         if (e.target.id == 'type') {
             setFormDetails({ ...formDetails, type: e.target.checked })
+            if(e.target.checked) setAllowMore(true)
         }
+
         else {
             setFormDetails({ ...formDetails, [e.target.id]: e.target.value })
         }
+
     }
 
     return (
@@ -35,6 +39,22 @@ export default function RegisterView({ verifyCredidentials, changeView }) {
                     label={'Name'}
                     onChange={(e) => updateForms(e)}
                 />
+                <Input
+                    id={'type'}
+                    type={'checkbox'}
+                    margin={['5px']}
+                    label={'I\'m user of business involved in buying the products '}
+                    onChange={(e) => updateForms(e)}
+                />
+                {allowMore && 
+                    <Input
+                        id={'company'}
+                        type={'text'}
+                        margin={['5px']}
+                        label={'Company Name'}
+                        onChange={(e) => updateForms(e)}
+                    />
+                }
                 <Input
                     id={'email'}
                     type={'email'}
@@ -49,22 +69,8 @@ export default function RegisterView({ verifyCredidentials, changeView }) {
                     label={'Password'}
                     onChange={(e) => updateForms(e)}
                 />
-                {/* repeat password */}
-                {/* <Input
-                    id={'repeat_password'}
-                    type={'password'}
-                    margin={['5px']}
-                    label={'Repeat Password'}
-                    onChange={(e) => updateForms(e)}
-                /> */}
-                <Input
-                    id={'type'}
-                    type={'checkbox'}
-                    margin={['5px']}
-                    label={'I\'m user of business involved in buying the products '}
-                    onChange={(e) => updateForms(e)}
-                />
-                {showPasswordWarn ? <p style={{ color: 'red' }}> The passwords do not match</p> : null}
+
+                {/* {showPasswordWarn ? <p style={{ color: 'red' }}> The passwords do not match</p> : null} */}
 
                 <button className='loginButton' onClick={() => verifyCredidentials(formDetails, 'register')}>Register</button>
                 <div className='signupLine'>
