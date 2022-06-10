@@ -1,0 +1,137 @@
+/* Type */
+button {
+    border-radius: 5px;
+    font-weight: 600;
+    background: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.text {
+    font-weight: 600;
+    border: none;
+    color: #1280df;
+
+}
+
+.text:hover {
+    background: hsl(208deg 85% 80%);
+}
+
+.contained {
+    border: none;
+}
+
+.outlineNormal {
+    border: 2px solid #1280df;
+    background: #fff;
+    color: #1280df;
+}
+
+.outlineNormal:hover {
+    border: 2px solid hsl(208deg 85% 80%);
+    background: hsl(208deg 85% 80%);
+    color: hsl(208deg 80% 60%);
+}
+
+.outlineSuccess {
+    border: 2px solid #0de35c;
+    background: #fff;
+    color: #0de35c;
+}
+
+.outlineSuccess:hover {
+    border: 2px solid hsl(142deg 80% 80%);
+    background: hsl(142deg 80% 80%);
+    color: hsl(142deg 80% 60%);
+}
+
+.outlineDanger {
+    border: 2px solid #e62f2f;
+    background: #fff;
+    color: #e62f2f;
+}
+
+.outlineDanger:hover {
+    border: 2px solid hsl(0deg 80% 80%);
+    background: hsl(0deg 80% 80%);
+    color: hsl(0deg 80% 60%);
+}
+
+
+/* Disabled */
+.disabled {
+    background: #cfcfcf88;
+    color: #9b9b9b;
+    border: none;
+    cursor: inherit;
+}
+
+/* Color */
+.normal {
+    background-color: hsl(208deg 85% 65%);
+    color: #062d4e;
+}
+
+.normal:hover {
+    background-color: #1280df;
+    background: hsl(208deg 85% 80%);
+
+}
+
+.success {
+    background-color: #0de35c;
+}
+
+.success:hover {
+    background: hsl(142deg 80% 80%);
+}
+
+.danger {
+    background-color: #e62f2f;
+}
+
+.danger:hover {
+    background: hsl(0deg 80% 80%);
+}
+
+/* Size */
+
+.sm {
+    font-size: 0.8rem;
+
+    width: fit-content;
+    height: 1.875rem;
+    padding: 0.16rem 0.8rem;
+    margin: 8px;
+}
+
+.lg {
+    font-size: 1rem;
+
+    width: fit-content;
+    height: 2.28rem;
+    padding: 6px 1rem;
+    margin: 8px;
+}
+
+.xl {
+    font-size: 1.2rem;
+
+    width: fit-content;
+    height: 2.64rem;
+    padding: 0.18rem 1rem;
+    margin: 8px;
+}
+
+/* Icon sides */
+
+.left {
+    display: flex;
+    flex-direction: row;
+}
+
+.right {
+    display: flex;
+    flex-direction: row-reverse;
+}
