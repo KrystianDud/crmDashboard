@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import Avatar from '../Components/Avatar';
 import Cart from '../Components/Cart';
-export default function Navbar({ section }) {
+export default function Navbar({ section, logoutUser }) {
 
 
     return (
@@ -21,7 +21,7 @@ export default function Navbar({ section }) {
                     <input type="text" className='search-text' placeholder="Search.." />
                 </form>
                 <Cart />
-                <Avatar/>
+                <Avatar logoutUser={logoutUser}/>
             </div>
 
 
