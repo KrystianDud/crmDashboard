@@ -18,5 +18,4 @@ class Product extends Model
         'Size',
         'Image'
     ]; 
-
 }
