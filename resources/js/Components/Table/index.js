@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './index.css'
 import { uniqueId } from 'lodash';
+import Button from '../Button';
 /**
  *  Column should be an object consisting of the id, keyName recognised by the table content and columnNames
  * @param {*} param0 
@@ -39,12 +40,28 @@ export default function Table({ columns, list, editItem, options }) {
         productTest ?
             // service
             <td>
-                <button className='bMain' onClick={() => editItem(index)}>Edit</button>
+                <Button
+                    text={'Update'}
+                    type={'contained'}
+                    disabled={false}
+                    color={'normal'}
+                    size={'lg'}
+                    icon={null}
+                    callback={() => editItem(index)}
+                />
             </td>
             :
             // client
             <td>
-                <button className='bMain' onClick={() => buyItem(index)}>Buy</button>
+                <Button
+                    text={'Update'}
+                    type={'contained'}
+                    disabled={false}
+                    color={'normal'}
+                    size={'lg'}
+                    icon={null}
+                    callback={() => buyItem(index)}
+                />
             </td>
     );
 
