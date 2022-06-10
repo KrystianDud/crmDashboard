@@ -5,7 +5,7 @@ import axios from 'axios'
 
 import Dropdown from '../Dropdown'
 
-export default function Avatar() {
+export default function Avatar({logoutUser}) {
     const [open, setOpen] = useState(false)
     const [dropPos, setDropPos] = useState({
         x: 0,
@@ -34,11 +34,39 @@ export default function Avatar() {
     }
 
     const logout = () => {
-        axios.post('/api/auth/logout', {
-            headers: { 'accept': 'application/json' }
+        console.log(document.cookie)
+
+        const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('Bearer'))
+            .split('=')[1];
+        axios.defaults.withCredentials = true;
+        // axios.post('/api/auth/logout', {
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Accept': 'application/json',
+        //         'Authorization': `Bearer ${cookieValue}`
+        //     }
+
+        // })# 
+        axios('/api/auth/logout', {
+            method: 'POST',
+            // withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${cookieValue}`
+            }
         })
             .then((response) => {
                 console.log(response)
+                if(response.status ===  200) {
+                    // remove the cookie, and use router to move the user to the login screen
+                    logoutUser()
+                }
+            })
+            .catch((error) => {
+                console.log(error)
             })
     }
 
