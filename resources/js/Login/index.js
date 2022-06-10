@@ -13,21 +13,28 @@ export default function Login({ processUser }) {
     const [newUser, setNewUser] = useState(true)
     const [toastList, setToastList] = useState([])
 
+    useEffect(() => {
+        // Check on load what cookies are in there. 
+        // If sign of token then assume that user has visited page before thus will prefer login page.
+        if(document.cookie.includes('Bearer')) setNewUser(false)
+    }, [])
+
     const verifyCredidentials = (data, type) => {
-        let newData = data; 
+        let newData = data;
 
         if (newData.email === '' || !newData.email.includes('@')) {
             setToastList([...toastList, newToast('Email structure is not correct', 'Warning')])
             return
-        } 
+        }
 
-        if (newData.type) {
-            newData.type = 'client';
+        if (type) {
+            if (newData.type) {
+                newData.type = 'client';
+            }
+            else {
+                newData.type = 'service';
+            }
         }
-        else{
-            newData.type = 'service';
-        }
-        console.log('changing the type', newData)
 
         axios({
             method: 'POST',
@@ -36,7 +43,6 @@ export default function Login({ processUser }) {
             data: JSON.stringify(newData)
         })
             .then((response) => {
-                console.log(response)
                 if (response.status == 200) {
                     let user = response.data.user;
                     let userData = {
@@ -45,10 +51,11 @@ export default function Login({ processUser }) {
                         name: user.name
                     }
                     if (typeof user.type != 'undefined' || user.type != '') {
-                        const type = user.type
+                        const type = {type: user.type}
                         Object.assign(userData, type)
                     }
-                    console.log(userData)
+
+                    document.cookie = `Bearer=${response.data.token}`
                     processUser(userData)
                 }
                 else if (response.status == 201) {
