@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { cloneElement, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Button';
@@ -6,10 +6,17 @@ import Button from '../Button';
 import './index.css';
 import '../../../css/globals.css';
 
-export default function Modal({ title, confirmationMessage, cancelMessage, onClose, onAccept, ...props }) {
-    const func = () => {
+export default function Modal({type, title, confirmationMessage, cancelMessage, onClose, onAccept, BodyComponent }) {
+    const [writeData, setWriteData] = useState({})
 
+    const onChange = (e) => {
+        let object = {
+            ...writeData,
+            [e.target.id]: e.target.value
+        }
+        setWriteData(object)
     }
+    
     return (
         <div className='modal-container'>
             <div className="backdrop" />
@@ -22,7 +29,7 @@ export default function Modal({ title, confirmationMessage, cancelMessage, onClo
                     </button>
                 </div>
                 <div className="modal-content">
-                    {props.children}
+                    {cloneElement(BodyComponent, {onChange: (val) => onChange(val)}, null)}
                 </div>
                 <div className="modal-footer">
                     <Button
@@ -41,7 +48,7 @@ export default function Modal({ title, confirmationMessage, cancelMessage, onClo
                         color={'normal'}
                         size={'lg'}
                         icon={null}
-                        callback={() => onAccept()}
+                        callback={() => onAccept(writeData, type)}
                     />
                 </div>
             </div>
