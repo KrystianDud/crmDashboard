@@ -32,6 +32,10 @@
     margin: 15px;
 }
 
+.m20 {
+    margin: 20px;
+}
+
 .mt15 {
     margin-top: 15px 0 0 0;
 }
@@ -208,7 +212,17 @@
     transition: 10s;
 }
 
-/* colors */
+/* 
+    COLORS  
+        .normal hsl(208deg 85% 65%);
+        .success background-color: #0de35c;
+        .danger background-color: #e62f2f;
+*/
+
+.borderNormal {}
+.borderSuccess {}
+.borderDanger {}
+
 
 /* use for main component bckgs 
 for example background
