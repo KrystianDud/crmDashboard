@@ -15,6 +15,7 @@ import Navbar from './NavBar/NavBar'
 import Products from './Products/index'
 import Toast from './Components/Toast/Index';
 import Modal from './Components/Modal';
+import axios from 'axios';
 
 export const ToastContext = createContext({
     toastList: [],
@@ -22,14 +23,26 @@ export const ToastContext = createContext({
 });
 
 export const UserDataContext = createContext({
-    userData: [],
+    userData: [{
+        reminderContext: ''
+    }],
     setUserData: () => []
 });
 
 function App() {
     const [section, setSection] = useState(0)
     const [toastList, setToastList] = useState([])
-    const [userData, setUserData] = useState({})
+    const [userData, setUserData] = useState({
+        reminderContext: ''
+    })
+
+    const [openModal, setOpenModal] = useState(false)
+    const [modalData, setModalData] = useState({
+        title: '',
+        confirmationMessage: '',
+        cancelMessage: '',
+        component: ''
+    });
 
     const toastState = useMemo(
         () => ({ toastList, setToastList }),
@@ -43,8 +56,9 @@ function App() {
 
     useEffect(() => {
         // update session from the storage if available, otherwise ask to login.
-        const userItems = JSON.parse(localStorage.getItem('userData'));
+        let userItems = JSON.parse(localStorage.getItem('userData'));
         if (!isEmpty(userItems)) {
+            userItems.reminderContext = ''
             console.log('current Data in storage', userItems);
             setUserData(userItems)
         }
@@ -75,24 +89,79 @@ function App() {
                 break;
         }
 
+
         return () => {
             setUserData({})
         }
     }, [])
 
-    // useEffect(() => {
-    //     if (!isEmpty(userData)) {
-    //         setUserData(userData)
-    //     }
-    // }, [userData])
-
+    useEffect(() => {
+        //   for now check the reminders every time when user data is being updated.
+        // replace this functionality in future perhaps using chanels
+        if (window.location.pathname == '/') checkReminders()
+    }, [window.location.pathname, userData.reminderContext])
 
 
     const processUser = (userData) => {
+        let updateData = userData;
+        updateData.reminderContext = ''
+        setUserData(userData);
         localStorage.setItem('userData', JSON.stringify(userData))
-        setUserData(userData)
         console.log('userData processed', JSON.parse(localStorage.getItem('userData')))
     }
+
+    const checkReminders = () => {
+        // In this function we check onboarding users, especially admins to see if they did everything to make sure that platform runs smoothly
+        // using axios we will connect to the server to seek confirmation if things such as: 
+        // company details, ADD MORE REASONS HERE
+        // Then an array will be created and passed to the reminder component to display one after another
+        // Reminders should be hardcoded and the content provided inside of the Component using switch
+        // Reminders should be part of the userData and be available through the context hook
+
+        // Provide dummy context until the Api is in place
+        const reminderContext = ['company'];
+        const userItems = userData;
+
+        userItems.reminderContext = reminderContext;
+        setUserData(userItems)
+        console.log('reminder function', userItems)
+
+    }
+
+    const activateModal = (data) => {
+        // update component responsible for the modal content
+        console.log('modal data: ', data)
+        setModalData(data)
+        setOpenModal(true)
+    }
+    const closeModal = () => {
+        setOpenModal(false)
+    }
+
+    const processData = (data, type) => {
+        // check for user context and remove it from the list if completed.
+        // let newData = user
+
+        // TODO Validation inside of the modal on the mandatory field
+        if (type == 'companyDetails') {
+
+        }
+        axios('/api/auth/create_company_data', {
+            headers: {
+                headers: { 'content-type': 'application/json' },
+            },
+            method: 'POST',
+            data: data
+        })
+
+        let updatedUserData = userItems
+        updatedUserData.reminderContext.shift()
+        setUserData(updatedUserData)
+    }
+
+
+
+
 
     const getDirectory = (id) => {
         setSection(id)
@@ -109,14 +178,14 @@ function App() {
         setUserData({})
     }
 
-    if (isEmpty(userData)) {
+    if (isEmpty(JSON.parse(localStorage.getItem('userData')))) {
         return <Login processUser={processUser} />
     }
 
     return (
         // <React.StrictMode>
-        <ToastContext.Provider value={userDataState}>
-            <UserDataContext.Provider value={toastState} >
+        <ToastContext.Provider value={toastState}>
+            <UserDataContext.Provider value={userDataState} >
                 <div className="App">
                     <Router >
                         <Sidebar
@@ -129,13 +198,13 @@ function App() {
                                 logoutUser={logoutUser}
                             />
                             <Routes>
-                                <Route path="/" element={<Dashboard section={section} user={userData.name} />} />
-                                <Route path="orders" element={<Orders section={section} />} />
-                                <Route path="products" element={<Products section={section} />} />
-                                <Route path="overview" element={<Dashboard section={section} />} />
-                                <Route path="customer" element={<Dashboard section={section} />} />
-                                <Route path="message" element={<Dashboard section={section} />} />
-                                <Route path="settings" element={<Dashboard section={section} />} />
+                                <Route path="/" element={<Dashboard section={section} user={userData.name} activateModal={activateModal} />} />
+                                <Route path="orders" element={<Orders section={section} user={userData.name} />} />
+                                <Route path="products" element={<Products section={section} user={userData.name} />} />
+                                <Route path="overview" element={<Dashboard section={section} user={userData.name} />} />
+                                <Route path="customer" element={<Dashboard section={section} user={userData.name} />} />
+                                <Route path="message" element={<Dashboard section={section} user={userData.name} />} />
+                                <Route path="settings" element={<Dashboard section={section} user={userData.name} />} />
                             </Routes>
                         </div>
                     </Router>
@@ -144,13 +213,17 @@ function App() {
                         autoDelete={true}
                         autoDeleteTime={3000}
                     />
-                    <Modal
-                        title='Title for the modal.'
-                        confirmationMessage='Accept'
-                        cancelMessage='Discard'
-                    >
-                        this is modal
-                    </Modal>
+                    {openModal && !isEmpty(modalData) ?
+                        <Modal
+                            type={modalData.type}
+                            title={modalData.title}
+                            confirmationMessage={modalData.confirmationMessage}
+                            cancelMessage={modalData.cancelMessage}
+                            BodyComponent={modalData.component}
+                            onAccept={processData}
+                            onClose={closeModal}
+                        /> : null
+                    }
                 </div>
 
             </UserDataContext.Provider>

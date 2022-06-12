@@ -36,6 +36,8 @@ export default function Login({ processUser }) {
             }
         }
 
+        // During the registration process it would be good to create a client company in db 
+        // provided that type and company names are in the newData obj
         axios({
             method: 'POST',
             url: `api/${type}`,
