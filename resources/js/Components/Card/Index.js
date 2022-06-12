@@ -14,8 +14,8 @@ const icons = {
 
 export default function Card({ icon, title, value }) {
     return (
-        <div className="shape smooth-shadow" >
-            <FontAwesomeIcon icon={icons[icon]} className="icon" />
+        <div className="shape smooth-shadow flexColumn alignContentCenter flexBetween" >
+            <FontAwesomeIcon size='xl' icon={icons[icon]}  />
 
             <div className='paragraphThin'>
                 <p>{title}</p>

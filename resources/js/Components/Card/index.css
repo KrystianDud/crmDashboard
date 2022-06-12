@@ -6,12 +6,7 @@
     margin: 5px;
 
     border-radius: 15px;
-    background: white;
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-around
+    background: white; 
 }
 
 .smooth-shadow {
@@ -26,10 +21,10 @@ p {
     margin: 5px 0;
 }
 
-.icon {
+/* .icon {
     width: 35px;
     height: 35px;
-}
+} */
 
 .text-box {
     color: rgb(142, 143, 145);
