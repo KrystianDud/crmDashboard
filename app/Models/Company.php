@@ -14,7 +14,7 @@ class Company extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'flight_id';
+    protected $primaryKey = 'id';
 
     /**
      * The array of fillable elements of the table.
@@ -23,11 +23,22 @@ class Company extends Model
      */
     protected $fillable = [
         'name',
-        'first_line',
-        'second_line',
+        'line_1',
+        'line_2',
+        'city',
         'postcode',
         'website',
-        'logo',
+        'logo', 
         'email'
+    ];
+
+    protected $attributes = [
+        'line_1' => '',
+        'line_2' => '',
+        'city' => '',
+        'postcode' => '',
+        'website' => '',
+        'logo' => '', 
+        'email' => ''
     ];
 }
