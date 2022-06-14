@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Verified apis in use
+// TODO ensure the outh is provided on register and on logout
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-
 Route::group([
     'middleware' => ['auth:sanctum'],
     'namespace' => 'App\Http\Controllers',
@@ -27,10 +27,15 @@ Route::group([
 ], function () {
     Route::post('/logout', 'AuthController@logout');
 });
-Route::get('/get_company_data/{name_confirm}', [CompanyController::class, 'index']);
+
+// COMPANY
 Route::post('/create_company_data/{user_id}', [CompanyController::class, 'store']);
+Route::get('/get_company/{id}', [CompanyController::class, 'index']);
 
-
+// PRODUCTS
+Route::get('/products', [ProductController::class, 'index']);
+Route::post('/products', [ProductController::class, 'store']);
+Route::put('/products/{$id}', [ProductController::class, 'update']);
 
 
 
@@ -46,12 +51,9 @@ Route::post('/create_company_data/{user_id}', [CompanyController::class, 'store'
 // Route::post('/register', function () {
 //     return view('home');
 // });
-// Route::get('/products', [ProductController::class, 'index']);
 
-// Route::post('/products', [ProductController::class, 'store']);
-Route::get('/products/{$id}', [ProductController::class, 'show']);
+// Route::get('/products/{$id}', [ProductController::class, 'show']);
 // Route::get('/products', [ProductController::class, 'show']);
-// Route::put('/products/{$id}', [ProductController::class, 'update']);
 // add search capabilities to the product
 
 // Route::get('/customers', []);
