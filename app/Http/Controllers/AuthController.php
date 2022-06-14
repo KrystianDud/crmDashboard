@@ -20,55 +20,58 @@ class AuthController extends Controller
             'company' => 'nullable|string',
             'email' => 'required|string|unique:users|email',
             'password' => 'required|string|min:6',
-            'type' => 'string',
+            'type' => 'required|string',
         ]);
 
-        // before the company can be created, ensure that this company exists, if not nominate user it's admin otherwise just user.
-        $param = $request->route('company');
-        $company = Company::where('name', $param)->exists();
-        if ($company) {
+        $responseMsg = NULL;
+
+        if ($fields['type'] == 'service') {
             $user = User::create([
                 'name' => $fields['name'],
                 'email' => $fields['email'],
                 'password' => bcrypt($fields['password']),
                 'type' => $fields['type'],
-                'privilige' => 'user',
+                'privilege' => 'user',
             ]);
+            $responseMsg = 'User registered as a service provider.';
         } else {
-            $company = Company::create([
-                'name' => $request->company,
-            ]);
+            // ensure that company exists, if not nominate user as admin and give them front end privilege to share register link.
+            $paramCompany = $request->route('company');
+            $paramCompanyId = $request->route('company_id');
+            $company = Company::where('name', $paramCompanyId)->exists();
+
+            if (!is_null($paramCompany) && !is_null($paramCompanyId) && $company) {
+                $user = User::create([
+                    'name' => $fields['name'],
+                    'email' => $fields['email'],
+                    'password' => bcrypt($fields['password']),
+                    'type' => $fields['type'],
+                    'privilege' => 'user',
+                    'company_id' => $paramCompanyId
+                ]);
+                $responseMsg = 'User registered with the company id.';
+            } else {
+                $user = User::create([
+                    'name' => $fields['name'],
+                    'email' => $fields['email'],
+                    'password' => bcrypt($fields['password']),
+                    'type' => $fields['type'],
+                    'privilege' => 'admin',
+                    'company_id' => $paramCompanyId
+                ]);
+                $responseMsg = 'User registered as a admin.';
+            }
         }
-
-
-
-        $companyData = ['company' => 'Created company' + $company->name];
-
-        $user = NULL;
-        if ($company) {
-            
-        } else {
-            $user = User::create([
-                'name' => $fields['name'],
-                'email' => $fields['email'],
-                'password' => bcrypt($fields['password']),
-                'type' => $fields['type']
-            ]);
-        }
-
 
         $user->save();
-
         $token = $user->createToken('myapptoken')->plainTextToken;
-
         $tokenData = [
             'user' => $user,
-            'token' => $token
+            'token' => $token,
+            'message' => $responseMsg
         ];
 
-        $response = $tokenData + $companyData;
-
-        return response($response, 201);
+        return response($tokenData, 201);
     }
 
     public function logout(Request $request)
@@ -83,11 +86,11 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+
         $fields = $request->validate([
             'email' => 'required|string',
             'password' => 'required|string|min:6'
         ]);
-
         // check email
         $user = User::where('email', $fields['email'])->first();
 
@@ -98,11 +101,22 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('myapptoken')->plainTextToken;
+        $comapnyId = $user->company_id;
 
-        $response = [
-            'user' => $user,
-            'token' => $token
-        ];
+        if ($comapnyId) {
+            $company = Company::find($comapnyId);
+
+            $response = [
+                'user' => $user,
+                'token' => $token,
+                'company' => $company
+            ];
+        } else {
+            $response = [
+                'user' => $user,
+                'token' => $token,
+            ];
+        }
 
         return response($response, 200);
     }
