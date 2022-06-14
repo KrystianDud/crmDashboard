@@ -9,24 +9,19 @@ export default function RegisterView({ verifyCredidentials, changeView }) {
         type: false,
         company: ''
     })
-    const [showPasswordWarn, setPasswordWarn] = useState(false);
-    const [allowMore, setAllowMore] = useState(false);
-
-    useEffect(() => {
-        if (formDetails.password != formDetails.repeat_password) setPasswordWarn(true);
-        else setPasswordWarn(false);
-    }, [formDetails.password, formDetails.repeat_password])
+    // const [showPasswordWarn, setPasswordWarn] = useState(false);
+    // useEffect(() => {
+    //     if (formDetails.password != formDetails.repeat_password) setPasswordWarn(true);
+    //     else setPasswordWarn(false);
+    // }, [formDetails.password, formDetails.repeat_password])
 
     const updateForms = (e) => {
         if (e.target.id == 'type') {
             setFormDetails({ ...formDetails, type: e.target.checked })
-            if(e.target.checked) setAllowMore(true)
         }
-
         else {
             setFormDetails({ ...formDetails, [e.target.id]: e.target.value })
         }
-
     }
 
     return (
@@ -45,16 +40,7 @@ export default function RegisterView({ verifyCredidentials, changeView }) {
                     margin={['5px']}
                     label={'I\'m user of business involved in buying the products '}
                     onChange={(e) => updateForms(e)}
-                />
-                {allowMore && 
-                    <Input
-                        id={'company'}
-                        type={'text'}
-                        margin={['5px']}
-                        label={'Company Name'}
-                        onChange={(e) => updateForms(e)}
-                    />
-                }
+                /> 
                 <Input
                     id={'email'}
                     type={'email'}
