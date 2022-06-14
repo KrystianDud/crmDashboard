@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Product;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class ProductController extends Controller
 {
@@ -24,15 +27,44 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    { 
-        echo $request;
-        $request->validate([
-            "name" => 'required',
-            "slug" => 'required',
-            "price" => 'required'
-        ]);
+    {
+        // Validate product
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'description' => 'required',
+                'price' => 'required',
+                'prod_pic' => 'required',
+                'prod_pic.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]
+        );
+        if ($validator->fails()) {
+            return response()->json(["status" => "failed", "message" => "Validation error", "errors" => $validator->errors()]);
+            return response([
+                "status" => "failed",
+                "message" => "Validation error",
+                "errors" => $validator->errors()
+            ], 400);
+        }
 
-        return Product::create($request->all());
+        $image = $request->prod_pic;
+        $file_name = 'product' . $request->name . time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images/products'), $file_name);
+        $path = "public/images/products/$file_name";
+
+        $data = Product::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'slug' => $path
+        ]);
+        $response["status"] = "successs";
+        $response["status"] = "successs";
+        $response["message"] = "Success! Created new product";
+        $response["product"] = $data;
+
+        return response()->json($response);
     }
 
     /**
@@ -56,8 +88,27 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
-        $product->update($request->all());
+        $data = NULL; 
+        $response = NULL;
+        if($request->has('prod_pic')){
+            $data = $request->except('prod_pic');
+
+            $image = $request->logo;
+            $file_name = 'logo' . $request->name . time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/products'), $file_name);
+            $path = "public/images/products/$file_name";
+
+            // $data['slug'] = $path;
+
+            $product->update($data);
+        } else {
+            $product->update($request->all());
+        }
+        
         return $product;
+
+        return response()->json($response);
+
     }
 
     /**
