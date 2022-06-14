@@ -1,0 +1,45 @@
+.uploadOutline {
+    border: 3px dashed #d0e6fa;
+    background: #5aabf2;
+    outline: 0.3rem solid #5aabf2;
+    border-radius: 10px;
+    margin: 15px auto;
+    position: relative;
+    transition: 0.2s;
+    color: #1957a9;
+
+}
+
+.uploadOutline p {
+    margin: 5px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    width: 100%
+}
+
+.uploadOutline:hover {
+    font-size: 1.2rem;
+    background: #72a0cc;
+    outline: 0.5rem solid #72a0cc;
+    color: #fefeff;
+
+    border: 3px dashed #3476af;
+}
+
+.uploadOutlineHover {
+    font-size: 1.2rem;
+    background: #72a0cc;
+    outline: 0.5rem solid #72a0cc;
+    color: #fefeff;
+
+    border: 3px dashed #3476af;
+
+}
+
+.uploadOutline:hover p {
+    color: #fefeff;
+}
+
+.inputHidden {
+    display: none;
+}

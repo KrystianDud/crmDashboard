@@ -1,20 +1,30 @@
 import React, { useEffect } from 'react';
 import ImageCard from '../ImageCard/Index';
 import { uniqueId } from 'lodash';
-export default function CardList({ list, editItem, selectedCard, showDetails }) { 
+export default function CardList({ list, onClick, selectedCard, showDetails, user }) {
+
+    const style = {
+        borderRadius: '15px',
+
+        background: '#fff',
+        overflowY: 'auto',
+        height: '75vh'
+    };
 
     return (
-        <div className='flexRow flex-start flexWrap alignContentStart'>
+        <div className='flexRow flex-start flexWrap alignContentStart justifyEvenly' style={style}>
             {list != 'undefined' ? list && list.map((item, index) => (
                 <ImageCard
                     key={'product' + uniqueId()}
-                    onClick={editItem}
+                    onClick={onClick}
+                    user={user}
 
-                    id={index}
-                    // img={ }
+                    id={item.id}
+                    img={item.slug}
                     heading={item.name}
                     subtitle={item.description}
                     price={item.price}
+                    itemRef={item}
                     showSidebar={showDetails}
                     selectedCard={selectedCard}
                 />

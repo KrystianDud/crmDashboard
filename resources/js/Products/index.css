@@ -3,7 +3,7 @@
     flex-wrap: wrap;
 
     transition: 1s;
-    height: 100%;
+    /* height: 100%; */
 }
 
 .productList {
@@ -13,18 +13,10 @@
     margin: 0 auto;
 
     transition: 1s;
-    height: 80%;
+    height: 100%;
     overflow: hidden;
-}
-
-
-
-.sideScreen {
-    transition: .5s;
-
-    position: sticky;
-
-    top: 0;
-
-    background-color: rgb(255, 255, 255);
-}
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 15px;
+    height: 78vh;
+} 

@@ -2,16 +2,22 @@
 .mainView {
     flex: 4;
     margin: 32px;
+    height: 100%;
 }
 
 .subtleInput {}
 
 .w100 {
     width: 100%;
+    margin: 10px 0;
 }
 
 .minH10vh {
     min-height: 10vh;
+}
+
+.h100 {
+    height: 100%;
 }
 
 
@@ -52,6 +58,9 @@
     margin-inline: 15px;
 }
 
+.pInline5 {
+    padding-inline: 5px;
+}
 
 
 /* FLEX BOX CLASSESS */
@@ -86,7 +95,7 @@
 }
 
 .flexRight {
-    align-items: flex-start;
+    align-items: flex-end;
 }
 
 .flexBetween {
@@ -99,6 +108,19 @@
 
 .justifyCenter {
     justify-content: center;
+}
+
+.justifyStart {
+    justify-content: flex-start;
+
+}
+
+.justifyEnd {
+    justify-content: flex-end;
+
+}
+.justifyEvenly {
+    justify-content: space-evenly;
 }
 
 .alignContentCenter {
@@ -167,14 +189,14 @@
 .line100 {
     width: 100%;
     height: 1px;
-    background-color: rgba(233, 239, 241, 0.534);
+    background-color: rgb(214 220 223);
     margin: 5px 0;
 }
 
 .line80 {
     width: 80%;
     height: 1px;
-    background-color: rgba(233, 239, 241, 0.534);
+    background-color: rgb(214 220 223);
     margin: 5px 0;
 }
 
@@ -220,7 +242,9 @@
 */
 
 .borderNormal {}
+
 .borderSuccess {}
+
 .borderDanger {}
 
 

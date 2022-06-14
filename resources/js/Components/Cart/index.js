@@ -6,9 +6,8 @@ import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 
 import Dropdown from '../Dropdown'
 
-export default function Cart() {
+export default function Cart(shoppingCart) {
     const [open, setOpen] = useState(false)
-    const [cartList, setCartList] = useState([{ id: 1, name: 'potato', price: 359.22 }])
     const [dropPos, setDropPos] = useState({
         x: 50,
         y: 110
@@ -34,7 +33,7 @@ export default function Cart() {
                 type={'cart'}
                 position={dropPos}
                 open={open}
-                list={cartList}
+                list={shoppingCart}
                 ref={dropdown}
                 caller={null}
             />
