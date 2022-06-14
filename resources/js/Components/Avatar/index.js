@@ -34,12 +34,12 @@ export default function Avatar({logoutUser}) {
     }
 
     const logout = () => {
-        console.log(document.cookie)
+        // console.log(document.cookie)
 
-        const cookieValue = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('Bearer'))
-            .split('=')[1];
+        // const cookieValue = document.cookie
+        //     .split('; ')
+        //     .find(row => row.startsWith('Bearer'))
+        //     .split('=')[1];
         axios.defaults.withCredentials = true;
         // axios.post('/api/auth/logout', {
         //     headers: {
@@ -49,13 +49,16 @@ export default function Avatar({logoutUser}) {
         //     }
 
         // })# 
+
+        let token = JSON.parse(localStorage.getItem('token'));
+
         axios('/api/auth/logout', {
             method: 'POST',
-            // withCredentials: true,
+            withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${cookieValue}`
+                'Authorization': `Bearer ${token}`
             }
         })
             .then((response) => {
