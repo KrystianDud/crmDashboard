@@ -1,7 +1,9 @@
 import React, { forwardRef } from 'react'
 import './index.css'
 import '../../../css/globals.css'
-
+import IncrementButton from '../Button/IncrementButton';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { isEmpty } from 'lodash';
 /**
  * {type} : a type of list options: [simple(name only), cart(image, name, )]
  */
@@ -21,16 +23,27 @@ const Dropdown = forwardRef(({ type, position, open, list, caller }, ref) => {
         }
 
         else if (type == 'cart') {
-            return list.map(({ id, name, price }) => (
+            if(list.length > 0){
+                console.log(list)
+                return list.map(({ id, name, price, slug, quantity }) => (
                 <div key={id} className='flexRow dropdown-content' onClick={() => caller(id)}>
                     <div className="content-image w100" />
-                    <div className='flexColumn alignCenter flexOne alignStart w100 mInline5 cartTitle'>
-                        <div >{name}</div>
-                        <div className="line100 "></div>
-                        <div className='cartPrice'>{`£${price}`}</div>
+                    <div className="flexRow">
+                        <div className='flexColumn alignCenter flexOne alignStart w100 mInline5 cartTitle'>
+                            <div >{name}</div>
+                            <div className="line100 "></div>
+                            <div className='cartPrice'>{`£${price}`}</div>
+                        </div>
+                        <div className="flexColumn alignCenter m15">
+                            <IncrementButton />
+                            <div className='flexRow'>
+                                <span>X</span>
+                                <span>{quantity}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            ))
+            ))}
         }
         else return
     }
