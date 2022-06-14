@@ -16,15 +16,12 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
-        $param = $request->route('name_confirm');
-        // $company = Company::where('name', $param)->exists();
-
+        $param = $request->route('id');
         $company = Company::find($param);
 
         if ($company->exists) {
             return response()->json($company);
-        }
-        else{
+        } else {
             return response([
                 'message' => 'not found the specified company name: ' . $param
             ], 404);
@@ -43,35 +40,35 @@ class CompanyController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'name_confirm' => 'required',
                 'name' => 'required',
                 'line_1' => 'required',
                 'line_2' => 'required',
                 'city' => 'required',
                 'postcode' => 'required',
                 'website' => 'required',
-                'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'logo' => 'required',
+                'logo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'email' => 'nullable'
-                // 'logo_uri' => 'required',
             ]
         );
-        if ($request->name != $request->name_confirm) {
-            return response()->json([
-                "status" => "failed",
-                "message" => "Provided company name does not match the initial company name. Make sure that the names are matching",
-                "errors" => 'error in the company name field'
-            ]);
-        }
-
         if ($validator->fails()) {
             return response()->json(["status" => "failed", "message" => "Validation error", "errors" => $validator->errors()]);
+            return response(
+                [
+                    "status" => "failed",
+                    "message" => "Validation error",
+                    "errors" => $validator->errors()
+                ],
+                400
+            );
         }
 
         // make scope global to update the user logo is mandatory anyway so will always pass.
+        $response = NULL;
         $data = NULL;
         if ($request->has('logo')) {
             $image = $request->logo;
-            $file_name = 'logo' . $request->name . time(). '.' . $image->getClientOriginalExtension();
+            $file_name = 'logo' . $request->name . time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images/users'), $file_name);
             $path = "public/images/users/$file_name";
 
@@ -93,12 +90,13 @@ class CompanyController extends Controller
             $response["message"] = "Failed! image(s) not uploaded";
         }
 
+        $company_id = $data->id;
         $user_id = $request->route('user_id');
         $user = User::where('id', $user_id)->first();
-        $result = $user->update(['company_id' => $data]);
+        $user->update(['company_id' => $company_id]);
         $updatedResult = $user->refresh();
         $response["user"] = $updatedResult;
-        
+
         // lastly update the user record with the company id
         return response()->json($response);
 
