@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import './index.css';
 import '../../../css/globals.css';
 
@@ -14,18 +14,11 @@ import CompanyDetails from '../Modal/ModalBody/CompanyDetails';
  * @param {*} context 
  * @returns 
  */
-export default function Reminder({ onStart, userData }) {
-    const [modalData, setModalData] = useState({})
-
-    useEffect(() => {
-        console.log('userdata is updating reminder', userData.reminderContext)
-
-        prepareData()
-    }, [userData.reminderContext])
-
+export default function Reminder({ onStart, reminderContext }) {
     const prepareData = () => {
-        if (typeof userData.reminderContext == 'object' && userData.reminderContext.length > 0) {
-            switch (userData.reminderContext[0]) {
+        console.log(reminderContext)
+        if (reminderContext.length > 0) {
+            switch (reminderContext[0]) {
                 case 'company':
                     let data = {
                         type: 'companyDetails',
@@ -34,8 +27,7 @@ export default function Reminder({ onStart, userData }) {
                         cancelMessage: 'Dismiss',
                         component: <CompanyDetails />
                     }
-
-                    setModalData(data);
+                    onStart(data)
                     break;
 
                 default:
@@ -58,7 +50,7 @@ export default function Reminder({ onStart, userData }) {
                         color={''}
                         size={'sm'}
                         icon={null}
-                        callback={() => onStart(modalData)}
+                        callback={() => prepareData()}
                     />
                 </div>
             </div>
