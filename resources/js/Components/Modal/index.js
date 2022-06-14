@@ -6,17 +6,28 @@ import Button from '../Button';
 import './index.css';
 import '../../../css/globals.css';
 
-export default function Modal({type, title, confirmationMessage, cancelMessage, onClose, onAccept, BodyComponent }) {
+export default function Modal({ type, title, confirmationMessage, cancelMessage, onClose, onAccept, BodyComponent }) {
     const [writeData, setWriteData] = useState({})
 
     const onChange = (e) => {
-        let object = {
-            ...writeData,
-            [e.target.id]: e.target.value
+        let object;
+
+        if (e.target.type === 'file') {
+            object = {
+                ...writeData,
+                [e.target.id]: e.target.files[0]
+            }
         }
+        else {
+            object = {
+                ...writeData,
+                [e.target.id]: e.target.value
+            }
+        }
+
         setWriteData(object)
     }
-    
+
     return (
         <div className='modal-container'>
             <div className="backdrop" />
@@ -29,7 +40,7 @@ export default function Modal({type, title, confirmationMessage, cancelMessage, 
                     </button>
                 </div>
                 <div className="modal-content">
-                    {cloneElement(BodyComponent, {onChange: (val) => onChange(val)}, null)}
+                    {cloneElement(BodyComponent, { onChange: (val) => onChange(val) }, null)}
                 </div>
                 <div className="modal-footer">
                     <Button
