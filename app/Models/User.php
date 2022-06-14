@@ -22,12 +22,12 @@ class User extends Authenticatable
         'email',
         'password',
         'type',
-        'privilige',
+        'privilege',
         'company_id'
     ];
 
     protected $attributes = [
-        'privilige' => '',
+        'privilege' => '',
         'company_id' => '',
     ];
 
