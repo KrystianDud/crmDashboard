@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import Avatar from '../Components/Avatar';
 import Cart from '../Components/Cart';
-export default function Navbar({ section, logoutUser }) {
+import { UserDataContext } from '../app';
+export default function Navbar({ section, logoutUser, shoppingCart, updateCart, user, activateModal }) {
 
 
     return (
@@ -12,7 +13,6 @@ export default function Navbar({ section, logoutUser }) {
             <div>
                 <h2 className='section'>{section != null ? sections[section] : ''}</h2>
             </div>
-
             <div className='flexRow'>
                 <form className="search-ele" action="">
                     <button className='search-icon'>
@@ -20,11 +20,14 @@ export default function Navbar({ section, logoutUser }) {
                     </button>
                     <input type="text" className='search-text' placeholder="Search.." />
                 </form>
-                <Cart />
-                <Avatar logoutUser={logoutUser}/>
+                { user.type == 'client' ?
+                <Cart
+                    updateCart={updateCart}
+                    shoppingCart={shoppingCart}
+                    activateModal={activateModal}
+                /> : null}
+                <Avatar logoutUser={logoutUser} />
             </div>
-
-
         </div>
     )
 }
