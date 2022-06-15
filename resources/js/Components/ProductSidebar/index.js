@@ -59,7 +59,7 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
     }
 
     return (
-        <div className={`${showSidebar ? 'sidebarBody pInline5 flexColumn flexBetween h100 alignCenter  sideScreenShow' : 'sideScreenHide'}`}>
+        <div className={`${showSidebar ? 'sidebarBody pInline5 flexColumn  h100 alignCenter  sideScreenShow' : 'sideScreenHide'}`}>
 
             <div>
                 <div className='topSection' >
@@ -68,7 +68,7 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
                     </div>
                 </div>
                 <BorderLine />
-                <div className="w100 minH10vh">
+                <div className="w100">
                     <div className='flexColumn flexLeft w100 m5 product-head'>
                         <h4>Product creation</h4>
                         <p className='product-subtext'>Create or update product details.</p>
@@ -142,7 +142,7 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
                 <BorderLine />
             </div>
 
-            {/* <div className="w100 minH10vh" style={{ margin: '15px' }}> */}
+            <div className="w100" style={{ margin: 'auto' }}>
             <Button
                 text={'Update'}
                 type={'contained'}
@@ -152,7 +152,7 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
                 icon={null}
                 callback={() => saveProduct()}
             />
-            {/* </div> */}
+            </div>
 
 
 

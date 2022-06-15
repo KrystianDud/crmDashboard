@@ -3,7 +3,7 @@
     position: relative;
     width: 200px;
     transition: 0.2s;
-    flex: 0.8;
+    /* flex: 0.8; */
     overflow: hidden;
     background-color: #f0f8ff;
     height: 100%;
