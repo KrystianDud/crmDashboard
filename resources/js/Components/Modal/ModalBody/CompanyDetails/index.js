@@ -35,7 +35,7 @@ export default function CompanyDetails({ onChange }) {
         <div className='flex flexColumn justifyCenter'>
             <Input
                 id={'name'}
-                type={'name'}
+                type={'text'}
                 margin={['5px']}
                 label={'Company name (must be the same that you have registered with'}
                 onChange={(e) => onChange(e)}

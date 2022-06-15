@@ -1,0 +1,152 @@
+/* parent for each section */
+.checkoutDetails-parent {
+    display: flex;
+    flex-wrap: nowrap;
+    font-family: 'poppins';
+    box-sizing: content-box;
+}
+
+.checkoutDetails-parent h3 {
+    color: #3d3d3d;
+}
+
+.section-billing {
+    flex: 0.8;
+    margin-inline: 10px;
+}
+
+.order-section {
+    flex: 1;
+    margin-inline: 10px;
+}
+
+.summary-section {
+    flex: 0.5;
+    margin-inline: 10px;
+}
+
+.cardComponent-section {
+    display: flex;
+}
+
+.card-element {
+    width: 240px;
+    height: 150px;
+    background: linear-gradient(15deg, #75E7F7, #6AA6DD, #4283F7);
+    border-radius: 10px;
+    color: white;
+    position: static;
+    margin: 15px
+}
+
+.card-element-text {
+    margin: 10% auto;
+    font-size: 1.3rem;
+    font-weight: 300;
+    width: 100%;
+    text-align: center;
+}
+
+.card-element-number {
+    margin: 10% auto;
+    font-size: 1.2rem;
+    font-weight: 400;
+    width: 100%;
+    text-align: center;
+}
+
+.card-element-container {
+    position: relative;
+    top: 20px;
+}
+
+.billingAddress-element {
+    margin: 10px auto;
+    font-size: .9rem;
+    font-weight: 300;
+}
+
+/* ORDER DETAILS */
+.orderDetails-parent {
+    display: contents;
+}
+
+.orderDetails-section {
+    height: 60vh;
+    border-radius: 15px;
+    border: 1px solid #F2E8E8;
+    overflow-y: scroll;
+}
+
+/* LIST ELEMENT */
+.product-body {
+    margin: 10px 10px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #F2E8E8;
+    padding-bottom: 10px;
+}
+
+.product-image {
+    border-radius: 50%;
+    background-color: bisque;
+    width: 55px;
+    height: 55px;
+    margin: 0 5px 0 0;
+}
+
+.product-name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 5px 0 5px 0;
+}
+
+.product-name p {
+    color: #3d3d3d;
+}
+
+.product-description {
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin: 0;
+
+}
+
+
+/* SUMMARY */
+.summary-body {
+    border-radius: 15px;
+    background-color: #F2E8E8;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 10px;
+    padding: 10px;
+    /* widtgh causes the box going outside */
+    /* width: 100%; */
+}
+
+.summary-costs {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-total {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-text-titles {
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0 0 5px 0;
+}
+
+.summary-text-prices {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+}

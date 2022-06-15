@@ -69,7 +69,7 @@ button {
 
 /* Color */
 .normal {
-    background-color: hsl(208deg 85% 65%);
+    background-color: #5aabf2;
     color: #062d4e;
 }
 
@@ -93,6 +93,14 @@ button {
 
 .danger:hover {
     background: hsl(0deg 80% 80%);
+}
+
+.dangerColor {
+    color: #e62f2f;
+}
+
+.normalColor {
+    color: #5aabf2;
 }
 
 /* Size */
@@ -138,10 +146,34 @@ button {
 
 
 
-.incrementButton{
+.incrementButton {
     width: 20px;
     height: 20px;
     font-weight: 600;
     font-size: 1rem;
     border-radius: 50%;
+    border: none;
+    margin: 5px;
+    padding: 5px;
+}
+
+/* INCREMENT BUTTON ENHANCED */
+.incrementButtonEnhanced-body {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.incrementButtonEnhanced {
+    width: 40px;
+    height: 40px;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 50%;
+    border: none;
+    /* margin: 5px; */
+    padding: 5px;
 }
