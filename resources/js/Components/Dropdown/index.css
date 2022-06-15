@@ -4,6 +4,8 @@
     margin-inline: 15px;
     border-radius: 15px;
     padding: 15px 5px;
+    z-index: 99;
+
 }
 
 .dropdown-container {
@@ -15,6 +17,7 @@
 .dropdown-content {
     padding: 5px;
     cursor: pointer;
+    z-index: 100;
 }
 
 .dropdown-content:hover {
@@ -35,6 +38,12 @@
 
     width: 60px;
     height: 60px;
+
+    background-color: black;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+    background-size:cover
 }
 
 .cartTitle {

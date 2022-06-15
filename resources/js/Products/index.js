@@ -142,7 +142,6 @@ export default function Products({updateCart}) {
             buyItem={buyItem}
             onClick={userData.type == 'service' ? editItem : updateCart}
             user={userData}
-
         />
     );
 

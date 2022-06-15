@@ -34,11 +34,15 @@
 
 .imageBody {
     border-radius: 15px 15px 0 0;
-    background-color: black;
     width: 100%;
     height: 35%;
-
     flex: 1;
+
+    background-color: black;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+    background-size:cover
 }
 
 .textBody {

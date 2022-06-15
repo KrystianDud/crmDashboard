@@ -7,12 +7,12 @@ import Button from '../Button';
  * @param {*} param0 
  * @returns 
  */
-export default function Table({ columns, list, editItem, options }) {
+export default function Table({ columns, list, editItem, options, user }) {
     const [rows, setRows] = useState(null)
 
     // on start rearrange the content of the table according to the columns name.
     useEffect(() => {
-        arrangeContent()
+        arrangeContent(list)
     }, [])
 
 
@@ -22,22 +22,24 @@ export default function Table({ columns, list, editItem, options }) {
             columnKeys.push(item.keyName)
         })
         let listKeys = Object.keys(list[0]);
-        let excludeKeys = listKeys.filter(list => !columnKeys.some(column => column == list));
+        let includeKeys = listKeys.filter(keys => columnKeys.some(column => column == keys));
         let listArray = [];
-        list.forEach((item) => {
-            // console.log(item['name'])
-            for (let i = 0; i < excludeKeys.length; i++) {
-                let parameter = excludeKeys[i]
-                // console.log(item[parameter])
-                delete item[parameter]
+        list.forEach((item,) => {
+            let newItem = {}
+            for (let i = 0; i < Object.keys(item).length; i++) {
+                for (let j = 0; j < includeKeys.length; j++) {
+                    if (Object.keys(item)[i] == includeKeys[j]) {
+                        newItem[includeKeys[j]] = item[includeKeys[j]]
+                    }
+                }
             }
-            listArray.push(item)
+            listArray.push(newItem)
         });
         setRows(listArray)
     };
 
     const provideOptions = (
-        productTest ?
+        user.type == 'service' ?
             // service
             <td>
                 <Button
@@ -54,7 +56,7 @@ export default function Table({ columns, list, editItem, options }) {
             // client
             <td>
                 <Button
-                    text={'Update'}
+                    text={'Buy'}
                     type={'contained'}
                     disabled={false}
                     color={'normal'}
@@ -93,7 +95,4 @@ export default function Table({ columns, list, editItem, options }) {
             </tbody>
         </table>
     )
-}
-
-const allowTest = true;
-const productTest = true;
+};

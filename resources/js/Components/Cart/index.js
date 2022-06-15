@@ -6,7 +6,7 @@ import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 
 import Dropdown from '../Dropdown'
 
-export default function Cart(shoppingCart) {
+export default function Cart({ shoppingCart, updateCart, activateModal }) {
     const [open, setOpen] = useState(false)
     const [dropPos, setDropPos] = useState({
         x: 50,
@@ -24,6 +24,23 @@ export default function Cart(shoppingCart) {
         })
     }
 
+    const tempCaller = (ev, id) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        ev.nativeEvent.stopImmediatePropagation();
+    }
+
+    const updateModalData = () => {
+        const data = {
+            type: 'checkoutDetails',
+            title: 'Cart Checkout',
+            confirmationMessage: 'Purchase',
+            cancelMessage: 'Cancel',
+            component: <CompanyDetails />
+        }
+
+        activateModal(data)
+    }
     return (
         <div className='relative' onMouseLeave={() => setOpen(false)}>
             <button className='cart' onClick={(e) => openDropdown(e)}>
@@ -35,7 +52,9 @@ export default function Cart(shoppingCart) {
                 open={open}
                 list={shoppingCart}
                 ref={dropdown}
-                caller={null}
+                caller={tempCaller}
+                callback={updateCart}
+                startModal={updateModalData}
             />
         </div>
     )

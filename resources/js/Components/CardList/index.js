@@ -24,6 +24,7 @@ export default function CardList({ list, onClick, selectedCard, showDetails, use
                     heading={item.name}
                     subtitle={item.description}
                     price={item.price}
+                    slug={item.slug}
                     itemRef={item}
                     showSidebar={showDetails}
                     selectedCard={selectedCard}
