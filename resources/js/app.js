@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import React, { createContext, useState, useEffect, useMemo } from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import './app.css';
 import '../css/mainApp.css'
@@ -17,24 +17,31 @@ import Toast from './Components/Toast/Index';
 import Modal from './Components/Modal';
 import axios from 'axios';
 
+import { newToast } from './Components/Toast';
+
 export const ToastContext = createContext({
     toastList: [],
     setToastList: () => []
 });
 
 export const UserDataContext = createContext({
-    userData: [{
-        reminderContext: ''
-    }],
+    userData: {},
     setUserData: () => []
 });
 
+export const CompanyDataContext = createContext({
+    companyData: [],
+    setCompanyData: () => []
+});
+
 function App() {
+    const [scrren, setScreen] = useState({ x: window.innerWidth, y: window.innerHeight })
+    const [userAuth, setUserAuth] = useState(JSON.parse(localStorage.getItem('auth')))
     const [section, setSection] = useState(0)
     const [toastList, setToastList] = useState([])
-    const [userData, setUserData] = useState({
-        reminderContext: ''
-    })
+
+    const [userData, setUserData] = useState({})
+    const [companyData, setCompanyData] = useState({})
 
     const [openModal, setOpenModal] = useState(false)
     const [modalData, setModalData] = useState({
@@ -43,6 +50,8 @@ function App() {
         cancelMessage: '',
         component: ''
     });
+
+    const [shoppingCart, setShoppingCart] = useState([])
 
     const toastState = useMemo(
         () => ({ toastList, setToastList }),
@@ -54,80 +63,93 @@ function App() {
         [userData]
     );
 
+    const companyDataState = useMemo(
+        () => ({ companyData, setCompanyData }),
+        [companyData]
+    );
+
     useEffect(() => {
+        // setToastList([...toastList, newToast('test message', 'warning')])
+
+        // do auth check on page load. if not here the page will route to login page
+        let userAuthVar
+        if (!userAuth) {
+            let auth = JSON.parse(localStorage.getItem('auth'));
+            console.log(auth)
+            if (auth) {
+                setUserAuth(true);
+                userAuthVar = auth;
+            }
+        }
+
         // update session from the storage if available, otherwise ask to login.
         let userItems = JSON.parse(localStorage.getItem('userData'));
         if (!isEmpty(userItems)) {
-            userItems.reminderContext = ''
-            console.log('current Data in storage', userItems);
+            console.log('user Data from storage', userItems);
             setUserData(userItems)
         }
-
-        switch (window.location.pathname) {
-            case "/":
-                setSection(0)
-                break;
-            case "/Orders":
-                setSection(1)
-                break;
-            case "/Products":
-                setSection(2)
-                break;
-            case "/Overview":
-                setSection(3)
-                break;
-            case "/Customer":
-                setSection(4)
-                break;
-                setSection(5)
-            case "/Message":
-                setSection(6)
-                break;
-
-            case "/Settings":
-                setSection(7)
-                break;
+        console.log(companyData)
+        let companyItems = JSON.parse(localStorage.getItem('companyData'));
+        if (userAuthVar && isEmpty(companyItems)) {
+            axios.get(`api/get_company/${userItems.company_id}`)
+                .then((response) => {
+                    console.log('getting company data', response);
+                    setCompanyData(response.data);
+                })
+                .catch((error) => {
+                    let message = 'Could not update company data!'
+                    setToastList([...toastList, newToast(message, 'Danger')])
+                })
+            switch (window.location.pathname) {
+                case "/":
+                    setSection(0)
+                    break;
+                case "/Orders":
+                    setSection(1)
+                    break;
+                case "/Products":
+                    setSection(2)
+                    break;
+                case "/Overview":
+                    setSection(3)
+                    break;
+                case "/Customer":
+                    setSection(4)
+                    break;
+                    setSection(5)
+                case "/Message":
+                    setSection(6)
+                    break;
+                case "/Settings":
+                    setSection(7)
+                    break;
+            }
         }
-
-
-        return () => {
-            setUserData({})
+        else if (userAuthVar) {
+            console.log('company  from storage', companyItems)
+            setCompanyData(companyItems)
         }
     }, [])
 
     useEffect(() => {
-        //   for now check the reminders every time when user data is being updated.
-        // replace this functionality in future perhaps using chanels
-        if (window.location.pathname == '/') checkReminders()
-    }, [window.location.pathname, userData.reminderContext])
+        console.log('log')
+        setScreen({ x: window.innerWidth, y: window.innerHeight })
+    }, [window.innerHeight, window.innerWidth])
 
 
+    // Function from the Login component once user logs in
     const processUser = (userData) => {
         let updateData = userData;
-        updateData.reminderContext = ''
+        updateData.reminderContext = ['company'];
         setUserData(userData);
         localStorage.setItem('userData', JSON.stringify(userData))
         console.log('userData processed', JSON.parse(localStorage.getItem('userData')))
+
+        localStorage.setItem('auth', JSON.stringify(true))
+        setUserAuth(true);
     }
 
-    const checkReminders = () => {
-        // In this function we check onboarding users, especially admins to see if they did everything to make sure that platform runs smoothly
-        // using axios we will connect to the server to seek confirmation if things such as: 
-        // company details, ADD MORE REASONS HERE
-        // Then an array will be created and passed to the reminder component to display one after another
-        // Reminders should be hardcoded and the content provided inside of the Component using switch
-        // Reminders should be part of the userData and be available through the context hook
-
-        // Provide dummy context until the Api is in place
-        const reminderContext = ['company'];
-        const userItems = userData;
-
-        userItems.reminderContext = reminderContext;
-        setUserData(userItems)
-        console.log('reminder function', userItems)
-
-    }
-
+    // opens on Click from components that need modal to display data
     const activateModal = (data) => {
         // update component responsible for the modal content
         console.log('modal data: ', data)
@@ -140,28 +162,47 @@ function App() {
 
     const processData = (data, type) => {
         // check for user context and remove it from the list if completed.
-        // let newData = user
+        const datas = new FormData()
 
         // TODO Validation inside of the modal on the mandatory field
         if (type == 'companyDetails') {
-
+            datas.append('name', data.name)
+            datas.append('line_1', data.line_1)
+            datas.append('line_2', data.line_2)
+            datas.append('city', data.city)
+            datas.append('postcode', data.postcode)
+            datas.append('website', data.website)
+            datas.append('logo', data.logo, 'logo.jpg')
+            datas.append('email', data.email)
         }
-        axios('/api/auth/create_company_data', {
-            headers: {
-                headers: { 'content-type': 'application/json' },
-            },
+
+        axios(`/api/create_company_data/${userData.id}`, {
             method: 'POST',
-            data: data
+            data: datas
         })
+            .then((response) => {
+                console.log(response)
+                if (response.status == 200) {
+                    let updateUserData = response.data.user;
+                    updateUserData.reminderContext = []
+                    localStorage.setItem('userData', JSON.stringify(updateUserData))
+                    localStorage.setItem('companyData', JSON.stringify(response.data.company))
 
-        let updatedUserData = userItems
-        updatedUserData.reminderContext.shift()
-        setUserData(updatedUserData)
+                    setUserData(updateUserData)
+                    setCompanyData(response.data.company)
+                    setOpenModal(false)
+                    setModalData({
+                        title: '',
+                        confirmationMessage: '',
+                        cancelMessage: '',
+                        component: ''
+                    });
+
+                    let message = 'Company information was saved successfully!'
+                    setToastList([...toastList, newToast(message, 'Success')])
+                }
+            })
     }
-
-
-
-
 
     const getDirectory = (id) => {
         setSection(id)
@@ -174,58 +215,130 @@ function App() {
         const userItems = JSON.parse(localStorage.getItem('userData'));
         console.log('current Data in storage', userItems);
         localStorage.removeItem('userData');
+        localStorage.removeItem('auth');
         console.info('user Data has been cleared', JSON.parse(localStorage.getItem('userData')));
         setUserData({})
+        setUserAuth(false)
     }
 
-    if (isEmpty(JSON.parse(localStorage.getItem('userData')))) {
-        return <Login processUser={processUser} />
+    const updateShoppingCart = (product, func) => {
+        let elementPos = ''
+        // check if given product exists in the list
+        if (shoppingCart.some(item => item.id == product.id)) {
+            elementPos = shoppingCart.map((item) => item.id).indexOf(product.id);
+        }
+
+        let list
+        if (func == 'remove') {
+            list = shoppingCart.filter(item => item.id == product.id);
+        }
+        else if (func == 'add') {
+            // using cart controllers to manipulate quantity
+            if (typeof elementPos == 'number') {
+                let array = shoppingCart;
+                array[elementPos].quantity++;
+                setShoppingCart(array)
+            }
+            // standard on Click from the product view
+            else {
+                list = product;
+                list.quantity = 1
+                setShoppingCart([...shoppingCart, list])
+            }
+            // when user click on the same 'buy' button again, the item in the cart will increase the value rather than add the new one.
+        }
+        else if (func == 'minus') {
+            // using cart controllers to manipulate quantity
+            let array = shoppingCart;
+            if (array[elementPos].quantity > 1) {
+                array[elementPos].quantity--;
+                setShoppingCart(array)
+            }
+            else {
+                list = array.filter(item => item.id != product.id)
+                console.log('minus less than one', list)
+                if (typeof list === 'undefined' || list.length < 1) setShoppingCart([])
+                else {
+                    setShoppingCart(list)
+                }
+            }
+        }
+        else {
+            let newProduct = {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                slug: product.slug,
+                quantity: 1,
+            }
+            setShoppingCart([...shoppingCart, newProduct])
+        }
     }
+
+    // if (isEmpty(JSON.parse(localStorage.getItem('userData')))) {
+    //     return <Login processUser={processUser} />
+    // }
 
     return (
         // <React.StrictMode>
         <ToastContext.Provider value={toastState}>
             <UserDataContext.Provider value={userDataState} >
-                <div className="App">
-                    <Router >
-                        <Sidebar
-                            getDirectory={getDirectory}
-                            section={section}
-                        />
-                        <div className="view">
-                            <Navbar
+                <CompanyDataContext.Provider value={companyDataState}>
+                    {/* initialise and apply the size of the screen to the app view to hold proportions */}
+                    <div className="App"
+                    // style={{ width: window.innerWidth, height: window.innerHeight }}
+                    >
+                        <Router >
+                            {userAuth ? <Sidebar
+                                getDirectory={getDirectory}
                                 section={section}
-                                logoutUser={logoutUser}
-                            />
-                            <Routes>
-                                <Route path="/" element={<Dashboard section={section} user={userData.name} activateModal={activateModal} />} />
-                                <Route path="orders" element={<Orders section={section} user={userData.name} />} />
-                                <Route path="products" element={<Products section={section} user={userData.name} />} />
-                                <Route path="overview" element={<Dashboard section={section} user={userData.name} />} />
-                                <Route path="customer" element={<Dashboard section={section} user={userData.name} />} />
-                                <Route path="message" element={<Dashboard section={section} user={userData.name} />} />
-                                <Route path="settings" element={<Dashboard section={section} user={userData.name} />} />
-                            </Routes>
-                        </div>
-                    </Router>
-                    <Toast
-                        toastList={toastList}
-                        autoDelete={true}
-                        autoDeleteTime={3000}
-                    />
-                    {openModal && !isEmpty(modalData) ?
-                        <Modal
-                            type={modalData.type}
-                            title={modalData.title}
-                            confirmationMessage={modalData.confirmationMessage}
-                            cancelMessage={modalData.cancelMessage}
-                            BodyComponent={modalData.component}
-                            onAccept={processData}
-                            onClose={closeModal}
-                        /> : null
-                    }
-                </div>
+                            /> : null}
 
+                            <div className="view">
+
+                                {userAuth ?
+                                    <Navbar
+                                        section={section}
+                                        logoutUser={logoutUser}
+                                        shoppingCart={shoppingCart}
+                                        updateCart={updateShoppingCart}
+                                        user={userData}
+                                        activateModal={activateModal}
+                                    /> : null
+                                }
+
+                                <Routes>
+                                    <Route path="/" element={userAuth ? <Dashboard user={userData.name} activateModal={activateModal} /> : <Navigate to="login" />} />
+                                    <Route path="orders" element={userAuth ? <Orders user={userData.name} /> : <Navigate to="login" />} />
+                                    <Route path="products" element={userAuth ? <Products user={userData.name} updateCart={updateShoppingCart} /> : <Navigate to="login" />} />
+                                    <Route path="overview" element={userAuth ? <Dashboard user={userData.name} /> : <Navigate to="login" />} />
+                                    <Route path="customer" element={userAuth ? <Dashboard user={userData.name} /> : <Navigate to="login" />} />
+                                    <Route path="message" element={userAuth ? <Dashboard user={userData.name} /> : <Navigate to="login" />} />
+                                    <Route path="settings" element={userAuth ? <Dashboard user={userData.name} /> : <Navigate to="login" />} />
+                                    <Route path="/register:comapny_id" element={userAuth ? <Navigate to="/" /> : <Login processUser={processUser} />} />
+                                    <Route path="/login" element={userAuth ? <Navigate to="/" /> : <Login processUser={processUser} />} />
+                                    <Route path="/register" element={userAuth ? <Navigate to="/" /> : <Login processUser={processUser} />} />
+                                </Routes>
+                            </div>
+                        </Router>
+                        <Toast
+                            toastList={toastList}
+                            autoDelete={false}
+                            autoDeleteTime={3000}
+                        />
+                        {openModal && !isEmpty(modalData) ?
+                            <Modal
+                                type={modalData.type}
+                                title={modalData.title}
+                                confirmationMessage={modalData.confirmationMessage}
+                                cancelMessage={modalData.cancelMessage}
+                                BodyComponent={modalData.component}
+                                onAccept={processData}
+                                onClose={closeModal}
+                            /> : null
+                        }
+                    </div>
+                </CompanyDataContext.Provider>
             </UserDataContext.Provider>
         </ToastContext.Provider>
         // </React.StrictMode> 
@@ -233,4 +346,4 @@ function App() {
 };
 
 const root = createRoot(document.getElementById('main'));
-root.render(<App />);
+root.render(<App />); 
