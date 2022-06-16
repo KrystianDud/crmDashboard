@@ -25,7 +25,8 @@ export default function Reminder({ onStart, reminderContext }) {
                         title: 'Company Details',
                         confirmationMessage: 'Confirm',
                         cancelMessage: 'Dismiss',
-                        component: <CompanyDetails />
+                        component: <CompanyDetails />,
+                        width: '50%'
                     }
                     onStart(data)
                     break;
