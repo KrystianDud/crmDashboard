@@ -3,10 +3,10 @@ import './index.css'
 import '../../../css/globals.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
-
+import CheckoutDetails from '../Modal/ModalBody/CheckoutDetails/index'
 import Dropdown from '../Dropdown'
 
-export default function Cart({ shoppingCart, updateCart, activateModal }) {
+export default function Cart({ shoppingCart, updateCart, activateModal, company }) {
     const [open, setOpen] = useState(false)
     const [dropPos, setDropPos] = useState({
         x: 50,
@@ -36,7 +36,8 @@ export default function Cart({ shoppingCart, updateCart, activateModal }) {
             title: 'Cart Checkout',
             confirmationMessage: 'Purchase',
             cancelMessage: 'Cancel',
-            component: <CompanyDetails />
+            component: <CheckoutDetails shoppingCart={shoppingCart} company={company}/>,
+            width: '80%'
         }
 
         activateModal(data)

@@ -5,7 +5,7 @@ import Button from '../../../Button/index';
 import Input from '../../../Global/Input'
 import CardComponent from './CardComponent';
 
-export default function BillingDetails() {
+export default function BillingDetails({company}) {
     const bcg = {
         display: 'flex',
         flexDirection: 'column',
@@ -23,7 +23,16 @@ export default function BillingDetails() {
         <div>
             <h3>Billing Details</h3>
             <div className="billing-payment">
-                <CardComponent />
+                <CardComponent company={company}/>
+                <Button
+                    text={'Use Other'}
+                    type={'outlineNormal'}
+                    disabled={false}
+                    color={''}
+                    size={'sm'}
+                    icon={null}
+                    callback={() => console.log('this button is disabled')}
+                />
             </div>
             <div className="billing-shipping">
                 <h3>Shipping Details</h3>

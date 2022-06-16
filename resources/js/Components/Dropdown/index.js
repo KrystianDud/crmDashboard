@@ -9,7 +9,7 @@ import Button from '../Button';
  * {type} : a type of list options: [simple(name only), cart(image, name, )]
  */
 
-const Dropdown = forwardRef(({ type, position, open, list, caller, callback, activateModal }, ref) => {
+const Dropdown = forwardRef(({ type, position, open, list, caller, callback, startModal }, ref) => {
     const [lastClicked, setLastClicked] = useState(null)
     const [updatedList, setUpdatedList] = useState()
     useEffect(() => {
@@ -28,45 +28,7 @@ const Dropdown = forwardRef(({ type, position, open, list, caller, callback, act
         let clickedItem = list.filter(item => item.id == ref)[0]
         setLastClicked(list)
         callback(clickedItem, func)
-    }
-
-    // const selectType = () => {
-    //     if (typeof type == 'undefined') return
-
-    //     else if (type == 'simple') {
-    //         return list.map(({ id, name }) => (
-    //             <div key={id} className='flexColumn'>
-    //                 <div className='dropdown-content' onClick={() => caller(id)}>{name} </div>
-    //                 <div className="line80"></div>
-    //             </div>
-    //         ))
-    //     }
-
-    //     else if (type == 'cart') {
-    //         if (list.length > 0) {
-    //             return list.map(({ id, name, price, slug, quantity }) => (
-    //                 <div key={id} className='flexRow dropdown-content' onClick={(e) => caller(e, id)}>
-    //                     <div className="content-image w100" style={{ backgroundImage: `url(${slug.slice(6)})`, }} />
-    //                     <div className="flexRow">
-    //                         <div className='flexColumn alignCenter flexOne alignStart w100 mInline5 cartTitle'>
-    //                             <div >{name}</div>
-    //                             <div className="line100 "></div>
-    //                             <div className='cartPrice'>{`£${price}`}</div>
-    //                         </div>
-    //                         <div className="flexColumn alignCenter m15">
-    //                             <IncrementButton onClick={updateCart} refItem={list[0]} />
-    //                             <div className='flexRow'>
-    //                                 <span>X</span>
-    //                                 <span>{quantity}</span>
-    //                             </div>
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //             ))
-    //         }
-    //     }
-    //     else return
-    // }
+    } 
 
     const simple = (
         list.map(({ id, name }) => (

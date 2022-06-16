@@ -1,18 +1,23 @@
 import React from 'react'
 import IncrementButtonEnhanced from '../../../Button/IncrementButtonEnhanced'
 export default function ListElement({ product }) {
+    const style = {
+        backgroundImage: `url(${product.slug.slice(6)})`,
+    }
+
+    const total = product.quantity * product.price;
     return (
-        <div className='product-body'>
-            <div className="product-image"></div>
+        <div className='product-body' >
+            <div className="product-image" style={style}></div>
             <div className='product-details'>
-                <p className='product-name'>Product name</p>
-                <p className='product-description'>Product description</p>
+                <p className='product-name'>{product.name}</p>
+                <p className='product-description'>{product.description}</p>
             </div>
-            <p className='product-price'>£23.45</p>
+            <p className='product-price'>£{product.price}</p>
             <div className='product-quantity'>
-                <IncrementButtonEnhanced value='100' />
+                <IncrementButtonEnhanced value={product.quantity} />
             </div>
-            <p className='product-total'>£123.45</p>
+            <p className='product-total'>{total}</p>
         </div>
     )
 }

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
 import { v4 as uuidv4 } from 'uuid';
+
+import { UserDataContext } from '../app'
+
 import Tablist from '../Components/Tablist';
 import Table from '../Components/Table';
 import ButtonRectangle from '../Components/IconButtons/ButtonRectangle';
@@ -9,6 +12,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faPaperclip, faList } from '@fortawesome/free-solid-svg-icons';
 
 export default function Orders() {
+    const { userData, setUserData } = useContext(UserDataContext);
+
     const [x, setX] = useState(0)
     const [y, setY] = useState(0)
 
@@ -115,6 +120,9 @@ export default function Orders() {
                     showDetails={null}
                     options={false}
                     editItem={null}
+
+                    user={userData}
+
                 />
             </div>
         </div>
