@@ -17208,6 +17208,73 @@ function IncrementButton(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/Components/Button/IncrementButtonEnhanced.js":
+/*!*******************************************************************!*\
+  !*** ./resources/js/Components/Button/IncrementButtonEnhanced.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ IncrementButtonEnhanced)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.css */ "./resources/js/Components/Button/index.css");
+/* harmony import */ var _css_globals_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../css/globals.css */ "./resources/css/globals.css");
+/* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+
+
+
+
+
+function IncrementButtonEnhanced(_ref) {
+  var value = _ref.value;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "incrementButtonEnhanced-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    className: "incrementButtonEnhanced dangerColor",
+    onClick: function (_onClick) {
+      function onClick() {
+        return _onClick.apply(this, arguments);
+      }
+
+      onClick.toString = function () {
+        return _onClick.toString();
+      };
+
+      return onClick;
+    }(function () {
+      return onClick(refItem, 'minus');
+    })
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_3__.FontAwesomeIcon, {
+    size: "xl",
+    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_4__.faMinus
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, value), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    className: "incrementButtonEnhanced normalColor",
+    onClick: function (_onClick2) {
+      function onClick() {
+        return _onClick2.apply(this, arguments);
+      }
+
+      onClick.toString = function () {
+        return _onClick2.toString();
+      };
+
+      return onClick;
+    }(function () {
+      return onClick(refItem, 'add');
+    })
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_3__.FontAwesomeIcon, {
+    size: "xl",
+    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_4__.faAdd
+  })));
+}
+
+/***/ }),
+
 /***/ "./resources/js/Components/Button/index.js":
 /*!*************************************************!*\
   !*** ./resources/js/Components/Button/index.js ***!
@@ -17311,11 +17378,6 @@ function CardList(_ref) {
       onClick: onClick,
       user: user,
       id: item.id,
-      img: item.slug,
-      heading: item.name,
-      subtitle: item.description,
-      price: item.price,
-      slug: item.slug,
       itemRef: item,
       showSidebar: showDetails,
       selectedCard: selectedCard
@@ -17386,8 +17448,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.css */ "./resources/js/Components/Cart/index.css");
 /* harmony import */ var _css_globals_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../css/globals.css */ "./resources/css/globals.css");
 /* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
-/* harmony import */ var _Dropdown__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Dropdown */ "./resources/js/Components/Dropdown/index.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var _Modal_ModalBody_CheckoutDetails_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Modal/ModalBody/CheckoutDetails/index */ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/index.js");
+/* harmony import */ var _Dropdown__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Dropdown */ "./resources/js/Components/Dropdown/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -17406,10 +17469,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 function Cart(_ref) {
   var shoppingCart = _ref.shoppingCart,
       updateCart = _ref.updateCart,
-      activateModal = _ref.activateModal;
+      activateModal = _ref.activateModal,
+      company = _ref.company;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -17448,7 +17513,11 @@ function Cart(_ref) {
       title: 'Cart Checkout',
       confirmationMessage: 'Purchase',
       cancelMessage: 'Cancel',
-      component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(CompanyDetails, null)
+      component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Modal_ModalBody_CheckoutDetails_index__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        shoppingCart: shoppingCart,
+        company: company
+      }),
+      width: '80%'
     };
     activateModal(data);
   };
@@ -17465,8 +17534,8 @@ function Cart(_ref) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_3__.FontAwesomeIcon, {
     size: "xl",
-    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faCartShopping
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dropdown__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faCartShopping
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Dropdown__WEBPACK_IMPORTED_MODULE_5__["default"], {
     type: 'cart',
     position: dropPos,
     open: open,
@@ -17529,7 +17598,7 @@ var Dropdown = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(fu
       list = _ref.list,
       caller = _ref.caller,
       callback = _ref.callback,
-      activateModal = _ref.activateModal;
+      startModal = _ref.startModal;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -17557,42 +17626,7 @@ var Dropdown = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(fu
     })[0];
     setLastClicked(list);
     callback(clickedItem, func);
-  }; // const selectType = () => {
-  //     if (typeof type == 'undefined') return
-  //     else if (type == 'simple') {
-  //         return list.map(({ id, name }) => (
-  //             <div key={id} className='flexColumn'>
-  //                 <div className='dropdown-content' onClick={() => caller(id)}>{name} </div>
-  //                 <div className="line80"></div>
-  //             </div>
-  //         ))
-  //     }
-  //     else if (type == 'cart') {
-  //         if (list.length > 0) {
-  //             return list.map(({ id, name, price, slug, quantity }) => (
-  //                 <div key={id} className='flexRow dropdown-content' onClick={(e) => caller(e, id)}>
-  //                     <div className="content-image w100" style={{ backgroundImage: `url(${slug.slice(6)})`, }} />
-  //                     <div className="flexRow">
-  //                         <div className='flexColumn alignCenter flexOne alignStart w100 mInline5 cartTitle'>
-  //                             <div >{name}</div>
-  //                             <div className="line100 "></div>
-  //                             <div className='cartPrice'>{`£${price}`}</div>
-  //                         </div>
-  //                         <div className="flexColumn alignCenter m15">
-  //                             <IncrementButton onClick={updateCart} refItem={list[0]} />
-  //                             <div className='flexRow'>
-  //                                 <span>X</span>
-  //                                 <span>{quantity}</span>
-  //                             </div>
-  //                         </div>
-  //                     </div>
-  //                 </div>
-  //             ))
-  //         }
-  //     }
-  //     else return
-  // }
-
+  };
 
   var simple = list.map(function (_ref2) {
     var id = _ref2.id,
@@ -18142,8 +18176,7 @@ function ImageCard(_ref) {
       itemRef = _ref.itemRef,
       selectedCard = _ref.selectedCard,
       id = _ref.id,
-      user = _ref.user,
-      img = _ref.img;
+      user = _ref.user;
   var style = {
     backgroundImage: "url(".concat(itemRef.slug.slice(6), ")")
   };
@@ -18164,7 +18197,9 @@ function ImageCard(_ref) {
     className: "bottomSection"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "priceBody"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "\xA3 ", itemRef.price)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "\xA3 ", itemRef.price)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "stockBody"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Stock: ", itemRef.stock ? itemRef.stock : 'undefined')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
     text: user.type == 'service' ? 'Edit' : 'Buy',
     type: 'contained',
     disabled: false,
@@ -18497,6 +18532,404 @@ function Welcome(props) {
 
 /***/ }),
 
+/***/ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/BillingDetails.js":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/Components/Modal/ModalBody/CheckoutDetails/BillingDetails.js ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ BillingDetails)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.css */ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/index.css");
+/* harmony import */ var _Button_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Button/index */ "./resources/js/Components/Button/index.js");
+/* harmony import */ var _Global_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Global/Input */ "./resources/js/Components/Global/Input.js");
+/* harmony import */ var _CardComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./CardComponent */ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/CardComponent.js");
+
+
+
+
+
+function BillingDetails(_ref) {
+  var company = _ref.company;
+  var bcg = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    marginBottom: '1rem'
+  };
+  var inputStyle = {
+    width: '90%'
+  };
+  var inputLabel = {
+    fontSize: '0.7rem',
+    fontWeight: 600
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "Billing Details"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "billing-payment"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_CardComponent__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    company: company
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button_index__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    text: 'Use Other',
+    type: 'outlineNormal',
+    disabled: false,
+    color: '',
+    size: 'sm',
+    icon: null,
+    callback: function callback() {
+      return console.log('this button is disabled');
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "billing-shipping"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "Shipping Details"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Global_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    id: 'line_one',
+    type: 'text',
+    margin: ['5px'],
+    label: 'First Line of the address',
+    onChange: function (_onChange) {
+      function onChange(_x) {
+        return _onChange.apply(this, arguments);
+      }
+
+      onChange.toString = function () {
+        return _onChange.toString();
+      };
+
+      return onChange;
+    }(function (e) {
+      return onChange(e);
+    }),
+    style: bcg,
+    styleLabel: inputLabel,
+    styleInput: inputStyle
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Global_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    id: 'line_one',
+    type: 'text',
+    margin: ['5px'],
+    label: 'Second Line of the address',
+    onChange: function (_onChange2) {
+      function onChange(_x2) {
+        return _onChange2.apply(this, arguments);
+      }
+
+      onChange.toString = function () {
+        return _onChange2.toString();
+      };
+
+      return onChange;
+    }(function (e) {
+      return onChange(e);
+    }),
+    style: bcg,
+    styleLabel: inputLabel,
+    styleInput: inputStyle
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Global_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    id: 'line_one',
+    type: 'text',
+    margin: ['5px'],
+    label: 'City',
+    onChange: function (_onChange3) {
+      function onChange(_x3) {
+        return _onChange3.apply(this, arguments);
+      }
+
+      onChange.toString = function () {
+        return _onChange3.toString();
+      };
+
+      return onChange;
+    }(function (e) {
+      return onChange(e);
+    }),
+    style: bcg,
+    styleLabel: inputLabel,
+    styleInput: inputStyle
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Global_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    id: 'line_one',
+    type: 'text',
+    margin: ['5px'],
+    label: 'Postcode',
+    onChange: function (_onChange4) {
+      function onChange(_x4) {
+        return _onChange4.apply(this, arguments);
+      }
+
+      onChange.toString = function () {
+        return _onChange4.toString();
+      };
+
+      return onChange;
+    }(function (e) {
+      return onChange(e);
+    }),
+    style: bcg,
+    styleLabel: inputLabel,
+    styleInput: inputStyle
+  })));
+}
+
+/***/ }),
+
+/***/ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/CardComponent.js":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/Components/Modal/ModalBody/CheckoutDetails/CardComponent.js ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CardComponent)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.css */ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/index.css");
+
+
+function CardComponent(_ref) {
+  var company = _ref.company;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "cardComponent-section"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "card-element"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "card-element-container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "card-element-text"
+  }, "Company Card"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "card-element-number"
+  }, "**** **** **** **** 1004"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "billingAddress-element"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, company.line_1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, company.line_2), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, company.city), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, company.postcode)));
+}
+
+/***/ }),
+
+/***/ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/ListElement.js":
+/*!********************************************************************************!*\
+  !*** ./resources/js/Components/Modal/ModalBody/CheckoutDetails/ListElement.js ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ListElement)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Button_IncrementButtonEnhanced__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Button/IncrementButtonEnhanced */ "./resources/js/Components/Button/IncrementButtonEnhanced.js");
+
+
+function ListElement(_ref) {
+  var product = _ref.product;
+  var style = {
+    backgroundImage: "url(".concat(product.slug.slice(6), ")")
+  };
+  var total = product.quantity * product.price;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "product-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "product-image",
+    style: style
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "product-details"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "product-name"
+  }, product.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "product-description"
+  }, product.description)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "product-price"
+  }, "\xA3", product.price), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "product-quantity"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button_IncrementButtonEnhanced__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    value: product.quantity
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "product-total"
+  }, total));
+}
+
+/***/ }),
+
+/***/ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/OrderDetails.js":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/Components/Modal/ModalBody/CheckoutDetails/OrderDetails.js ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ OrderDetails)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ListElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListElement */ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/ListElement.js");
+
+
+function OrderDetails(_ref) {
+  var cart = _ref.cart;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "orderDetails-parent"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "Order Summary"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "orderDetails-section"
+  }, cart.map(function (item) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ListElement__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      key: item.id,
+      product: item
+    });
+  })));
+}
+
+/***/ }),
+
+/***/ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/ProductSummary.js":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/Components/Modal/ModalBody/CheckoutDetails/ProductSummary.js ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ProductSummary)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+function ProductSummary(_ref) {
+  var cart = _ref.cart;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState2 = _slicedToArray(_useState, 2),
+      costs = _useState2[0],
+      setCosts = _useState2[1]; // on start work out the totals for the items in the cart
+
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log(cart);
+    var currElement,
+        productsTotal = 0,
+        shipping,
+        vat,
+        totalSum;
+    cart.forEach(function (element) {
+      currElement = element.quantity * Number(element.price);
+      productsTotal += currElement;
+      console.log('currElement', currElement);
+    }); // Add hardcoded shipping value, change in future to model based shipping costs/
+
+    shipping = 50;
+    vat = (productsTotal + shipping) * 0.2;
+    totalSum = productsTotal + shipping + vat;
+    console.log(productsTotal);
+    setCosts({
+      productsTotal: productsTotal,
+      shipping: shipping,
+      vat: vat,
+      totalSum: totalSum
+    });
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "summary-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "summary-costs"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "summary-total"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "summary-text-titles"
+  }, "Products Total:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "summary-text-prices"
+  }, "\xA3", costs.productsTotal)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "summary-total"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "summary-text-titles"
+  }, "Shipping:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "summary-text-prices"
+  }, "\xA3", costs.shipping)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "summary-total"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "summary-text-titles"
+  }, "VAT:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "summary-text-prices"
+  }, "\xA3", costs.vat))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "summary-total"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "summary-text-total"
+  }, "Total"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "summary-text-prices"
+  }, "\xA3", costs.totalSum)));
+}
+
+/***/ }),
+
+/***/ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/index.js":
+/*!**************************************************************************!*\
+  !*** ./resources/js/Components/Modal/ModalBody/CheckoutDetails/index.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CheckoutDetails)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.css */ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/index.css");
+/* harmony import */ var _Button_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Button/index */ "./resources/js/Components/Button/index.js");
+/* harmony import */ var _Global_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Global/Input */ "./resources/js/Components/Global/Input.js");
+/* harmony import */ var _BillingDetails__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./BillingDetails */ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/BillingDetails.js");
+/* harmony import */ var _OrderDetails__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./OrderDetails */ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/OrderDetails.js");
+/* harmony import */ var _ProductSummary__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ProductSummary */ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/ProductSummary.js");
+
+
+
+
+
+
+
+function CheckoutDetails(_ref) {
+  var shoppingCart = _ref.shoppingCart,
+      company = _ref.company;
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log('on modal checkout', company);
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "checkoutDetails-parent"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "section-billing"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_BillingDetails__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    company: company
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "order-section"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_OrderDetails__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    cart: shoppingCart
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "summary-section"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, " _ "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ProductSummary__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    cart: shoppingCart
+  })));
+}
+
+/***/ }),
+
 /***/ "./resources/js/Components/Modal/ModalBody/CompanyDetails/index.js":
 /*!*************************************************************************!*\
   !*** ./resources/js/Components/Modal/ModalBody/CompanyDetails/index.js ***!
@@ -18551,7 +18984,7 @@ function CompanyDetails(_ref) {
     className: "flex flexColumn justifyCenter"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Global_Input__WEBPACK_IMPORTED_MODULE_1__["default"], {
     id: 'name',
-    type: 'name',
+    type: 'text',
     margin: ['5px'],
     label: 'Company name (must be the same that you have registered with',
     onChange: function onChange(e) {
@@ -18693,7 +19126,8 @@ function Modal(_ref) {
       cancelMessage = _ref.cancelMessage,
       onClose = _ref.onClose,
       onAccept = _ref.onAccept,
-      BodyComponent = _ref.BodyComponent;
+      BodyComponent = _ref.BodyComponent,
+      widthSize = _ref.widthSize;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
       _useState2 = _slicedToArray(_useState, 2),
@@ -18717,7 +19151,10 @@ function Modal(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "backdrop"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "modal-box smooth-shadow"
+    className: "modal-box smooth-shadow",
+    style: {
+      width: widthSize
+    }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "modal-head"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
@@ -18814,7 +19251,9 @@ function ProductSidebar(_ref) {
       showSidebar = _ref.showSidebar,
       closeItem = _ref.closeItem,
       newItem = _ref.newItem,
-      showToast = _ref.showToast;
+      showToast = _ref.showToast,
+      productList = _ref.productList,
+      selectedProduct = _ref.selectedProduct;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     id: null,
@@ -18826,6 +19265,30 @@ function ProductSidebar(_ref) {
       _useState2 = _slicedToArray(_useState, 2),
       product = _useState2[0],
       setProduct = _useState2[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (!newItem && selectedProduct) {
+      var selectedProd = productList.filter(function (item) {
+        return item.id == selectedProduct;
+      })[0];
+      console.log(selectedProd);
+      setProduct({
+        id: selectedProd.id,
+        name: selectedProd.name,
+        description: selectedProd.description,
+        price: selectedProd.price,
+        prod_pic: selectedProd.slug
+      });
+    } else {
+      setProduct({
+        id: null,
+        name: '',
+        description: '',
+        price: 0,
+        prod_pic: ''
+      });
+    }
+  }, [selectedProduct]);
 
   var createProduct = function createProduct(value, id) {
     console.log(value, id);
@@ -18882,24 +19345,32 @@ function ProductSidebar(_ref) {
     className: "product-subtext"
   }, "Create or update product details."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_BorderLine__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "w100 minH10vh"
-  }, newItem ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flexColumn flexLeft w100 m5 product-stack"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "stack-heading"
   }, "Product name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "stack-thin"
-  }, "Add name of product visible for everyone."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+  }, "Add name of product visible for everyone."), newItem ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
     id: "name",
     type: "text",
     className: "subtleInput",
     onChange: function onChange(e) {
       return createProduct(e.target.value, e.target.id);
     }
-  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    id: "name",
+    type: "text",
+    className: "subtleInput",
+    value: product.name,
+    onChange: function onChange(e) {
+      return createProduct(e.target.value, e.target.id);
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
     className: "showTitle"
   }, product.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_BorderLine__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "w100 minH10vh"
-  }, newItem ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flexColumn flexLeft m5 product-stack",
     style: {
       margin: '5px 0 5px 5px'
@@ -18908,7 +19379,7 @@ function ProductSidebar(_ref) {
     className: "stack-heading"
   }, "Product Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "stack-thin"
-  }, "Provide information about the product."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("textarea", {
+  }, "Provide information about the product."), newItem ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("textarea", {
     id: "description",
     type: "text",
     maxLength: "200",
@@ -18917,7 +19388,16 @@ function ProductSidebar(_ref) {
     onChange: function onChange(e) {
       return createProduct(e.target.value, e.target.id);
     }
-  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("textarea", {
+    id: "description",
+    type: "text",
+    maxLength: "200",
+    rows: "8",
+    className: "subtleInput ",
+    onChange: function onChange(e) {
+      return createProduct(e.target.value, e.target.id);
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "showTitle"
   }, product.description)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_BorderLine__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "w100 minH10vh m5"
@@ -19038,7 +19518,8 @@ function Reminder(_ref) {
             title: 'Company Details',
             confirmationMessage: 'Confirm',
             cancelMessage: 'Dismiss',
-            component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Modal_ModalBody_CompanyDetails__WEBPACK_IMPORTED_MODULE_5__["default"], null)
+            component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Modal_ModalBody_CompanyDetails__WEBPACK_IMPORTED_MODULE_5__["default"], null),
+            width: '50%'
           };
           onStart(data);
           break;
@@ -19805,7 +20286,8 @@ function Navbar(_ref) {
       shoppingCart = _ref.shoppingCart,
       updateCart = _ref.updateCart,
       user = _ref.user,
-      activateModal = _ref.activateModal;
+      activateModal = _ref.activateModal,
+      company = _ref.company;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "navBar"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
@@ -19826,7 +20308,8 @@ function Navbar(_ref) {
   })), user.type == 'client' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Cart__WEBPACK_IMPORTED_MODULE_4__["default"], {
     updateCart: updateCart,
     shoppingCart: shoppingCart,
-    activateModal: activateModal
+    activateModal: activateModal,
+    company: company
   }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Avatar__WEBPACK_IMPORTED_MODULE_3__["default"], {
     logoutUser: logoutUser
   })));
@@ -19857,12 +20340,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.css */ "./resources/js/Orders/index.css");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
-/* harmony import */ var _Components_Tablist__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Components/Tablist */ "./resources/js/Components/Tablist/index.js");
-/* harmony import */ var _Components_Table__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Components/Table */ "./resources/js/Components/Table/index.js");
-/* harmony import */ var _Components_IconButtons_ButtonRectangle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Components/IconButtons/ButtonRectangle */ "./resources/js/Components/IconButtons/ButtonRectangle/index.js");
-/* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
+/* harmony import */ var _Components_Tablist__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Components/Tablist */ "./resources/js/Components/Tablist/index.js");
+/* harmony import */ var _Components_Table__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Components/Table */ "./resources/js/Components/Table/index.js");
+/* harmony import */ var _Components_IconButtons_ButtonRectangle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Components/IconButtons/ButtonRectangle */ "./resources/js/Components/IconButtons/ButtonRectangle/index.js");
+/* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -19883,7 +20367,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 function Orders() {
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_app__WEBPACK_IMPORTED_MODULE_2__.UserDataContext),
+      userData = _useContext.userData,
+      setUserData = _useContext.setUserData;
+
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
       _useState2 = _slicedToArray(_useState, 2),
       x = _useState2[0],
@@ -19991,15 +20480,16 @@ function Orders() {
     className: "mainView"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "table-control"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_IconButtons_ButtonRectangle__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faFilter,
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_IconButtons_ButtonRectangle__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_7__.faFilter,
     onClick: filterList
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Table__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Table__WEBPACK_IMPORTED_MODULE_4__["default"], {
     columns: columns,
     list: orderHistory,
     showDetails: null,
     options: false,
-    editItem: null
+    editItem: null,
+    user: userData
   })));
 }
 var tabs = [{
@@ -20008,49 +20498,49 @@ var tabs = [{
   name: 'Declined'
 }];
 var orderHistory = [{
-  id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(),
+  id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
   customer: 'Chenai Novak',
   order: '',
   date: '10/04/2022',
   price: '$100'
 }, {
-  id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(),
+  id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
   customer: 'Lexi-May Travis',
   order: '',
   date: '10/04/2022',
   price: '$100'
 }, {
-  id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(),
+  id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
   customer: 'Maison Bryan',
   order: '',
   date: '10/04/2022',
   price: '$100'
 }, {
-  id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(),
+  id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
   customer: 'Anjali Talley',
   order: '',
   date: '10/04/2022',
   price: '$100'
 }, {
-  id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(),
+  id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
   customer: 'Reese Delaney',
   order: '',
   date: '10/04/2022',
   price: '$100'
 }, {
-  id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(),
+  id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
   customer: 'Ella-Rose Schofield',
   order: '',
   date: '10/04/2022',
   price: '$100'
 }, {
-  id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(),
+  id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
   customer: 'Kendra Dolan',
   order: '',
   date: '10/04/2022',
   price: '$100'
 }, {
-  id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(),
+  id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
   customer: 'Sila Austin',
   order: '',
   date: '10/04/2022',
@@ -20166,6 +20656,9 @@ function Products(_ref) {
   }, {
     name: 'Options',
     keyName: 'options'
+  }, {
+    name: 'Stock',
+    keyName: 'stock'
   }]),
       _useState10 = _slicedToArray(_useState9, 2),
       columns = _useState10[0],
@@ -20228,10 +20721,7 @@ function Products(_ref) {
       return index == id;
     })[0]);
     setNewItem(false);
-  };
-
-  var buyItem = function buyItem() {
-    console.log('Item added to the Basket');
+    setSelectedProduct(id);
   };
 
   var viewType = function viewType(ref) {
@@ -20257,7 +20747,6 @@ function Products(_ref) {
     showDetails: showDetails,
     options: true,
     editItem: editItem,
-    buyItem: buyItem,
     onClick: userData.type == 'service' ? editItem : updateCart,
     user: userData
   });
@@ -20297,7 +20786,6 @@ function Products(_ref) {
       return _closeItem();
     } // Key props for the api  
     ,
-    selectedProduct: selectedProduct,
     newItem: newItem,
     saveProduct: function (_saveProduct) {
       function saveProduct() {
@@ -20313,7 +20801,9 @@ function Products(_ref) {
       return saveProduct();
     }),
     showToast: showToast,
-    getList: getList
+    getList: getList,
+    productList: productList,
+    selectedProduct: selectedProduct
   }));
 }
 
@@ -20552,7 +21042,8 @@ function App() {
     title: '',
     confirmationMessage: '',
     cancelMessage: '',
-    component: ''
+    component: '',
+    width: ''
   }),
       _useState16 = _slicedToArray(_useState15, 2),
       modalData = _useState16[0],
@@ -20607,7 +21098,7 @@ function App() {
     console.log(companyData);
     var companyItems = JSON.parse(localStorage.getItem('companyData'));
 
-    if (userAuthVar && (0,lodash__WEBPACK_IMPORTED_MODULE_2__.isEmpty)(companyItems)) {
+    if ((userAuthVar || userAuth) && (0,lodash__WEBPACK_IMPORTED_MODULE_2__.isEmpty)(companyItems)) {
       axios__WEBPACK_IMPORTED_MODULE_13___default().get("api/get_company/".concat(userItems.company_id)).then(function (response) {
         console.log('getting company data', response);
         setCompanyData(response.data);
@@ -20823,6 +21314,7 @@ function App() {
       shoppingCart: shoppingCart,
       updateCart: updateShoppingCart,
       user: userData,
+      company: companyData,
       activateModal: activateModal
     }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_16__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_16__.Route, {
       path: "/",
@@ -20907,7 +21399,8 @@ function App() {
       cancelMessage: modalData.cancelMessage,
       BodyComponent: modalData.component,
       onAccept: processData,
-      onClose: closeModal
+      onClose: closeModal,
+      widthSize: modalData.width
     }) : null)))) // </React.StrictMode> 
 
   );
@@ -21088,7 +21581,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "/* Type */\r\nbutton {\r\n    border-radius: 5px;\r\n    font-weight: 600;\r\n    background: none;\r\n    cursor: pointer;\r\n    transition: 0.3s;\r\n}\r\n\r\n.text {\r\n    font-weight: 600;\r\n    border: none;\r\n    color: #1280df;\r\n\r\n}\r\n\r\n.text:hover {\r\n    background: hsl(208deg 85% 80%);\r\n}\r\n\r\n.contained {\r\n    border: none;\r\n}\r\n\r\n.outlineNormal {\r\n    border: 2px solid #1280df;\r\n    background: #fff;\r\n    color: #1280df;\r\n}\r\n\r\n.outlineNormal:hover {\r\n    border: 2px solid hsl(208deg 85% 80%);\r\n    background: hsl(208deg 85% 80%);\r\n    color: hsl(208deg 80% 60%);\r\n}\r\n\r\n.outlineSuccess {\r\n    border: 2px solid #0de35c;\r\n    background: #fff;\r\n    color: #0de35c;\r\n}\r\n\r\n.outlineSuccess:hover {\r\n    border: 2px solid hsl(142deg 80% 80%);\r\n    background: hsl(142deg 80% 80%);\r\n    color: hsl(142deg 80% 60%);\r\n}\r\n\r\n.outlineDanger {\r\n    border: 2px solid #e62f2f;\r\n    background: #fff;\r\n    color: #e62f2f;\r\n}\r\n\r\n.outlineDanger:hover {\r\n    border: 2px solid hsl(0deg 80% 80%);\r\n    background: hsl(0deg 80% 80%);\r\n    color: hsl(0deg 80% 60%);\r\n}\r\n\r\n\r\n/* Disabled */\r\n.disabled {\r\n    background: #cfcfcf88;\r\n    color: #9b9b9b;\r\n    border: none;\r\n    cursor: inherit;\r\n}\r\n\r\n/* Color */\r\n.normal {\r\n    background-color: #5aabf2;\r\n    color: #062d4e;\r\n}\r\n\r\n.normal:hover {\r\n    background-color: #1280df;\r\n    background: hsl(208deg 85% 80%);\r\n\r\n}\r\n\r\n.success {\r\n    background-color: #0de35c;\r\n}\r\n\r\n.success:hover {\r\n    background: hsl(142deg 80% 80%);\r\n}\r\n\r\n.danger {\r\n    background-color: #e62f2f;\r\n}\r\n\r\n.danger:hover {\r\n    background: hsl(0deg 80% 80%);\r\n}\r\n\r\n.dangerColor {\r\n    color: #e62f2f;\r\n}\r\n\r\n.normalColor {\r\n    color: #5aabf2;\r\n}\r\n\r\n/* Size */\r\n\r\n.sm {\r\n    font-size: 0.8rem;\r\n\r\n    width: -webkit-fit-content;\r\n\r\n    width: -moz-fit-content;\r\n\r\n    width: fit-content;\r\n    height: 1.875rem;\r\n    padding: 0.16rem 0.8rem;\r\n    margin: 8px;\r\n}\r\n\r\n.lg {\r\n    font-size: 1rem;\r\n\r\n    width: -webkit-fit-content;\r\n\r\n    width: -moz-fit-content;\r\n\r\n    width: fit-content;\r\n    height: 2.28rem;\r\n    padding: 6px 1rem;\r\n    margin: 8px;\r\n}\r\n\r\n.xl {\r\n    font-size: 1.2rem;\r\n\r\n    width: -webkit-fit-content;\r\n\r\n    width: -moz-fit-content;\r\n\r\n    width: fit-content;\r\n    height: 2.64rem;\r\n    padding: 0.18rem 1rem;\r\n    margin: 8px;\r\n}\r\n\r\n/* Icon sides */\r\n\r\n.left {\r\n    display: flex;\r\n    flex-direction: row;\r\n}\r\n\r\n.right {\r\n    display: flex;\r\n    flex-direction: row-reverse;\r\n}\r\n\r\n\r\n\r\n.incrementButton{\r\n    width: 20px;\r\n    height: 20px;\r\n    font-weight: 600;\r\n    font-size: 1rem;\r\n    border-radius: 50%;\r\n    border:none;\r\n    margin: 5px;\r\n    padding: 5px;\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "/* Type */\r\nbutton {\r\n    border-radius: 5px;\r\n    font-weight: 600;\r\n    background: none;\r\n    cursor: pointer;\r\n    transition: 0.3s;\r\n}\r\n\r\n.text {\r\n    font-weight: 600;\r\n    border: none;\r\n    color: #1280df;\r\n\r\n}\r\n\r\n.text:hover {\r\n    background: hsl(208deg 85% 80%);\r\n}\r\n\r\n.contained {\r\n    border: none;\r\n}\r\n\r\n.outlineNormal {\r\n    border: 2px solid #1280df;\r\n    background: #fff;\r\n    color: #1280df;\r\n}\r\n\r\n.outlineNormal:hover {\r\n    border: 2px solid hsl(208deg 85% 80%);\r\n    background: hsl(208deg 85% 80%);\r\n    color: hsl(208deg 80% 60%);\r\n}\r\n\r\n.outlineSuccess {\r\n    border: 2px solid #0de35c;\r\n    background: #fff;\r\n    color: #0de35c;\r\n}\r\n\r\n.outlineSuccess:hover {\r\n    border: 2px solid hsl(142deg 80% 80%);\r\n    background: hsl(142deg 80% 80%);\r\n    color: hsl(142deg 80% 60%);\r\n}\r\n\r\n.outlineDanger {\r\n    border: 2px solid #e62f2f;\r\n    background: #fff;\r\n    color: #e62f2f;\r\n}\r\n\r\n.outlineDanger:hover {\r\n    border: 2px solid hsl(0deg 80% 80%);\r\n    background: hsl(0deg 80% 80%);\r\n    color: hsl(0deg 80% 60%);\r\n}\r\n\r\n\r\n/* Disabled */\r\n.disabled {\r\n    background: #cfcfcf88;\r\n    color: #9b9b9b;\r\n    border: none;\r\n    cursor: inherit;\r\n}\r\n\r\n/* Color */\r\n.normal {\r\n    background-color: #5aabf2;\r\n    color: #062d4e;\r\n}\r\n\r\n.normal:hover {\r\n    background-color: #1280df;\r\n    background: hsl(208deg 85% 80%);\r\n\r\n}\r\n\r\n.success {\r\n    background-color: #0de35c;\r\n}\r\n\r\n.success:hover {\r\n    background: hsl(142deg 80% 80%);\r\n}\r\n\r\n.danger {\r\n    background-color: #e62f2f;\r\n}\r\n\r\n.danger:hover {\r\n    background: hsl(0deg 80% 80%);\r\n}\r\n\r\n.dangerColor {\r\n    color: #e62f2f;\r\n}\r\n\r\n.normalColor {\r\n    color: #5aabf2;\r\n}\r\n\r\n/* Size */\r\n\r\n.sm {\r\n    font-size: 0.8rem;\r\n\r\n    width: -webkit-fit-content;\r\n\r\n    width: -moz-fit-content;\r\n\r\n    width: fit-content;\r\n    height: 1.875rem;\r\n    padding: 0.16rem 0.8rem;\r\n    margin: 8px;\r\n}\r\n\r\n.lg {\r\n    font-size: 1rem;\r\n\r\n    width: -webkit-fit-content;\r\n\r\n    width: -moz-fit-content;\r\n\r\n    width: fit-content;\r\n    height: 2.28rem;\r\n    padding: 6px 1rem;\r\n    margin: 8px;\r\n}\r\n\r\n.xl {\r\n    font-size: 1.2rem;\r\n\r\n    width: -webkit-fit-content;\r\n\r\n    width: -moz-fit-content;\r\n\r\n    width: fit-content;\r\n    height: 2.64rem;\r\n    padding: 0.18rem 1rem;\r\n    margin: 8px;\r\n}\r\n\r\n/* Icon sides */\r\n\r\n.left {\r\n    display: flex;\r\n    flex-direction: row;\r\n}\r\n\r\n.right {\r\n    display: flex;\r\n    flex-direction: row-reverse;\r\n}\r\n\r\n\r\n\r\n.incrementButton {\r\n    width: 20px;\r\n    height: 20px;\r\n    font-weight: 600;\r\n    font-size: 1rem;\r\n    border-radius: 50%;\r\n    border: none;\r\n    margin: 5px;\r\n    padding: 5px;\r\n}\r\n\r\n/* INCREMENT BUTTON ENHANCED */\r\n.incrementButtonEnhanced-body {\r\n    display: flex;\r\n    flex-wrap: nowrap;\r\n    flex-direction: row;\r\n    align-content: center;\r\n    align-items: center;\r\n    justify-content: center;\r\n}\r\n\r\n.incrementButtonEnhanced {\r\n    width: 40px;\r\n    height: 40px;\r\n    font-weight: 600;\r\n    font-size: 1rem;\r\n    border-radius: 50%;\r\n    border: none;\r\n    /* margin: 5px; */\r\n    padding: 5px;\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -21256,7 +21749,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".cardBody {\r\n    transition: 0.3s;\r\n    position: relative;\r\n\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n\r\n    background-color: #fff;\r\n\r\n    border-radius: 15px;\r\n\r\n    height: 350px;\r\n    width: 245px;\r\n    margin: 5px;\r\n\r\n    box-shadow: 0px 1px 1px rgba(116, 128, 138, 0.08),\r\n        0px 2px 2px rgb(116, 128, 138, 0.08),\r\n        0px 3px 3px rgb(116, 128, 138, 0.08),\r\n        0px 7px 7px rgb(116, 128, 138, 0.08),\r\n        0px 10px 10px rgb(116, 128, 138, 0.08);\r\n}\r\n\r\n.selectedCard {\r\n    background-color: rgb(212, 228, 247);\r\n}\r\n\r\n.icon {\r\n    margin: auto;\r\n    height: 15px;\r\n    width: 15px;\r\n}\r\n\r\n\r\n.imageBody {\r\n    border-radius: 15px 15px 0 0;\r\n    width: 100%;\r\n    height: 35%;\r\n    flex: 1;\r\n\r\n    background-color: black;\r\n    background-position: center;\r\n    background-repeat: no-repeat;\r\n    /* background-attachment: fixed; */\r\n    background-size:cover\r\n}\r\n\r\n.textBody {\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: flex-start;\r\n    text-align: left;\r\n\r\n    margin: 5px 10px 5px;\r\n\r\n}\r\n\r\n.headingBody h3{\r\n    margin: 0;\r\n}\r\n\r\n.subtitleBody {\r\n    font-weight: 400;\r\n    font-size: 12px;\r\n}\r\n\r\n.bottomSection {\r\n    position: relative;\r\n\r\n    display: flex;\r\n    flex-direction: row;\r\n    align-items: center;\r\n    justify-content: space-between;\r\n\r\n    margin: 0 10px 2px;\r\n}\r\n\r\n.priceBody{\r\n    font-weight: 700;\r\n    font-size: medium;\r\n\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".cardBody {\r\n    transition: 0.3s;\r\n    position: relative;\r\n\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n\r\n    background-color: #fff;\r\n\r\n    border-radius: 15px;\r\n\r\n    height: 350px;\r\n    width: 245px;\r\n    margin: 5px;\r\n\r\n    box-shadow: 0px 1px 1px rgba(116, 128, 138, 0.08),\r\n        0px 2px 2px rgb(116, 128, 138, 0.08),\r\n        0px 3px 3px rgb(116, 128, 138, 0.08),\r\n        0px 7px 7px rgb(116, 128, 138, 0.08),\r\n        0px 10px 10px rgb(116, 128, 138, 0.08);\r\n}\r\n\r\n.selectedCard {\r\n    background-color: rgb(212, 228, 247);\r\n}\r\n\r\n.icon {\r\n    margin: auto;\r\n    height: 15px;\r\n    width: 15px;\r\n}\r\n\r\n\r\n.imageBody {\r\n    border-radius: 15px 15px 0 0;\r\n    width: 100%;\r\n    height: 35%;\r\n    flex: 1;\r\n\r\n    background-color: black;\r\n    background-position: center;\r\n    background-repeat: no-repeat;\r\n    /* background-attachment: fixed; */\r\n    background-size:cover\r\n}\r\n\r\n.textBody {\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: flex-start;\r\n    text-align: left;\r\n\r\n    margin: 5px 10px 5px;\r\n\r\n}\r\n\r\n.headingBody h3{\r\n    margin: 0;\r\n}\r\n\r\n.subtitleBody {\r\n    font-weight: 400;\r\n    font-size: 12px;\r\n}\r\n\r\n.bottomSection {\r\n    position: relative;\r\n\r\n    display: flex;\r\n    flex-direction: row;\r\n    align-items: center;\r\n    justify-content: space-between;\r\n\r\n    margin: 0 10px 2px;\r\n}\r\n\r\n.priceBody{\r\n    font-weight: 700;\r\n    font-size: 0.8rem;\r\n}\r\n\r\n.stockBody {\r\n    font-weight: 500;\r\n    font-size: 0.8rem;\r\n\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -21287,6 +21780,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".invite{\r\n    background-color: #fff
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Modal/ModalBody/CheckoutDetails/index.css":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Modal/ModalBody/CheckoutDetails/index.css ***!
+  \*************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "/* parent for each section */\r\n.checkoutDetails-parent {\r\n    display: flex;\r\n    flex-wrap: nowrap;\r\n    font-family: 'poppins';\r\n    box-sizing: content-box;\r\n}\r\n\r\n.checkoutDetails-parent h3 {\r\n    color: #3d3d3d;\r\n}\r\n\r\n.section-billing {\r\n    flex: 0.8;\r\n    margin-inline: 10px;\r\n}\r\n\r\n.order-section {\r\n    flex: 1;\r\n    margin-inline: 10px;\r\n}\r\n\r\n.summary-section {\r\n    flex: 0.5;\r\n    margin-inline: 10px;\r\n}\r\n\r\n.cardComponent-section {\r\n    display: flex;\r\n}\r\n\r\n.card-element {\r\n    width: 240px;\r\n    height: 150px;\r\n    background: linear-gradient(15deg, #75E7F7, #6AA6DD, #4283F7);\r\n    border-radius: 10px;\r\n    color: white;\r\n    position: static;\r\n    margin: 15px\r\n}\r\n\r\n.card-element-text {\r\n    margin: 10% auto;\r\n    font-size: 1.3rem;\r\n    font-weight: 300;\r\n    width: 100%;\r\n    text-align: center;\r\n}\r\n\r\n.card-element-number {\r\n    margin: 10% auto;\r\n    font-size: 1.2rem;\r\n    font-weight: 400;\r\n    width: 100%;\r\n    text-align: center;\r\n}\r\n\r\n.card-element-container {\r\n    position: relative;\r\n    top: 20px;\r\n}\r\n\r\n.billingAddress-element {\r\n    margin: 10px 0;\r\n    font-size: .9rem;\r\n    font-weight: 300;\r\n    text-align: left;\r\n}\r\n\r\n/* ORDER DETAILS */\r\n.orderDetails-parent {\r\n    display: contents;\r\n}\r\n\r\n.orderDetails-section {\r\n    height: 60vh;\r\n    border-radius: 15px;\r\n    border: 1px solid #F2E8E8;\r\n    overflow-y: scroll;\r\n}\r\n\r\n/* LIST ELEMENT */\r\n.product-body {\r\n    margin: 10px 10px 10px 5px;    \r\n    display: flex;\r\n    align-items: center;\r\n    border-bottom: 1px solid #F2E8E8;\r\n    padding-bottom: 10px;\r\n    width: 100%;\r\n}\r\n\r\n.product-image {\r\n    border-radius: 50%;\r\n    background-color: bisque;\r\n    width: 55px;\r\n    height: 55px;\r\n    margin: 0 10px 0 0;\r\n\r\n    border-radius: 50%;\r\n    border: 1px solid #F2E8E8;\r\n    /* width: 100%;\r\n    height: 35%; */\r\n\r\n    background-color: black;\r\n    background-position: center;\r\n    background-repeat: no-repeat;\r\n    /* background-attachment: fixed; */\r\n    background-size:cover;\r\n    -o-object-fit: cover;\r\n       object-fit: cover;\r\n}\r\n\r\n.product-details {\r\n    flex: 2;\r\n    text-align: initial;\r\n}\r\n\r\n.product-name {\r\n    font-size: 1rem;\r\n    font-weight: 600;\r\n    margin: 5px 0 5px 0;\r\n}\r\n\r\n.product-name p {\r\n    color: #3d3d3d;\r\n}\r\n\r\n.product-description {\r\n    font-size: 0.8rem;\r\n    font-weight: 400;\r\n    margin: 0;\r\n\r\n}\r\n\r\n.product-price {\r\n    flex: 1;\r\n}\r\n.product-quantity {\r\n    flex: 1;\r\n}\r\n\r\n.product-total {\r\n    flex: 1;\r\n}\r\n\r\n/* SUMMARY */\r\n.summary-body {\r\n    border-radius: 15px;\r\n    background-color: #F2E8E8;\r\n\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    margin: 10px;\r\n    padding: 10px;\r\n    /* widtgh causes the box going outside */\r\n    /* width: 100%; */\r\n}\r\n\r\n.summary-costs {\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n.summary-total {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n}\r\n\r\n.summary-text-titles {\r\n    font-size: 1rem;\r\n    font-weight: 400;\r\n    margin: 0 0 5px 0;\r\n}\r\n\r\n.summary-text-prices {\r\n    font-size: 1.1rem;\r\n    font-weight: 600;\r\n    margin: 0 0 5px 0;\r\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Modal/index.css":
 /*!***********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Modal/index.css ***!
@@ -21304,7 +21821,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".modal-container {\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n\r\n}\r\n\r\n.backdrop {\r\n    z-index: 999;\r\n\r\n    width: 100%;\r\n    height: 100%;\r\n    background: rgba(0, 0, 0, 0.4);\r\n    position: relative;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n\r\n.modal-box {\r\n    z-index: 1000;\r\n    height: 600px;\r\n    width: 600px;\r\n    position: absolute;\r\n\r\n    margin: auto;\r\n    left: 25%;\r\n    top: 25%;\r\n\r\n    background-color: #fff;\r\n    border-radius: 15px;\r\n\r\n    padding: 15px 15px 0;\r\n\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n}\r\n\r\n.modal-head {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: center;\r\n    align-items: center;\r\n    align-content: stretch;\r\n    flex-wrap: nowrap;\r\n    width: 100%;\r\n}\r\n\r\n.modal-head>.title {\r\n    margin: 5px;\r\n    flex-grow: 1;\r\n}\r\n\r\n.close-icon {\r\n    background-color: rgb(240, 240, 240);\r\n    cursor: pointer;\r\n    width: 30px;\r\n    height: 30px;\r\n    border: none;\r\n    border-radius: 50%;\r\n    margin: 5px;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\n.close-icon:hover {\r\n    background-color: rgb(202, 202, 202);\r\n}\r\n\r\n.modal-content {\r\n    width: 100%;\r\n    height: -webkit-fit-content;\r\n    height: -moz-fit-content;\r\n    height: fit-content;\r\n    overflow-y: auto;\r\n}\r\n\r\n.modal-footer {\r\n    width: 100%;\r\n    height: -webkit-fit-content;\r\n    height: -moz-fit-content;\r\n    height: fit-content;\r\n\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: flex-end;\r\n    align-items: center;\r\n\r\n    border-radius: 0px 0px 15px 15px;\r\n    background-color: rgba(233, 233, 233, 0.582);\r\n    padding: 10px 15px 10px;\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".modal-container {\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n\r\n}\r\n\r\n.backdrop {\r\n    z-index: 999;\r\n\r\n    width: 100%;\r\n    height: 100%;\r\n    background: rgba(0, 0, 0, 0.4);\r\n    position: relative;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n\r\n.modal-box {\r\n    z-index: 1000;\r\n    height: -webkit-fit-content;\r\n    height: -moz-fit-content;\r\n    height: fit-content; \r\n    position: absolute;\r\n\r\n    margin: auto;\r\n    left: 50%;\r\n    top: 50%;\r\n    transform: translate(-50%,-50%);\r\n    \r\n    background-color: #fff;\r\n    border-radius: 15px;\r\n\r\n    padding: 15px 15px 0;\r\n\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n}\r\n\r\n.modal-head {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: center;\r\n    align-items: center;\r\n    align-content: stretch;\r\n    flex-wrap: nowrap;\r\n    width: 100%;\r\n}\r\n\r\n.modal-head>.title {\r\n    margin: 5px;\r\n    flex-grow: 1;\r\n}\r\n\r\n.close-icon {\r\n    background-color: rgb(240, 240, 240);\r\n    cursor: pointer;\r\n    width: 30px;\r\n    height: 30px;\r\n    border: none;\r\n    border-radius: 50%;\r\n    margin: 5px;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\n.close-icon:hover {\r\n    background-color: rgb(202, 202, 202);\r\n}\r\n\r\n.modal-content {\r\n    width: 100%;\r\n    height: -webkit-fit-content;\r\n    height: -moz-fit-content;\r\n    height: fit-content;\r\n    overflow-y: auto;\r\n}\r\n\r\n.modal-footer {\r\n    width: 100%;\r\n    height: -webkit-fit-content;\r\n    height: -moz-fit-content;\r\n    height: fit-content;\r\n\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: flex-end;\r\n    align-items: center;\r\n\r\n    border-radius: 0px 0px 15px 15px;\r\n    background-color: rgba(233, 233, 233, 0.582);\r\n    padding: 10px 15px 10px;\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -21328,7 +21845,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\r\n.sidebarBody {\r\n    position: relative;\r\n    width: 200px;\r\n    transition: 0.2s;\r\n    /* flex: 0.8; */\r\n    overflow: hidden;\r\n    background-color: #f0f8ff;\r\n    height: 100%;\r\n    \r\n}\r\n\r\n.sideScreenShow {\r\n    width: 240px;\r\n}\r\n\r\n.sideScreenHide {\r\n    width: 0%;\r\n}\r\n\r\n.cardBox {\r\n    background-color: rgb(224, 135, 135);\r\n    border-radius: 15px;\r\n    /* padding: 15px; */\r\n    width: 90%;\r\n    height: 200px;\r\n    margin: 10px auto;\r\n\r\n    transition: 0.5;\r\n}\r\n\r\n.topSection {\r\n    position: relative;\r\n    display: flex;\r\n    flex-direction: row-reverse;\r\n    height: 40px;\r\n    width: 100%;\r\n    align-items: center;\r\n}\r\n\r\n.closeSidebar {\r\n    position: static;\r\n    width: 30px;\r\n    height: 30px;\r\n    display: flex;\r\n    justify-content: center;\r\n    flex-direction: column-reverse;\r\n    align-items: center;\r\n    border-radius: 100px;\r\n    background-color: #fff;\r\n    cursor: pointer;\r\n    transition: .4s;\r\n}\r\n\r\n.hideClose {\r\n    display: none;\r\n}\r\n\r\n.showTitle {\r\n    height: 2vh;\r\n    margin-bottom: 5px;\r\n}\r\n\r\n.showDetails {\r\n    min-height: 20vh;\r\n    padding-top: 15px;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: flex-start;\r\n    align-items: flex-start\r\n}\r\n\r\n/* Revisiting styles of the sidebar */\r\n.product-head {\r\n    text-align: initial;\r\n}\r\n\r\n.product-head h4 {\r\n    margin: 5px 0;\r\n}\r\n\r\n.product-head p {\r\n    font-weight: 500;\r\n    font-size: 0.8rem;\r\n}\r\n\r\n.product-stack {\r\n    text-align: initial;\r\n}\r\n\r\n.stack-heading {\r\n    font-weight: 500;\r\n    font-size: 0.8rem;\r\n    margin: 0;\r\n    \r\n}\r\n\r\n.stack-thin {\r\n    text-align: initial;\r\n    color: #4099e6;\r\n    font-weight: 500;\r\n    font-size: 0.7rem;\r\n    margin: 0 0 5px 0;\r\n}\r\n\r\n.subtleInput {\r\n    border-radius: 5px;\r\n    border: 1px solid #92a0ba;\r\n    padding: 5px;\r\n    /* margin-inline: 5px; */\r\n    margin: 5px;\r\n    width: -webkit-fill-available;\r\n\r\n}\r\n\r\n.subtleInput textarea {\r\n    resize: none;\r\n}\r\n\r\n.productPriceInput {\r\n    width: 100%;\r\n    display: flex;\r\n    justify-content: center;\r\n}\r\n.placeSymbol {\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\r\n    bottom: 0;\r\n    margin: 7px 10px 5px 10px;\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\r\n.sidebarBody {\r\n    position: relative;\r\n    width: -webkit-fit-content;\r\n    width: -moz-fit-content;\r\n    width: fit-content;\r\n    transition: 0.2s;\r\n    /* flex: 0.8; */\r\n    overflow: hidden;\r\n    background-color: #f0f8ff;\r\n    height: 100%;\r\n    \r\n}\r\n\r\n.sideScreenShow {\r\n    width: -webkit-fit-content;\r\n    width: -moz-fit-content;\r\n    width: fit-content;\r\n}\r\n\r\n.sideScreenHide {\r\n    width: 0%;\r\n}\r\n\r\n.cardBox {\r\n    background-color: rgb(224, 135, 135);\r\n    border-radius: 15px;\r\n    /* padding: 15px; */\r\n    width: 90%;\r\n    height: 200px;\r\n    margin: 10px auto;\r\n\r\n    transition: 0.5;\r\n}\r\n\r\n.topSection {\r\n    position: relative;\r\n    display: flex;\r\n    flex-direction: row-reverse;\r\n    height: 40px;\r\n    width: 100%;\r\n    align-items: center;\r\n}\r\n\r\n.closeSidebar {\r\n    position: static;\r\n    width: 30px;\r\n    height: 30px;\r\n    display: flex;\r\n    justify-content: center;\r\n    flex-direction: column-reverse;\r\n    align-items: center;\r\n    border-radius: 100px;\r\n    background-color: #fff;\r\n    cursor: pointer;\r\n    transition: .4s;\r\n}\r\n\r\n.hideClose {\r\n    display: none;\r\n}\r\n\r\n.showTitle {\r\n    height: 2vh;\r\n    margin-bottom: 5px;\r\n}\r\n\r\n.showDetails {\r\n    min-height: 20vh;\r\n    padding-top: 15px;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: flex-start;\r\n    align-items: flex-start\r\n}\r\n\r\n/* Revisiting styles of the sidebar */\r\n.product-head {\r\n    text-align: initial;\r\n}\r\n\r\n.product-head h4 {\r\n    margin: 5px 0;\r\n}\r\n\r\n.product-head p {\r\n    font-weight: 500;\r\n    font-size: 0.8rem;\r\n}\r\n\r\n.product-stack {\r\n    text-align: initial;\r\n}\r\n\r\n.stack-heading {\r\n    font-weight: 500;\r\n    font-size: 0.8rem;\r\n    margin: 0;\r\n    \r\n}\r\n\r\n.stack-thin {\r\n    text-align: initial;\r\n    color: #4099e6;\r\n    font-weight: 500;\r\n    font-size: 0.7rem;\r\n    margin: 0 0 5px 0;\r\n}\r\n\r\n.subtleInput {\r\n    border-radius: 5px;\r\n    border: 1px solid #92a0ba;\r\n    padding: 5px;\r\n    /* margin-inline: 5px; */\r\n    margin: 5px;\r\n    width: -webkit-fill-available;\r\n\r\n}\r\n\r\n.subtleInput textarea {\r\n    resize: none;\r\n}\r\n\r\n.productPriceInput {\r\n    width: 100%;\r\n    display: flex;\r\n    justify-content: center;\r\n}\r\n.placeSymbol {\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\r\n    bottom: 0;\r\n    margin: 7px 10px 5px 10px;\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -76164,6 +76681,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./index.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Invite/index.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./resources/js/Components/Modal/ModalBody/CheckoutDetails/index.css":
+/*!***************************************************************************!*\
+  !*** ./resources/js/Components/Modal/ModalBody/CheckoutDetails/index.css ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./index.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/Components/Modal/ModalBody/CheckoutDetails/index.css");
 
             
 

@@ -32,7 +32,6 @@ export default function Button({ text, type, disabled, color, size, icon, iconSi
 
 
 // Sample
-
 {/* <Button
     text={''}
     type={''}
