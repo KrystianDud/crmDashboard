@@ -20,11 +20,6 @@ export default function CardList({ list, onClick, selectedCard, showDetails, use
                     user={user}
 
                     id={item.id}
-                    img={item.slug}
-                    heading={item.name}
-                    subtitle={item.description}
-                    price={item.price}
-                    slug={item.slug}
                     itemRef={item}
                     showSidebar={showDetails}
                     selectedCard={selectedCard}
