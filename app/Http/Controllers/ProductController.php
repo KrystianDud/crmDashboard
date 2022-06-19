@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Inventory;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -17,7 +19,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Product::all();
+        $data = Product::join('inventory', 'inventory.product_id', '=', 'products.id')
+        ->get(['products.*', 'inventory.stock']);
+        return response()->json($data);
     }
 
     /**
@@ -37,6 +41,7 @@ class ProductController extends Controller
                 'price' => 'required',
                 'prod_pic' => 'required',
                 'prod_pic.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'stock' => 'required|numeric'
             ]
         );
         if ($validator->fails()) {
@@ -59,10 +64,24 @@ class ProductController extends Controller
             'price' => $request->price,
             'slug' => $path
         ]);
-        $response["status"] = "successs";
+
+        // Get the product id and use it to create a stock and it's available number
+        $product_id = $data->id;
+        $stock = $request->stock;
+        $allowed = NULL;
+        if($request->allowed) $allowed = $request->allowed;
+
+        $stock = Inventory::create([
+            'product_id' => $product_id,
+            'stock' => $stock,
+            'allowed' => $allowed
+        ]);
+
+        $data["stock"] = $stock->stock;
         $response["status"] = "successs";
         $response["message"] = "Success! Created new product";
-        $response["product"] = $data;
+        $response["product"] = $data; 
+
 
         return response()->json($response);
     }
