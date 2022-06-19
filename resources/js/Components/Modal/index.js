@@ -6,7 +6,7 @@ import Button from '../Button';
 import './index.css';
 import '../../../css/globals.css';
 
-export default function Modal({ type, title, confirmationMessage, cancelMessage, onClose, onAccept, BodyComponent }) {
+export default function Modal({ type, title, confirmationMessage, cancelMessage, onClose, onAccept, BodyComponent, widthSize }) {
     const [writeData, setWriteData] = useState({})
 
     const onChange = (e) => {
@@ -32,7 +32,7 @@ export default function Modal({ type, title, confirmationMessage, cancelMessage,
         <div className='modal-container'>
             <div className="backdrop" />
 
-            <div className='modal-box smooth-shadow'>
+            <div className='modal-box smooth-shadow' style={{width: widthSize}}>
                 <div className="modal-head">
                     <h3 className='title'>{title}</h3>
                     <button className="close-icon" onClick={() => onClose()}>
