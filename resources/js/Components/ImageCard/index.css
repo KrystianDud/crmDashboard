@@ -77,6 +77,11 @@
 
 .priceBody{
     font-weight: 700;
-    font-size: medium;
+    font-size: 0.8rem;
+}
+
+.stockBody {
+    font-weight: 500;
+    font-size: 0.8rem;
 
 }

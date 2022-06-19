@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
 
 
-export default function ImageCard({ onClick, itemRef, selectedCard, id, user, img }) {
+export default function ImageCard({ onClick, itemRef, selectedCard, id, user }) {
 
     const style = {
         backgroundImage: `url(${itemRef.slug.slice(6)})`,
@@ -28,6 +28,9 @@ export default function ImageCard({ onClick, itemRef, selectedCard, id, user, im
                 <div className='bottomSection'>
                     <div className='priceBody'>
                         <p>£ {itemRef.price}</p>
+                    </div>
+                    <div className='stockBody'>
+                        <p>Stock: {itemRef.stock ? itemRef.stock : 'undefined'}</p>
                     </div>
 
                     <Button
