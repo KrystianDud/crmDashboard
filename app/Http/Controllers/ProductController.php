@@ -19,8 +19,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $data = Product::join('inventory', 'inventory.product_id', '=', 'products.id')
-        ->get(['products.*', 'inventory.stock']);
+        $data = Product::join('inventories', 'inventories.product_id', '=', 'products.id')
+        ->get(['products.*', 'inventories.stock']);
         return response()->json($data);
     }
 

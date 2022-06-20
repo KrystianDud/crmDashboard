@@ -5,13 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Inventory extends Model
+class Transaction extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'stock',
-        'product_id',
-        'allowed',
+        'type',
+        'payment',
+        'status',
+        'user_id',
+        'company_id',
+        'invoice_id',
+        'order_date',
+        'total'
     ];
 }
