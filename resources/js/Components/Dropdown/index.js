@@ -13,7 +13,6 @@ const Dropdown = forwardRef(({ type, position, open, list, caller, callback, sta
     const [lastClicked, setLastClicked] = useState(null)
     const [updatedList, setUpdatedList] = useState()
     useEffect(() => {
-        console.log('dropdown effect')
         setUpdatedList(list)
     }, [])
 
@@ -24,7 +23,6 @@ const Dropdown = forwardRef(({ type, position, open, list, caller, callback, sta
 
     const updateCart = (ref, func) => {
         // get id from the ref param and grab the item from the list prop to pass in on to the callback function.
-        console.log('calling from dropdown', func)
         let clickedItem = list.filter(item => item.id == ref)[0]
         setLastClicked(list)
         callback(clickedItem, func)
