@@ -20,7 +20,7 @@ import Table from '../Components/Table';
 import ProductSidebar from '../Components/ProductSidebar';
 
 
-export default function Products({updateCart}) {
+export default function Products({ updateCart }) {
     const { toastList, setToastList } = useContext(ToastContext);
     const { userData, setUserData } = useContext(UserDataContext);
 
@@ -48,6 +48,10 @@ export default function Products({updateCart}) {
         {
             name: 'Options',
             keyName: 'options'
+        },
+        {
+            name: 'Stock',
+            keyName: 'stock'
         }
     ])
     const [currentView, setCurrentView] = useState(1)
@@ -55,10 +59,6 @@ export default function Products({updateCart}) {
     useEffect(() => {
         getList()
     }, [])
-
-    useEffect(() => {
-        console.log('user data: ', userData)
-    }, [userData])
 
     const getList = () => {
         axios.get('/api/products', {
@@ -104,10 +104,7 @@ export default function Products({updateCart}) {
         setShowDetails(true);
         setSelectedProduct(productList.filter((item, index) => index == id)[0])
         setNewItem(false)
-    }
-
-    const buyItem = () => {
-        console.log('Item added to the Basket')
+        setSelectedProduct(id)
     }
 
     const viewType = (ref) => {
@@ -139,7 +136,6 @@ export default function Products({updateCart}) {
             showDetails={showDetails}
             options={true}
             editItem={editItem}
-            buyItem={buyItem}
             onClick={userData.type == 'service' ? editItem : updateCart}
             user={userData}
         />
@@ -182,11 +178,12 @@ export default function Products({updateCart}) {
                 showSidebar={showDetails}
                 closeItem={() => closeItem()}
                 // Key props for the api  
-                selectedProduct={selectedProduct}
                 newItem={newItem}
                 saveProduct={() => saveProduct()}
                 showToast={showToast}
                 getList={getList}
+                productList={productList}
+                selectedProduct={selectedProduct}
             />
 
         </div>
