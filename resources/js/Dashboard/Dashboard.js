@@ -16,7 +16,7 @@ export default function Dashboard({ user, activateModal }) {
     useEffect(() => {
         checkReminders()
     }, [userData])
-    console.log('dashboard rerender', companyData)
+
     const checkReminders = () => {
         // In this function we check onboarding users, especially admins to see if they did everything to make sure that platform runs smoothly
         // using axios we will connect to the server to seek confirmation if things such as: 
@@ -46,6 +46,9 @@ export default function Dashboard({ user, activateModal }) {
                     reminderContext={userData.reminderContext}
                     onStart={(modalData) => activateModal(modalData)}
                 />
+                {/* invite can be displayed only when the admin has created company */}
+
+                {companyData.id && userData.privilege == 'admin' ? <Invite company={companyData} /> : null}
             </div>
             : null
     )
@@ -55,11 +58,7 @@ export default function Dashboard({ user, activateModal }) {
             <div className='fitW m15'>
                 <h2>{`Welcome ${user}!`}</h2>
             </div>
-
             {displayReminders}
-            {/* invite can be displayed only when the admin has created company */}
-            {companyData.id && userData.privilege == 'admin' ? <Invite company={companyData} /> : null}
-
             <div className='card-inline'>
                 {cardElements.map(({ icon, title, value }, index) => (
                     <Card
