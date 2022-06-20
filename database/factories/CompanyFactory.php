@@ -17,9 +17,9 @@ class CompanyFactory extends Factory
      */
     public function definition()
     {
-        return [
-            'company' => $faker->company;,
-            'first_lane'
-        ];
+        // return [
+        //     'company' => $faker->company;,
+        //     'first_lane'
+        // ];
     }
 }
