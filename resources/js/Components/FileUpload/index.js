@@ -61,8 +61,6 @@ export default function FileUpload({ width, height, text, multiple, format, show
             return
         }
         else {
-            console.log(2)
-
             // check format and carry on.
 
             if (files.length > 1) {
@@ -98,8 +96,6 @@ export default function FileUpload({ width, height, text, multiple, format, show
     const clickToUpload = (e) => {
         e.preventDefault()
         e.stopPropagation()
-
-        console.log(FileUpload)
         FileUpload.current.click()
     }
 

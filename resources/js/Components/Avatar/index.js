@@ -62,7 +62,6 @@ export default function Avatar({logoutUser}) {
             }
         })
             .then((response) => {
-                console.log(response)
                 if(response.status ===  200) {
                     // remove the cookie, and use router to move the user to the login screen
                     logoutUser()
@@ -74,7 +73,6 @@ export default function Avatar({logoutUser}) {
     }
 
     const profile = () => {
-        console.log('profile')
     }
 
     const caller = (id) => {
