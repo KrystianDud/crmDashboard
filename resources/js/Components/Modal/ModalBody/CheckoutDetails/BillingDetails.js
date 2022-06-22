@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './index.css'
 
 import Button from '../../../Button/index';
 import Input from '../../../Global/Input'
 import CardComponent from './CardComponent';
 
-export default function BillingDetails({company}) {
+export default function BillingDetails({ company, onChange, getPaymentDetails }) {
+    const [first, setfirst] = useState({
+
+    });
+
     const bcg = {
         display: 'flex',
         flexDirection: 'column',
@@ -19,11 +23,18 @@ export default function BillingDetails({company}) {
         fontSize: '0.7rem',
         fontWeight: 600
     }
+
+    // pretended card number. change it later in a more sophisticated type of banking payment system
+    useEffect(() => {
+        const card_number = 1234567891011121 
+        getPaymentDetails(card_number)
+    }, [])
+
     return (
         <div>
             <h3>Billing Details</h3>
             <div className="billing-payment">
-                <CardComponent company={company}/>
+                <CardComponent company={company} />
                 <Button
                     text={'Use Other'}
                     type={'outlineNormal'}
@@ -37,7 +48,7 @@ export default function BillingDetails({company}) {
             <div className="billing-shipping">
                 <h3>Shipping Details</h3>
                 <Input
-                    id={'line_one'}
+                    id={'shipping_first_line'}
                     type={'text'}
                     margin={['5px']}
                     label={'First Line of the address'}
@@ -48,7 +59,7 @@ export default function BillingDetails({company}) {
                 />
 
                 <Input
-                    id={'line_one'}
+                    id={'shipping_second_line'}
                     type={'text'}
                     margin={['5px']}
                     label={'Second Line of the address'}
@@ -59,7 +70,7 @@ export default function BillingDetails({company}) {
                 />
 
                 <Input
-                    id={'line_one'}
+                    id={'shipping_city'}
                     type={'text'}
                     margin={['5px']}
                     label={'City'}
@@ -70,7 +81,7 @@ export default function BillingDetails({company}) {
                 />
 
                 <Input
-                    id={'line_one'}
+                    id={'shipping_postcode'}
                     type={'text'}
                     margin={['5px']}
                     label={'Postcode'}

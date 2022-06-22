@@ -6,7 +6,7 @@ import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import CheckoutDetails from '../Modal/ModalBody/CheckoutDetails/index'
 import Dropdown from '../Dropdown'
 
-export default function Cart({ shoppingCart, updateCart, activateModal, company }) {
+export default function Cart({ shoppingCart, updateCart, activateModal, company, user }) {
     const [open, setOpen] = useState(false)
     const [dropPos, setDropPos] = useState({
         x: 50,
@@ -32,11 +32,12 @@ export default function Cart({ shoppingCart, updateCart, activateModal, company 
 
     const updateModalData = () => {
         const data = {
-            type: 'checkoutDetails',
+            api: '/api/orders',
+            apiParameter: '',
             title: 'Cart Checkout',
             confirmationMessage: 'Purchase',
             cancelMessage: 'Cancel',
-            component: <CheckoutDetails shoppingCart={shoppingCart} company={company}/>,
+            component: <CheckoutDetails shoppingCart={shoppingCart} company={company} user={user}/>,
             width: '80%'
         }
 

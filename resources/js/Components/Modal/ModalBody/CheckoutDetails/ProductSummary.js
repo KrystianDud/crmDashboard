@@ -6,21 +6,19 @@ export default function ProductSummary({ cart }) {
     })
 
     // on start work out the totals for the items in the cart
-    useEffect(() => {
-        console.log(cart)
-        let currElement, productsTotal = 0, shipping, vat, totalSum
+    useEffect(() => { 
+        let currElement, productsTotal = 0, shipping = 0, vat = 0, totalSum = 0, getVat= 0
 
         cart.forEach(element => {
             currElement = element.quantity * Number(element.price);
-            productsTotal += currElement
-            console.log('currElement', currElement)
+            productsTotal += currElement 
         });
         // Add hardcoded shipping value, change in future to model based shipping costs/
         shipping = 50;
-        vat = (productsTotal + shipping) * 0.2
+        getVat = (productsTotal + shipping) * 0.2
         totalSum = productsTotal + shipping + vat
-
-        console.log(productsTotal)
+        vat = Number.parseFloat(getVat).toFixed(2); 
+        console.log(vat)
         setCosts({
             productsTotal: productsTotal,
             shipping: shipping,

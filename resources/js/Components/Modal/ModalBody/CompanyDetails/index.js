@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Input from '../../../Global/Input'
 import '../../../../../css/globals.css'
-export default function CompanyDetails({ onChange }) {
+export default function CompanyDetails({ computedData, setComputedData, updateData }) {
+    const [writeData, setWriteData] = useState({})
 
     const bcg = {
         display: 'flex',
@@ -29,6 +30,35 @@ export default function CompanyDetails({ onChange }) {
         ...inputStyle,
         border: 'none',
         margin: '1rem 0'
+    }
+
+    useEffect(() => {
+            const formData = new FormData() 
+
+            for (const [key, value] of Object.entries(writeData)) {
+                if (typeof value == 'string') {
+                    formData.append(key, value)
+                } else {
+                    formData.append(key, value, 'logo.jpg')
+                }
+            }
+            setComputedData(formData)
+        
+    }, [writeData])
+
+
+    const onChange = (e) => { 
+        const { id, value, files } = e.target; 
+        if (e.target.type === 'file') {
+            setWriteData(prevState => ({
+                ...prevState, [id]: files
+            }))
+        }
+        else {
+            setWriteData(prevState => ({
+                ...prevState, [id]: value
+            }))
+        } 
     }
 
     return (
@@ -84,7 +114,7 @@ export default function CompanyDetails({ onChange }) {
                 styleLabel={inputLabel}
                 styleInput={inputStyle}
             />
-            <div className='line100 mt mb'/>
+            <div className='line100 mt mb' />
             <Input
                 id={'website'}
                 type={'url'}
