@@ -52,12 +52,12 @@ class CompanyController extends Controller
             ]
         );
         if ($validator->fails()) {
-            return response()->json(["status" => "failed", "message" => "Validation error", "errors" => $validator->errors()]);
             return response(
                 [
                     "status" => "failed",
                     "message" => "Validation error",
-                    "errors" => $validator->errors()
+                    "errors" => $validator->errors(),
+                    'request' => $request->all()
                 ],
                 400
             );
