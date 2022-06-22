@@ -18,12 +18,81 @@ class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * Depending on the user type and their id we will determine 
+     * when company id is null then
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
+    {
+        // Validate order request
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'user_id' => 'nullable|numeric',
+                'company_id' => 'nullable|numeric',
+            ]
+        );
+        if ($validator->fails()) {
+            return response([
+                "status" => "failed",
+                "message" => "Validation error - user cannot be verified",
+                "errors" => $validator->errors()
+            ], 400);
+        }
+
+        // return response()->json($request->all());
+        if ($request->user_id && $request->company_id) {
+            $data = Transaction::where('user_id', $request->user_id)
+                ->where('company_id', $request->company_id)
+                ->select(array('id', 'order_date', 'status', 'payment'))
+                ->get();
+
+            $columns = ['id', 'date', 'status', 'payment', 'options'];
+            return response([
+                "status" => "success",
+                "message" => "Retrived transactions for single user",
+                "data" =>$data, 
+                "columns" =>$columns
+            ]);
+        } else {
+            $data = Transaction::all();
+            return response()->json($data);
+        }
+    }
+    
+    /**
+     * Retrive a list of products that were included in transaction as per the id param
+     *
+     */
+    public function get_transaction_products(Request $request, $id)
+    {
+        $order = Order::where('transaction_id', $id)->get();
+        $product_id_array = [];
+
+        foreach ($order as $value) {
+            array_push($product_id_array, $value['product_id']);
+        }
+
+        $products = Product::whereIn('id', $product_id_array)->get();
+
+        return response([
+            "status" => "success",
+            "message" => "Retrived products related to the transaction with id:" . $id,
+            "data" =>$products
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function indexUser(Request $request, $id)
     {
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -33,7 +102,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate product
+        // Validate checkout request
         $validator = Validator::make(
             $request->all(),
             [
@@ -52,7 +121,6 @@ class OrderController extends Controller
             ]
         );
         if ($validator->fails()) {
-            return response()->json(["status" => "failed", "message" => "Validation error", "errors" => $validator->errors()]);
             return response([
                 "status" => "failed",
                 "message" => "Validation error",
@@ -63,30 +131,33 @@ class OrderController extends Controller
         // orders are arrays containing the product_id, quantity
         // they are being checked against the inventory model and return error if stock does not match the requested quantity.
         $orders = $request->orders;
+
         foreach ($orders as $value) {
-            $product_id = $value->product_id;
-            $inventory = Inventory::find($product_id);
+            $product_id = $value['id'];
+            $inventory = Inventory::where('product_id', '=', $product_id)->first();
             $product = Product::find($product_id);
-            if ($value->quantity >= $inventory->quantity) {
+
+            // echo var_dump($inventory) . '<br/>';
+            if ($value['quantity'] >= $inventory->stock) {
                 return response([
                     "status" => "failed",
                     "message" => "Stock error",
-                    "errors" => "There is not enough items in inventory for: " . $product->name . ". Available stock is: " . $inventory->quantity . "."
+                    "errors" => "There is not enough items in inventory for: " . $product->name . ". Available stock is: " . $inventory->stock . "."
                 ], 409);
             }
         };
 
         // Simulate payment response successful
-        sleep(rand(1, 5));
+        // sleep(rand(1, 2));
 
         // update stock in Inventory table
         foreach ($orders as $value) {
-            $product_id = $value->product_id;
-            $calledQty = $value->quantity;
-            $inventory = Inventory::find($product_id);
-            $newQty = $inventory->quantity - $calledQty;
+            $product_id = $value['id'];
+            $calledQty = $value['quantity'];
+            $inventory = Inventory::where('product_id', '=', $product_id)->first();
+            $newQty = $inventory->stock - $calledQty;
             $inventory->stock = $newQty;
-            $inventory->save();
+            $inventory->update(['stock' => $newQty]);
         }
 
         // Price will be set on 0 and added later on inside of the loop
@@ -99,20 +170,20 @@ class OrderController extends Controller
             'user_id' => $request->user_id,
             'company_id' => $request->company_id,
             'order_date' => Carbon::now(),
-            // 'total' => $priceTotal
+            'total' => $priceTotal
         ]);
 
         // Create order item and add id of the transaction created above.
         foreach ($orders as $value) {
-            $product_id = $value->product_id;
+            $product_id = $value['id'];
             $product = Product::find($product_id);
 
-            $orderItemPrice = $value->quantity * $product->price;
+            $orderItemPrice = $value['quantity'] * $product->price;
             $priceTotal += $orderItemPrice;
 
             Order::create([
                 'product_id' => $product_id,
-                'quantity' => $value->quantity,
+                'quantity' => $value['quantity'],
                 'price' => $orderItemPrice,
                 'transaction_id' => $transaction->id
             ]);
@@ -126,5 +197,13 @@ class OrderController extends Controller
         // update transaction item using invoice_id and total column using $priceTotal from above
         $transaction->invoice_id = $invoice->id;
         $transaction->save();
+
+
+        $response["status"] = "successs";
+        $response["message"] = "Success! Purchased was processed successfully";
+        $response["transaction"] = $transaction;
+
+
+        return response()->json($response);
     }
 }
