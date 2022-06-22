@@ -20,7 +20,7 @@ import Table from '../Components/Table';
 import ProductSidebar from '../Components/ProductSidebar';
 
 
-export default function Products({ updateCart }) {
+export default function Products({ updateCart, openModal }) {
     const { toastList, setToastList } = useContext(ToastContext);
     const { userData, setUserData } = useContext(UserDataContext);
 
@@ -58,7 +58,7 @@ export default function Products({ updateCart }) {
 
     useEffect(() => {
         getList()
-    }, [])
+    }, [openModal])
 
     const getList = () => {
         axios.get('/api/products', {
