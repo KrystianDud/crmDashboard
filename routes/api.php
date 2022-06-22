@@ -3,6 +3,8 @@
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 /*
@@ -29,7 +31,9 @@ Route::group([
 });
 
 // COMPANY
-Route::post('/create_company_data/{user_id}', [CompanyController::class, 'store']);
+// Route::post('/create_company_data/{user_id}', [CompanyController::class, 'store']);
+Route::post('/create_company_data/', [CompanyController::class, 'store']);
+
 Route::get('/get_company/{id}', [CompanyController::class, 'index']);
 
 // PRODUCTS
@@ -37,7 +41,10 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::post('/products', [ProductController::class, 'store']);
 Route::put('/products/{$id}', [ProductController::class, 'update']);
 
-
+// ORDERS
+Route::post('/orders', [OrderController::class, 'store']);
+Route::get('/orders', [OrderController::class, 'index']);
+Route::get('/orders/{id}', [OrderController::class, 'get_transaction_products']);
 
 // Garbage (for now...)
 
@@ -47,10 +54,7 @@ Route::put('/products/{$id}', [ProductController::class, 'update']);
 
 // Route::get('/dashboard/transactions', function (){
 //     return new transactionLog()
-// })
-// Route::post('/register', function () {
-//     return view('home');
-// });
+// }) 
 
 // Route::get('/products/{$id}', [ProductController::class, 'show']);
 // Route::get('/products', [ProductController::class, 'show']);
