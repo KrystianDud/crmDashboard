@@ -58,8 +58,16 @@
     margin-inline: 15px;
 }
 
+.mInline20 {
+    margin-inline: 20px;
+}
+
 .pInline5 {
     padding-inline: 5px;
+}
+
+.pInline15 {
+    padding-inline: 15px;
 }
 
 
