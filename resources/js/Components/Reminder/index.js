@@ -14,14 +14,16 @@ import CompanyDetails from '../Modal/ModalBody/CompanyDetails';
  * @param {*} context 
  * @returns 
  */
-export default function Reminder({ onStart, reminderContext }) {
+export default function Reminder({ onStart, reminderContext, user }) {
     const prepareData = () => {
         console.log(reminderContext)
         if (reminderContext.length > 0) {
             switch (reminderContext[0]) {
                 case 'company':
                     let data = {
-                        type: 'companyDetails',
+                        api: 'api/create_company_data',
+                        apiParameter: user.id,
+                        type: 'formData',
                         title: 'Company Details',
                         confirmationMessage: 'Confirm',
                         cancelMessage: 'Dismiss',
