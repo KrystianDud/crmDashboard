@@ -12,7 +12,7 @@ import './index.css'
  * @returns 
  */
 
-export const newToast = (message, type) => {
+export const NewToast = (message, type) => {
     return { id: uniqueId(), message: message, type: type };
 }
 

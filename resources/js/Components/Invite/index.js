@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import './index.css'
 import Button from '../Button';
 
-import { newToast } from '../Toast/Index';
+import { NewToast } from '../Toast/Index';
 import { ToastContext } from '../../app';
 
 export default function Invite(company) {
@@ -17,7 +17,7 @@ export default function Invite(company) {
         navigator.clipboard.writeText(companyShareLogin);
         
         let message = 'The link was copied successfully!';
-        setToastList([...toastList, newToast(message, 'Success')]);
+        setToastList([...toastList, NewToast(message, 'Success')]);
     }
     return (
         <div className='flex flexColumn invite m20 smooth-shadow'>

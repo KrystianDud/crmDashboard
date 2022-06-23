@@ -17,7 +17,7 @@ import Toast from './Components/Toast/Index';
 import Modal from './Components/Modal';
 import axios from 'axios';
 
-import { newToast } from './Components/Toast';
+import { NewToast } from './Components/Toast';
 
 export const ToastContext = createContext({
     toastList: [],
@@ -64,7 +64,7 @@ function App() {
     );
 
     useEffect(() => {
-        // setToastList([...toastList, newToast('test message', 'warning')])
+        // setToastList([...toastList, NewToast('test message', 'warning')])
 
         // do auth check on page load. if not here the page will route to login page
         let userAuthVar
@@ -89,7 +89,7 @@ function App() {
                 })
                 .catch((error) => {
                     let message = 'Could not update company data!'
-                    setToastList([...toastList, newToast(message, 'Danger')])
+                    setToastList([...toastList, NewToast(message, 'Danger')])
                 })
             switch (window.location.pathname) {
                 case "/":
@@ -157,7 +157,7 @@ function App() {
         setModalData({});
 
         // let message = 'Company information was saved successfully!'
-        setToastList([...toastList, newToast(message, 'Success')])
+        setToastList([...toastList, NewToast(message, 'Success')])
     }
 
     const getDirectory = (id) => {

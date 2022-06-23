@@ -7,7 +7,7 @@ import RegisterView from '../Components/Login/RegisterView'
 import SplashView from '../Components/Login/SplashView'
 import axios from 'axios';
 
-import Toast, { newToast } from '../Components/Toast/Index'
+import Toast, { NewToast } from '../Components/Toast/Index'
 
 export default function Login({ processUser }) {
     const [newUser, setNewUser] = useState(true)
@@ -23,7 +23,7 @@ export default function Login({ processUser }) {
         let newData = data;
 
         if (newData.email === '' || !newData.email.includes('@')) {
-            setToastList([...toastList, newToast('Email structure is not correct', 'Warning')])
+            setToastList([...toastList, NewToast('Email structure is not correct', 'Warning')])
             return
         }
 
@@ -84,16 +84,16 @@ export default function Login({ processUser }) {
                     processUser(userData)
                 }
                 else if (response.status == 201) {
-                    setToastList([...toastList, newToast('New account has been created', 'Success')])
+                    setToastList([...toastList, NewToast('New account has been created', 'Success')])
                     setNewUser(false)
                     localStorage.setItem('token', JSON.stringify(response.data.token))
                 }
                 else {
-                    setToastList([...toastList, newToast('User cannot be verified.', 'Warning')])
+                    setToastList([...toastList, NewToast('User cannot be verified.', 'Warning')])
                 }
             })
             .catch((error) => {
-                setToastList([...toastList, newToast('Something went wrong, please try again.', 'Warning')])
+                setToastList([...toastList, NewToast('Something went wrong, please try again.', 'Warning')])
                 console.error('some details are incorrect', error)
             })
     }

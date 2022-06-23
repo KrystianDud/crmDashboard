@@ -7,7 +7,7 @@ import { faFilter, faList, faGripHorizontal } from '@fortawesome/free-solid-svg-
 
 import axios from 'axios';
 
-import Toast, { newToast } from '../Components/Toast/Index';
+import Toast, { NewToast } from '../Components/Toast/Index';
 import { UserDataContext } from '../app'
 import { ToastContext } from '../app';
 
@@ -78,11 +78,11 @@ export default function Products({ updateCart, openModal }) {
             headers: { 'content-type': 'application/json' },
         })
             .then((response) => {
-                setToastList([...toastList, newToast('The item was removed!', 'Success')])
+                setToastList([...toastList, NewToast('The item was removed!', 'Success')])
                 getList()
             })
             .catch(function (error) {
-                setToastList([...toastList, newToast('There was a problem with removing the item, try again later!', 'Danger')])
+                setToastList([...toastList, NewToast('There was a problem with removing the item, try again later!', 'Danger')])
                 console.error(error.response.data.errors)
             });
     }
@@ -116,7 +116,7 @@ export default function Products({ updateCart, openModal }) {
     }
 
     const showToast = (type, message) => {
-        setToastList([...toastList, newToast(message, type)])
+        setToastList([...toastList, NewToast(message, type)])
     }
 
     const DisplayCardList = (
