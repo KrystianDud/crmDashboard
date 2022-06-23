@@ -1,98 +1,92 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './index.css'
+import '../../../css/globals.css'
 import { uniqueId } from 'lodash';
+import moment from 'moment';
+
 import Button from '../Button';
+import Slider from '../../Orders/Slider';
+
+import axios from 'axios';
 /**
  *  Column should be an object consisting of the id, keyName recognised by the table content and columnNames
  * @param {*} param0 
  * @returns 
  */
-export default function Table({ columns, list, editItem, options, user }) {
-    const [rows, setRows] = useState(null)
+export default function Table({ columns, list, editItem, options, provideOptions, sliderData }) {
+    const [transactionProducts, setTransactionproducts] = useState(null);
+    const [transactionInvoice, setTransactionInvoice] = useState(null);
+    const [sliderId, setSliderId] = useState(0)
+    const [viewQueue, setViewQueue] = useState([])
 
-    // on start rearrange the content of the table according to the columns name.
-    useEffect(() => {
-        arrangeContent(list)
-    }, [])
+    const tableBodyRef = useRef(null)
+    console.log(tableBodyRef)
 
+    // ToDo move this to the order and pass as a prop as this is not integral part of the table component
+    const slideDetails = (id) => {
+        if (transactionInvoice) {
 
-    const arrangeContent = () => {
-        let columnKeys = [];
-        columns.forEach(item => {
-            columnKeys.push(item.keyName)
-        })
-        let listKeys = Object.keys(list[0]);
-        let includeKeys = listKeys.filter(keys => columnKeys.some(column => column == keys));
-        let listArray = [];
-        list.forEach((item,) => {
-            let newItem = {}
-            for (let i = 0; i < Object.keys(item).length; i++) {
-                for (let j = 0; j < includeKeys.length; j++) {
-                    if (Object.keys(item)[i] == includeKeys[j]) {
-                        newItem[includeKeys[j]] = item[includeKeys[j]]
-                    }
-                }
-            }
-            listArray.push(newItem)
-        });
-        setRows(listArray)
+        }
+    }
+
+    // get the data using transaction id - will retrive products specific only for this transaction.
+    // Next, will update the state and display the list of thiem inside of the slideDetails variable.
+    // Last, will display data as per structure in slideDetails component.
+    const insertDetailsContainer = (id) => {
+        setSliderId(id);
+        // in order to activate the animation efficiently program must know what was the last id of the row becuse
+        // only then the animate-out can be triggered. setting this to true on load causes nasty glitch which makes the application unusable!
+        let array = viewQueue;
+        array.push(id)
+        setViewQueue(array)
     };
 
-    const provideOptions = (
-        user.type == 'service' ?
-            // service
-            <td>
-                <Button
-                    text={'Update'}
-                    type={'contained'}
-                    disabled={false}
-                    color={'normal'}
-                    size={'lg'}
-                    icon={null}
-                    callback={() => editItem(index)}
-                />
-            </td>
-            :
-            // client
-            <td>
-                <Button
-                    text={'Buy'}
-                    type={'contained'}
-                    disabled={false}
-                    color={'normal'}
-                    size={'lg'}
-                    icon={null}
-                    callback={() => buyItem(index)}
-                />
-            </td>
-    );
 
     return (
-        <table className='table'>
-
-            <thead>
-                <tr className='table-header'>
+        <div className="table">
+            <div className="table-head">
+                <div className="table-head table-control">
                     {columns.map((column) => (
-                        <th className='border-grey-secondary' key={column.keyName}>{column.name}</th>
+                        <div className="table-section table-cell border-grey-secondary" key={column}>
+                            {column}
+                        </div>
                     ))}
-                </tr>
-            </thead>
+                </div>
+                <div className="table-body">
+                    {list.map((row, index) => (
+                        <React.Fragment key={uniqueId()} >
+                            <div className={`table-control table-row border-grey-secondary ${sliderId == row.id ? 'table-row-selected' : ''}`}>
+                                {Object.keys(row).map((rowData) => (
+                                    <div key={uniqueId() + '.' + row.order_date} className='table-cell'>
+                                        {row[rowData] == 'price' ? `£${row[rowData]}` : row[rowData]}
+                                    </div>
+                                ))}
 
-            <tbody>
-                {rows != 'undefined' ? rows && rows.map((row, index) => (
-                    <tr key={uniqueId()} className='w table-row border-grey-secondary table-row-thin' >
+                                {options ?
+                                    <div className='table-cell'>
+                                        <Button
+                                            text={'View'}
+                                            type={'contained'}
+                                            disabled={false}
+                                            color={'normal'}
+                                            size={'sm'}
+                                            icon={null}
+                                            callback={() => insertDetailsContainer(row.id)}
+                                        />
+                                    </div> : null}
+                            </div>
 
-                        {row != 'undefined' ? Object.keys(row).map((rowData) => (
-                            <td key={uniqueId()} className='table-element'>
-                                {row[rowData] == 'price' ? `£${row[rowData]}` : row[rowData]}
-                            </td>
-                        )) : 'loading'}
+                            <Slider
+                                sliderData={sliderData}
+                                id={row.id}
+                                activeId={sliderId}
+                                array={viewQueue}
+                            />
+                        </React.Fragment>
+                    ))}
+                </div>
+            </div>
 
-                        {/* add mandatory controller to edit or to buy the product */}
-                        {options ? provideOptions : null}
-                    </tr>
-                )) : null}
-            </tbody>
-        </table>
+        </div >
     )
 };

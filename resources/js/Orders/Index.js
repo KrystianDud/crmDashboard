@@ -5,6 +5,7 @@ import { UserDataContext } from '../app'
 import Table from '../Components/Table';
 import ButtonRectangle from '../Components/IconButtons/ButtonRectangle';
 import Button from '../Components/Button';
+import Slider from './Slider';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faPaperclip, faList } from '@fortawesome/free-solid-svg-icons';
@@ -13,21 +14,14 @@ import axios from 'axios';
 export default function Orders({ user }) {
     const { userData, setUserData } = useContext(UserDataContext);
 
-    const [x, setX] = useState(0)
-    const [y, setY] = useState(0)
+    const [active, setActive] = useState(0);
+    const [filterView, setFilterView] = useState(false);
+    const [currentTransactions, setCurrentTransactions] = useState(null);
+    const [sliderData, setSliderData] = useState(null)
+    const [columnsClient, setColumnsClient] = useState(null);
 
-    const [active, setActive] = useState(0)
-    const [filterView, setFilterView] = useState(false)
-    const [currentList, setCurrentlist] = useState()
-
-    // The reason for hardcoded columns is becuase sometimes there might be a 
-    // chance that the name of the item for the table might have undescore which will result in bad UX
-    // Later this should be moved to backend so it can return the tables based on the user verification approach
-    const [columnsClient, setColumnsClient] = useState();
 
     useEffect(() => {
-        console.log('parmas', user.id, user.company_id)
-
         axios.get('/api/orders', {
             params: {
                 user_id: user.id,
@@ -37,8 +31,9 @@ export default function Orders({ user }) {
         })
             .then((response) => {
                 console.log(response)
-                setCurrentlist(response.data.data)
+                setSliderData(response.data.slider)
                 setColumnsClient(response.data.columns)
+                setCurrentTransactions(response.data.transactions)
             })
 
     }, [user])
@@ -89,15 +84,18 @@ export default function Orders({ user }) {
                         onClick={filterList}
                     />
                 </div>
-                {currentList && columnsClient ?
+                {currentTransactions && columnsClient ?
                     <Table
                         columns={columnsClient}
-                        list={currentList}
+                        list={currentTransactions}
+
                         showDetails={null}
                         options={true}
                         provideOptions={provideOptions}
-                        editItem={null}
-                        user={userData}
+                        editItem={null} 
+
+                        showSlider={true}
+                        sliderData={sliderData} 
                     /> : null}
             </div>
         </div>

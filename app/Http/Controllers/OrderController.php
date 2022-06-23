@@ -12,7 +12,7 @@ use App\Models\Transaction;
 use App\Models\Invoicing;
 
 use Illuminate\Support\Carbon;
-
+use stdClass;
 
 class OrderController extends Controller
 {
@@ -43,24 +43,49 @@ class OrderController extends Controller
 
         // return response()->json($request->all());
         if ($request->user_id && $request->company_id) {
-            $data = Transaction::where('user_id', $request->user_id)
+            $transaction = Transaction::where('user_id', $request->user_id)
                 ->where('company_id', $request->company_id)
                 ->select(array('id', 'order_date', 'status', 'payment'))
                 ->get();
 
+            // get products associtaed with this transaction
+            $product_list = new stdClass; 
+            $invoice_list = new stdClass;
+
+            // create invoice and product list referenced by transaction id
+            foreach ($transaction as $value) {
+                // get all orders related to this transaction
+                $transaction_id = $value['id'];
+                $orders = Order::where('transaction_id', $transaction_id)->pluck('product_id')->all();
+                // loop through all orders and provide product for that.
+                if (count($orders) > 1) {
+                    $products = Product::whereIn('id', $orders)->get();
+                } else {
+                    $products = Product::where('id', $orders)->get();
+                }
+                // $transaction_id_list = $transaction_id_list[strval($transaction_id)] => $products;
+                $product_list->$transaction_id = $products;
+
+                $invoices = Invoicing::where('transaction_id', $transaction_id)->get();
+                $invoice_list->$transaction_id = $invoices;
+            }
+
+            $slider = ['products' => $product_list,'invoices' => $invoice_list];
             $columns = ['id', 'date', 'status', 'payment', 'options'];
+
             return response([
                 "status" => "success",
                 "message" => "Retrived transactions for single user",
-                "data" =>$data, 
-                "columns" =>$columns
+                "transactions" => $transaction,
+                "slider" => $slider,
+                "columns" => $columns
             ]);
         } else {
             $data = Transaction::all();
             return response()->json($data);
         }
     }
-    
+
     /**
      * Retrive a list of products that were included in transaction as per the id param
      *
@@ -76,10 +101,12 @@ class OrderController extends Controller
 
         $products = Product::whereIn('id', $product_id_array)->get();
 
+        $invoice = Invoicing::where('transaction_id', $id)->first();
         return response([
             "status" => "success",
             "message" => "Retrived products related to the transaction with id:" . $id,
-            "data" =>$products
+            "data" => $products,
+            "invoice" => $invoice
         ]);
     }
 
@@ -113,7 +140,7 @@ class OrderController extends Controller
                 'billing_second_line' => 'required',
                 'billing_city_line' => 'required',
                 'billing_postcode' => 'required',
-                'card_number' => 'required|numeric',
+                'card_number' => 'required',
                 'shipping_first_line' => 'required',
                 'shipping_second_line' => 'required',
                 'shipping_city' => 'required',
@@ -138,7 +165,7 @@ class OrderController extends Controller
             $product = Product::find($product_id);
 
             // echo var_dump($inventory) . '<br/>';
-            if ($value['quantity'] >= $inventory->stock) {
+            if ($value['quantity'] > $inventory->stock) {
                 return response([
                     "status" => "failed",
                     "message" => "Stock error",
@@ -191,7 +218,16 @@ class OrderController extends Controller
 
         // create invoice table
         $invoice = Invoicing::create([
-            'transaction_id' => $transaction->id
+            'transaction_id' => $transaction->id,
+            'billing_first_line' => $request->billing_first_line,
+            'billing_second_line' => $request->billing_second_line,
+            'billing_city_line' => $request->billing_city_line,
+            'billing_postcode' => $request->billing_postcode,
+            'card_number' => $request->card_number,
+            'shipping_first_line' => $request->shipping_first_line,
+            'shipping_second_line' => $request->shipping_second_line,
+            'shipping_city' => $request->shipping_city,
+            'shipping_postcode' => $request->shipping_postcode,
         ]);
 
         // update transaction item using invoice_id and total column using $priceTotal from above
