@@ -10,7 +10,7 @@ import Button from '../Button'
 import FileUpload from '../FileUpload'
 
 
-export default function ProductSidebar({ getList, showSidebar, closeItem, newItem, showToast }) {
+export default function ProductSidebar({ getList, showSidebar, closeItem, newItem, showToast, productList, selectedProduct }) {
 
     const [product, setProduct] = useState({
         id: null,
@@ -19,8 +19,30 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
         price: 0,
         prod_pic: ''
     })
+
+    useEffect(() => {
+        if (!newItem && selectedProduct) {
+            let selectedProd = productList.filter(item => item.id == selectedProduct)[0]
+            setProduct({
+                id: selectedProd.id,
+                name: selectedProd.name,
+                description: selectedProd.description,
+                price: selectedProd.price,
+                prod_pic: selectedProd.slug
+            })
+        }
+        else {
+            setProduct({
+                id: null,
+                name: '',
+                description: '',
+                price: 0,
+                prod_pic: ''
+            })
+        }
+    }, [selectedProduct])
+
     const createProduct = (value, id) => {
-        console.log(value, id)
         setProduct(prevState => ({
             ...prevState, [id]: value
         }));
@@ -31,11 +53,11 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
         const data = new FormData()
         data.append('name', product.name)
         data.append('description', product.description)
-        data.append('price', product.price) 
-        data.append('prod_pic', product.prod_pic, product.prod_pic.name) 
+        data.append('price', product.price)
+        data.append('prod_pic', product.prod_pic, product.prod_pic.name)
 
         let url
-        if(product.id) {
+        if (product.id) {
             url = `/api/products/${product.id}`
         }
         else {
@@ -77,27 +99,35 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
                 <BorderLine />
 
                 <div className="w100 minH10vh">
-                    {newItem ?
-                        <div className='flexColumn flexLeft w100 m5 product-stack'>
-                            <p className='stack-heading'>Product name</p>
-                            <p className='stack-thin'>Add name of product visible for everyone.</p>
+
+                    <div className='flexColumn flexLeft w100 m5 product-stack'>
+                        <p className='stack-heading'>Product name</p>
+                        <p className='stack-thin'>Add name of product visible for everyone.</p>
+                        {newItem ?
                             <input id='name' type='text' className='subtleInput' onChange={(e) => createProduct(e.target.value, e.target.id)} />
-                        </div>
-                        :
-                        <h4 className="showTitle">{product.name}</h4>}
+                            :
+                            <input id='name' type='text' className='subtleInput' value={product.name} onChange={(e) => createProduct(e.target.value, e.target.id)} />
+                        }
+                    </div>
+
+                    <h4 className="showTitle">{product.name}</h4>
                 </div>
 
                 <BorderLine />
 
                 <div className="w100 minH10vh">
-                    {newItem ?
-                        <div className='flexColumn flexLeft m5 product-stack' style={{ margin: '5px 0 5px 5px' }}>
-                            <p className='stack-heading'>Product Description</p>
-                            <p className='stack-thin'>Provide information about the product.</p>
-                            <textarea id='description' type='text' maxLength='200' rows='8' className='subtleInput ' onChange={(e) => createProduct(e.target.value, e.target.id)} />
-                        </div>
-                        :
-                        <p className="showTitle">{product.description}</p>}
+
+                    <div className='flexColumn flexLeft m5 product-stack' style={{ margin: '5px 0 5px 5px' }}>
+                        <p className='stack-heading'>Product Description</p>
+                        <p className='stack-thin'>Provide information about the product.</p>
+                        {newItem ?
+                            <textarea id='description' type='text' maxLength='200' rows='5' className='subtleInput ' onChange={(e) => createProduct(e.target.value, e.target.id)} />
+                            :
+                            <textarea id='description' type='text' maxLength='200' rows='5' className='subtleInput ' onChange={(e) => createProduct(e.target.value, e.target.id)} />
+                        }
+                    </div>
+
+                    <p className="showTitle">{product.description}</p>
                 </div>
 
                 <BorderLine />
@@ -143,15 +173,15 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
             </div>
 
             <div className="w100" style={{ margin: 'auto' }}>
-            <Button
-                text={'Update'}
-                type={'contained'}
-                disabled={false}
-                color={'normal'}
-                size={'lg'}
-                icon={null}
-                callback={() => saveProduct()}
-            />
+                <Button
+                    text={'Update'}
+                    type={'contained'}
+                    disabled={false}
+                    color={'normal'}
+                    size={'lg'}
+                    icon={null}
+                    callback={() => saveProduct()}
+                />
             </div>
 
 
