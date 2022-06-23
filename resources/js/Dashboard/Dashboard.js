@@ -45,6 +45,7 @@ export default function Dashboard({ user, activateModal }) {
                 <Reminder
                     reminderContext={userData.reminderContext}
                     onStart={(modalData) => activateModal(modalData)}
+                    user={userData}
                 />
                 {/* invite can be displayed only when the admin has created company */}
 
