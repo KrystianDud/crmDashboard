@@ -3,10 +3,15 @@ import '../index.css'
 
 import Button from '../../Button/index.js'
 
-export default function ComposeMessage() {
+export default function ComposeMessage({ onChange, sendMessage }) {
     return (
         <div className='message-compose-box flexRow alignCenter justifyBetween'>
-            <textarea  className='message-compose-input' type="text" />
+            <textarea
+                className='message-compose-input'
+                type="text"
+                onChange={(e) => onChange(e.target.value)}
+            />
+
             <div className="messages-compose">
                 <Button
                     text={'Send'}
@@ -15,7 +20,7 @@ export default function ComposeMessage() {
                     color={'normal'}
                     size={'lg'}
                     icon={null}
-                    callback={() => console.log('this should send a message')}
+                    callback={() => sendMessage}
                 />
             </div>
         </div>

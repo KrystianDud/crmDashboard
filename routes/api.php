@@ -4,6 +4,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\MessageController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,14 @@ Route::put('/products/{$id}', [ProductController::class, 'update']);
 Route::post('/orders', [OrderController::class, 'store']);
 Route::get('/orders', [OrderController::class, 'index']);
 Route::get('/orders/{id}', [OrderController::class, 'get_transaction_products']);
+
+// Messages
+Route::get('/users', [MessageController::class, 'get_users']);
+Route::post('/chats',[MessageController::class, 'store']);
+Route::get('/chats',[MessageController::class, 'index']);
+
+
+
 
 // Garbage (for now...)
 

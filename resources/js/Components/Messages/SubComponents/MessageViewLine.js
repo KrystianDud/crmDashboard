@@ -1,6 +1,14 @@
-import React from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 
-export default function MessageViewLine() {
+export default function MessageViewLine({users, user}) {
+    const [first, setfirst] = useState(second)
+    useLayoutEffect(() => {
+        // When messages array updates get last item
+
+    }, [messages])
+
+    
+    
     return (
         <div className='flexRow'>
             <div

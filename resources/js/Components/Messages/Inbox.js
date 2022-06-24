@@ -5,23 +5,10 @@ import Button from '../Button/index'
 
 import InboxHead from './SubComponents/InboxHead'
 
-export default function Inbox() {
+export default function Inbox({messageDetails}) {
     return (
-        <div className='messages-inbox flexColumn alignCenter'>
-            <div className='flexRow justifyEnd'>
-                <Button
-                    text={'New Message'}
-                    type={'contained'}
-                    disabled={false}
-                    color={'normal'}
-                    size={'lg'}
-                    icon={null}
-                    callback={() => console.log('creating Message')}
-                />
-            </div>
-            <div className="messages-inbox-container">
-                <InboxHead />
-            </div>
+        <div className="messages-inbox-container">
+            <InboxHead />
         </div>
     )
 }

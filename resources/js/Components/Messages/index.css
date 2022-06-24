@@ -67,6 +67,7 @@
 
 .messages-view {
     flex: 1;
+    height: 100%;
 }
 
 .messages-view {}
@@ -123,6 +124,9 @@
     /* border: 1px solid #C2DEFD; */
     border: none;
 }
+.message-compose-input:focus-within {
+    border: none;
+}
 
 /* NEW MESSAGE COMPONENT */
 
@@ -158,9 +162,17 @@
 .messages-contacts-item {
     border: 1px solid #D9D9D9;
     border-radius: 15px;
+    transition: 0.2s;
+    cursor: pointer;
 }
 
-.messages-contacts-item {}
+.messages-contacts-item:hover {
+    background-color: #f7f7f7;
+}
+
+.messages-contacts-item-selected {
+    background-color: #dfdfdf;
+}
 
 .messages-contacts-item-name {
 
