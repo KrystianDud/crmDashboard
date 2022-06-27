@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import React from 'react'
 import './index.css'
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 /**
  * @param {text} - button text
  * @param {type} - text , contained , outlined, outlineNormal, outlineSuccess, outlineDanger
@@ -25,7 +27,7 @@ export default function Button({ text, type, disabled, color, size, icon, iconSi
             }
             onClick={disabled ? null : callback}
         >
-            {icon ? <FontAwesomeIcon size={size} icon={iconOne} /> : null} {text}
+            {icon ? <FontAwesomeIcon size={size} icon={icon} /> : null} {text}
         </button>
     )
 }
