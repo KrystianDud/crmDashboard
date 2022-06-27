@@ -21,9 +21,19 @@ export default function Reminder({ onStart, reminderContext, user }) {
             switch (reminderContext[0]) {
                 case 'company':
                     let data = {
-                        api: 'api/create_company_data',
-                        apiParameter: user.id,
-                        type: 'formData',
+                        sendRequest: (data, callback) => {
+                            axios.post(`api/create_company_data/${user.id}`, data)
+                                .then((response) => {
+                                    if (response.status === 200) {
+                                        console.log('company details ', response)
+                                        localStorage.setItem('companyData', JSON.stringify(response.data.company))
+                                        callback(response.data.message)
+                                    }
+                                })
+                                .catch((error) => {
+                                    console.log(error, ' data: ', data)
+                                })
+                        },
                         title: 'Company Details',
                         confirmationMessage: 'Confirm',
                         cancelMessage: 'Dismiss',
