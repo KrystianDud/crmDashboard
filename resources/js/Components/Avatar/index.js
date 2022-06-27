@@ -5,7 +5,7 @@ import axios from 'axios'
 
 import Dropdown from '../Dropdown'
 
-export default function Avatar({logoutUser}) {
+export default function Avatar({ user, logoutUser }) {
     const [open, setOpen] = useState(false)
     const [dropPos, setDropPos] = useState({
         x: 0,
@@ -62,7 +62,7 @@ export default function Avatar({logoutUser}) {
             }
         })
             .then((response) => {
-                if(response.status ===  200) {
+                if (response.status === 200) {
                     // remove the cookie, and use router to move the user to the login screen
                     logoutUser()
                 }
@@ -90,7 +90,11 @@ export default function Avatar({logoutUser}) {
 
     return (
         <div className='relative' onMouseLeave={() => setOpen(false)}>
-            <button className='avatar' onClick={(e) => openDropdown(e)} ></button>
+            <button
+                className='avatar'
+                onClick={(e) => openDropdown(e)}
+                style={{ backgroundImage: `url(${user.avatar ? user.avatar.slice(6) : null})`, }}
+            ></button>
 
             <Dropdown
                 type={'simple'}
