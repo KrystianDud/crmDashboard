@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('website');
             $table->string('logo');
             $table->string('email');
-
+            $table->string('company_id_token', 256);
             $table->timestamps();
         });
     }

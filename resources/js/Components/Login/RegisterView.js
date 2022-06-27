@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react'
 import '../../Login/index.css';
 import Input from '../Global/Input';
 
-export default function RegisterView({ verifyCredidentials, changeView }) {
+export default function RegisterView({ verifyCredidentials, changeView, block }) {
     const [formDetails, setFormDetails] = useState({
         email: '',
         password: '',
         type: false,
-        company: ''
     })
     // const [showPasswordWarn, setPasswordWarn] = useState(false);
     // useEffect(() => {
@@ -17,7 +16,7 @@ export default function RegisterView({ verifyCredidentials, changeView }) {
 
     const updateForms = (e) => {
         if (e.target.id == 'type') {
-            setFormDetails({ ...formDetails, type: e.target.checked })
+            setFormDetails({ ...formDetails, [e.target.id]: e.target.checked })
         }
         else {
             setFormDetails({ ...formDetails, [e.target.id]: e.target.value })
@@ -34,13 +33,16 @@ export default function RegisterView({ verifyCredidentials, changeView }) {
                     label={'Name'}
                     onChange={(e) => updateForms(e)}
                 />
-                <Input
-                    id={'type'}
-                    type={'checkbox'}
-                    margin={['5px']}
-                    label={'I\'m user of business involved in buying the products '}
-                    onChange={(e) => updateForms(e)}
-                /> 
+
+                {block ? null :
+                    <Input
+                        id={'type'}
+                        type={'checkbox'}
+                        margin={['5px']}
+                        label={'I\'m user of business involved in buying the products '}
+                        onChange={(e) => updateForms(e)}
+                    />}
+
                 <Input
                     id={'email'}
                     type={'email'}
@@ -59,9 +61,12 @@ export default function RegisterView({ verifyCredidentials, changeView }) {
                 {/* {showPasswordWarn ? <p style={{ color: 'red' }}> The passwords do not match</p> : null} */}
 
                 <button className='loginButton' onClick={() => verifyCredidentials(formDetails, 'register')}>Register</button>
-                <div className='signupLine'>
-                    <p>Already a user?<b className='signupText' onClick={() => changeView()}> Login now!</b></p>
-                </div>
+
+                {block ? null :
+                    <div className='signupLine'>
+                        <p>Already a user?<b className='signupText' onClick={() => changeView()}> Login now!</b></p>
+                    </div>
+                }
 
             </div>
         </div>

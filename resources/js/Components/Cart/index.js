@@ -32,6 +32,7 @@ export default function Cart({ shoppingCart, updateCart, activateModal, company,
 
     const updateModalData = () => {
         const data = {
+            method: 'POST',
             api: '/api/orders',
             apiParameter: '',
             title: 'Cart Checkout',

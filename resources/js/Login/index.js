@@ -9,11 +9,13 @@ import axios from 'axios';
 
 import Toast, { NewToast } from '../Components/Toast/Index'
 
-export default function Login({ processUser }) {
+export default function Login({ processUser, block }) {
     const [newUser, setNewUser] = useState(true)
     const [toastList, setToastList] = useState([])
-
+    const [comapnyToken, setCompanyToken] = useState('')
     useEffect(() => {
+        const companyIdToken = window.location.search
+
         // Check on load what cookies are in there. 
         // If sign of token then assume that user has visited page before thus will prefer login page.
         if (document.cookie.includes('Bearer')) setNewUser(false)
@@ -26,15 +28,22 @@ export default function Login({ processUser }) {
             setToastList([...toastList, NewToast('Email structure is not correct', 'Warning')])
             return
         }
-
-        if (type) {
-            if (newData.type) {
-                newData.type = 'client';
-            }
-            else {
-                newData.type = 'service';
-            }
+        // This is not real token. this is saved string associated with the specific company from the email.
+        // This will ensure solid authenticity for the not real application.
+        // of course this should never take place in the real world implementation!!!!
+        if (window.location.search.length > 255) {
+            const sanitiseToken = window.location.search.slice(5);
+            newData.company_id_token = sanitiseToken
         }
+
+        if ((!block && newData.type) || (block && !newData.type)) {
+            newData.type = 'service';
+        }
+        else {
+            newData.type = 'client';
+        }
+
+        console.log(type)
 
         // During the registration process it would be good to create a client company in db 
         // provided that type and company names are in the newData obj
@@ -51,10 +60,13 @@ export default function Login({ processUser }) {
                 'Authorization': `Bearer=${cookieValue}`
             }
         }
-        if (type == 'registration') {
+        else if (type == 'register') {
             registrationHeader = {
                 'content-type': 'application/json',
             }
+        }
+        else {
+            return
         }
 
         axios({
@@ -112,6 +124,7 @@ export default function Login({ processUser }) {
                         <RegisterView
                             verifyCredidentials={verifyCredidentials}
                             changeView={changeView}
+                            block={block}
                         />
                         :
                         <LoginView

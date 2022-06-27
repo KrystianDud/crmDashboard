@@ -1,4 +1,4 @@
-import React, { cloneElement, useState } from 'react';
+import React, { cloneElement, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Button';
@@ -14,24 +14,33 @@ import axios from 'axios';
  * remove any data controllers from this component as this is reusable and universal component
  * ensure that the computed data state is in a appropiate format to be ready for the api request. 
  */
-export default function Modal({ api, apiParameter, type, title, confirmationMessage, cancelMessage, onClose, onAccept, BodyComponent, widthSize }) {
+export default function Modal({ sendRequest, title, confirmationMessage, cancelMessage, onClose, onAccept, BodyComponent, widthSize, activationData }) {
     const [computedData, setComputedData] = useState(null);
-    const sendData = (e) => {
-        axios(api, {
-            method: 'POST',
-            data: computedData
-        })
-            .then((response) => {
-                console.log(response)
-                if (response.status === 200) {
-                    onAccept(response.data.message)
+
+    useEffect(() => {
+        console.info('on boot of modal, data passed: ', sendRequest)
+    }, [])
+
+    const sendData = () => {
+        sendRequest(computedData, onAccept);
+    }
+
+    const disableControl = () => {
+        if (activationData) {
+            let confirmedDataArray = [];
+            Object.keys(computedData).forEach((item) => {
+                for (let i = 0; i < activationData.length; i++) {
+                    if (confirmedDataArray.length == activationData.length) {
+                        return true
+                    }
+                    if (item == activationData[i] && computedData[activationData[i]].length > 1) {
+                        confirmedDataArray.push(i)
+                        console.log('disableControl value name', computedData[activationData[i]], '  key  ', item)
+                    }
                 }
             })
-            .catch((error) => {
-                console.log(error)
-            })
-            .then(() => {
-            })
+        }
+        return false
     }
 
     return (
@@ -41,9 +50,9 @@ export default function Modal({ api, apiParameter, type, title, confirmationMess
             <div className='modal-box smooth-shadow' style={{ width: widthSize }}>
                 <div className="modal-head">
                     <h3 className='title'>{title}</h3>
-                    <button className="close-icon" onClick={() => onClose()}>
+                    {disableControl() ? <button className="close-icon" onClick={() => onClose()}>
                         <FontAwesomeIcon icon={faClose} size='lg' />
-                    </button>
+                    </button> : false}
                 </div>
                 <div className="modal-content">
                     {cloneElement(BodyComponent, { computedData, setComputedData }, null)}
@@ -52,7 +61,7 @@ export default function Modal({ api, apiParameter, type, title, confirmationMess
                     <Button
                         text={cancelMessage}
                         type={'outlineDanger'}
-                        disabled={false}
+                        disabled={disableControl() ? true : false}
                         color={''}
                         size={'lg'}
                         icon={null}
@@ -61,7 +70,7 @@ export default function Modal({ api, apiParameter, type, title, confirmationMess
                     <Button
                         text={confirmationMessage}
                         type={'contained'}
-                        disabled={false}
+                        disabled={disableControl() ? true : false}
                         color={'normal'}
                         size={'lg'}
                         icon={null}

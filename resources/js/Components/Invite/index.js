@@ -12,7 +12,7 @@ export default function Invite(company) {
         const companyData = Object.values(company)[0]
 
         const href = window.location.href
-        const companyShareLogin = `${href}api/register/${companyData.id}`;
+        const companyShareLogin = `${href}/register/?id:=${companyData.company_id_token}`;
 
         navigator.clipboard.writeText(companyShareLogin);
         

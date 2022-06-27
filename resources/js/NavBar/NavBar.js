@@ -28,7 +28,7 @@ export default function Navbar({ section, logoutUser, shoppingCart, updateCart, 
                         company={company}
                         user={user}
                     /> : null}
-                <Avatar logoutUser={logoutUser} />
+                <Avatar user={user} logoutUser={logoutUser} />
             </div>
         </div>
     )

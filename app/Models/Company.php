@@ -29,7 +29,8 @@ class Company extends Model
         'postcode',
         'website',
         'logo', 
-        'email'
+        'email',
+        'company_id_token'
     ];
 
     protected $attributes = [

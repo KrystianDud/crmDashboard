@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-
 import Input from '../../../Global/Input'
 import '../../../../../css/globals.css'
-export default function CompanyDetails({ computedData, setComputedData, updateData }) {
+export default function CompanyDetails({setComputedData, updateData }) {
     const [writeData, setWriteData] = useState({})
 
     const bcg = {
@@ -39,7 +38,7 @@ export default function CompanyDetails({ computedData, setComputedData, updateDa
                 if (typeof value == 'string') {
                     formData.append(key, value)
                 } else {
-                    formData.append(key, value, 'logo.jpg')
+                    formData.append(key, value[0], 'logo.jpg')
                 }
             }
             setComputedData(formData)

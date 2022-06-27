@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
+use Illuminate\Support\Str;
 use Illuminate\support\Facades\auth;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
@@ -21,10 +21,19 @@ class AuthController extends Controller
             'email' => 'required|string|unique:users|email',
             'password' => 'required|string|min:6',
             'type' => 'required|string',
+            'company_id_token' => 'nullable|string'
         ]);
+        
+        if(isset($request->company_id_token)) {
+            $company = Company::where('company_id_token', '=', $request->company_id_token)->first();
+            if($company === null) {
+                return [
+                    'message' => 'This account cannot be verified, check if link is correct and try again later'
+                ];
+            }
+        } 
 
         $responseMsg = NULL;
-
         if ($fields['type'] == 'service') {
             $user = User::create([
                 'name' => $fields['name'],

@@ -1,6 +1,9 @@
 import { createRoot } from 'react-dom/client';
-import React, { createContext, useState, useEffect, useMemo } from 'react'
-import CheckoutDetails from './Components/Modal/ModalBody/CheckoutDetails';
+
+import React, { createContext, useState, useEffect, useMemo } from 'react';
+import UserDetails from './Components/Modal/ModalBody/UserDetails';
+
+import '../css/index.css'
 export default function TestEnv() {
 
     const style = {
@@ -23,7 +26,7 @@ export default function TestEnv() {
             <h1>Testing here</h1>
             <div className="testingView" style={style}>
                 <div className="contentView" style={style2}>
-                    <CheckoutDetails 
+                    <UserDetails 
                     />
                 </div>
             </div>

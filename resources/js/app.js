@@ -2,6 +2,7 @@ import { createRoot } from 'react-dom/client';
 import React, { createContext, useState, useEffect, useMemo } from 'react'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
+
 import './app.css';
 import '../css/mainApp.css'
 
@@ -15,9 +16,12 @@ import Navbar from './NavBar/NavBar'
 import Products from './Products/index'
 import Toast from './Components/Toast/Index';
 import Modal from './Components/Modal';
+import Messages from './Messages';
 import axios from 'axios';
 
 import { NewToast } from './Components/Toast';
+import RegisterView from './Components/Login/RegisterView';
+import UserDetails from './Components/Modal/ModalBody/UserDetails';
 
 export const ToastContext = createContext({
     toastList: [],
@@ -64,8 +68,6 @@ function App() {
     );
 
     useEffect(() => {
-        // setToastList([...toastList, NewToast('test message', 'warning')])
-
         // do auth check on page load. if not here the page will route to login page
         let userAuthVar
         if (!userAuth) {
@@ -73,16 +75,16 @@ function App() {
             if (auth) {
                 setUserAuth(true);
                 userAuthVar = auth;
+                processUser()
             }
         }
-
         // update session from the storage if available, otherwise ask to login.
         let userItems = JSON.parse(localStorage.getItem('userData'));
         if (!isEmpty(userItems)) {
             setUserData(userItems)
         }
         let companyItems = JSON.parse(localStorage.getItem('companyData'));
-        if ((userAuthVar || userAuth) && isEmpty(companyItems)) {
+        if ((userAuthVar || userAuth) && isEmpty(companyItems) && userData.company_id) {
             axios.get(`api/get_company/${userItems.company_id}`)
                 .then((response) => {
                     setCompanyData(response.data);
@@ -118,23 +120,64 @@ function App() {
         }
         else if (userAuthVar) {
             setCompanyData(companyItems)
+            getUserData()
         }
+
     }, [])
 
     useEffect(() => {
         setScreen({ x: window.innerWidth, y: window.innerHeight })
     }, [window.innerHeight, window.innerWidth])
 
+    const getUserData = () => {
+        axios.get(`api/get_user/${userData.id}`)
+        .then((response) => {
+            console.log
+            setUserData(response.data.response)
+            localStorage.setItem('userData', JSON.stringify(response.data.response))
+        })
+    }
 
     // Function from the Login component once user logs in
     const processUser = (userData) => {
-        let updateData = userData;
-        updateData.reminderContext = ['company'];
-        setUserData(userData);
-        localStorage.setItem('userData', JSON.stringify(userData))
-
-        localStorage.setItem('auth', JSON.stringify(true))
-        setUserAuth(true);
+        // Before user can start journey, they should be asked few more details to complete the user profile. only then the user data can be saved and state updated.
+        // toast={setToastList([...toastList, NewToast('File uploaded successfully, 'Success')])}
+        let modalData = {
+            sendRequest: (data, callback) => {
+                console.log('inside of send reuest method: ', data)
+                axios.post(`api/update_user/${userData.id}?_method=put`, data)
+                    .then((response) => {
+                        console.log(response, ' data: ', data)
+                        if (response.status === 200) {
+                            let updateData = response.data.response;
+                            if (updateData.privilege === 'admin') {
+                                updateData.reminderContext = ['company']
+                            }
+                            else {
+                                updateData.reminderContext = []
+                            }
+                            localStorage.setItem('userData', JSON.stringify(response.data.response))
+                            setUserData(userData);
+                            callback(response.data.message)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error, ' data: ', data)
+                    })
+                    .then(() => {
+                    })
+            },
+            title: 'User Details',
+            confirmationMessage: 'Complete',
+            cancelMessage: 'Dismiss',
+            component: <UserDetails
+                userData={userData}
+                showToast={() => setToastList([...toastList, NewToast('File uploaded successfully', 'Success')])}
+            />,
+            width: '50%',
+            activationData: ['name, surname']
+        }
+        activateModal(modalData)
     }
 
     // opens on Click from components that need modal to display data
@@ -149,10 +192,18 @@ function App() {
     }
 
     const processData = (message) => {
-        // localStorage.setItem('userData', JSON.stringify(updateUserData))
-        // localStorage.setItem('companyData', JSON.stringify(response.data.company))
-        // setUserData(updateUserData)
-        // setCompanyData(response.data.company)
+        if (!userAuth) {
+            localStorage.setItem('auth', JSON.stringify(true))
+            setUserAuth(true);
+        }
+        if (!userData.company_id) {
+            getUserData()
+        }
+        if (!userData.avatar) {
+            const userItems = JSON.parse(localStorage.getItem('userData'));
+            setUserData(userItems)
+        }
+
         setOpenModal(false)
         setModalData({});
 
@@ -269,7 +320,7 @@ function App() {
 
                                     <Route path="customer" element={userAuth ? <Dashboard user={userData.name} /> : <Navigate to="login" />} />
 
-                                    <Route path="message" element={userAuth ? <Dashboard user={userData.name} /> : <Navigate to="login" />} />
+                                    <Route path="message" element={userAuth ? <Messages user={userData} /> : <Navigate to="login" />} />
 
                                     <Route path="settings" element={userAuth ? <Dashboard user={userData.name} /> : <Navigate to="login" />} />
 
@@ -278,6 +329,8 @@ function App() {
                                     <Route path="/login" element={userAuth ? <Navigate to="/" /> : <Login processUser={processUser} />} />
 
                                     <Route path="/register" element={userAuth ? <Navigate to="/" /> : <Login processUser={processUser} />} />
+
+                                    <Route path={`/register/:id`} element={<Login processUser={processUser} block={true} />} />
 
                                 </Routes>
                             </div>
@@ -289,9 +342,7 @@ function App() {
                         />
                         {openModal && !isEmpty(modalData) ?
                             <Modal
-                                api={modalData.api}
-                                apiParameter={modalData.apiParameter}
-                                type={modalData.type}
+                                sendRequest={modalData.sendRequest}
                                 title={modalData.title}
                                 confirmationMessage={modalData.confirmationMessage}
                                 cancelMessage={modalData.cancelMessage}
