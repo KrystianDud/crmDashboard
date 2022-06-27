@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\UserController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,11 @@ use Illuminate\Support\Facades\Route;
 // TODO ensure the outh is provided on register and on logout
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+
+Route::put('/update_user/{id}', [UserController::class, 'update']);
+Route::get('/get_user/{id}', [UserController::class, 'index']);
+Route::get('/users/{user_id}', [UserController::class, 'get_users']);
+
 Route::group([
     'middleware' => ['auth:sanctum'],
     'namespace' => 'App\Http\Controllers',
@@ -32,15 +38,15 @@ Route::group([
 });
 
 // COMPANY
-// Route::post('/create_company_data/{user_id}', [CompanyController::class, 'store']);
-Route::post('/create_company_data/', [CompanyController::class, 'store']);
+Route::post('/create_company_data/{user_id}', [CompanyController::class, 'store']);
+// Route::post('/create_company_data/', [CompanyController::class, 'store']);
 
 Route::get('/get_company/{id}', [CompanyController::class, 'index']);
 
 // PRODUCTS
 Route::get('/products', [ProductController::class, 'index']);
 Route::post('/products', [ProductController::class, 'store']);
-Route::put('/products/{$id}', [ProductController::class, 'update']);
+Route::put('/products/{id}', [ProductController::class, 'update']);
 
 // ORDERS
 Route::post('/orders', [OrderController::class, 'store']);
@@ -48,11 +54,10 @@ Route::get('/orders', [OrderController::class, 'index']);
 Route::get('/orders/{id}', [OrderController::class, 'get_transaction_products']);
 
 // Messages
-Route::get('/users', [MessageController::class, 'get_users']);
-Route::post('/chats',[MessageController::class, 'store']);
-Route::get('/chats',[MessageController::class, 'index']);
-
-
+Route::post('/chat',[MessageController::class, 'store']);
+Route::get('/chats/{user_id}',[MessageController::class, 'index']);
+Route::get('/chat/{chat_id}', [MessageController::class, 'chat']);
+Route::post('/update_chat/{chat_id}', [MessageController::class, 'update_chat']);
 
 
 // Garbage (for now...)
