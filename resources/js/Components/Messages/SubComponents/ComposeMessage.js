@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../index.css'
 
 import Button from '../../Button/index.js'
 
-export default function ComposeMessage({ onChange, sendMessage }) {
+export default function ComposeMessage({ sendMessage }) {
+    const [line, setLine] = useState('');
+
+    const onChange = (val) => {
+        setLine(val)
+    }
     return (
         <div className='message-compose-box flexRow alignCenter justifyBetween'>
             <textarea
@@ -20,7 +25,7 @@ export default function ComposeMessage({ onChange, sendMessage }) {
                     color={'normal'}
                     size={'lg'}
                     icon={null}
-                    callback={() => sendMessage}
+                    callback={() => sendMessage(line)}
                 />
             </div>
         </div>

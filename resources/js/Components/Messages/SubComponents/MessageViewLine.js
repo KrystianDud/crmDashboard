@@ -1,28 +1,24 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
+import Moment from 'react-moment';
+import '../../../../css/globals.css'
 
-export default function MessageViewLine({users, user}) {
-    const [first, setfirst] = useState(second)
-    useLayoutEffect(() => {
-        // When messages array updates get last item
+export default function MessageViewLine({ user, message }) {
 
-    }, [messages])
-
-    
-    
     return (
-        <div className='flexRow'>
-            <div
-                className="messages-inbox-profile m5"
-                style={{ backgroundColor: `#${Math.floor(Math.random() * 16777215).toString(16)}` }}
+        <div className={`flexRow ${user.id == message.user_id ? 'flexRowRev' : 'flexRow'}`}>
+            <div id={message.user_id}
+                className={`messages-inbox-profile m5 `}
+                style={{
+                    // backgroundColor: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+                    background: `url(${message.avatar.slice(6)})`
+                }}
             />
-            <div className="messages-inbox-text-box flexColumn alignStart">
-                <div className="messages-inbox-message">
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-                    sed diam nonumy eirmod tempor invidunt ut labore et dolore 
-                    magna aliquyam
+            <div className={`messages-inbox-text-box flexColumn alignStart ${user.id == message.user_id ? 'alignEnd' : 'alignStart'}`}>
+                <div className={`messages-inbox-message ${user.id == message.user_id ? 'messages-inbox-bcg-right' : 'messages-inbox-bcg-left'}`}>
+                    {message.line}
                 </div>
                 <div className="messages-inbox-message-time">
-                    8:00 AM
+                    <Moment format="hh:mm A" date={message.created_at} />
                 </div>
             </div>
         </div>

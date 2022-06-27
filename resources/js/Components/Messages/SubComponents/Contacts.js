@@ -75,9 +75,10 @@ export default function Contacts({ orgOptions, update, users, selectedUserList, 
             <p>People list in your reach:</p>
             {/* TODO Make sure that that placeholder text will be present if no contacts but it will be unlikely to happen */}
             {/* TODO Provide the bookmarks for the available names */}
-            {userList.length > 0 ? userList.map(item => (
+            {typeof userList != 'undefined' ? userList.map(item => (
                 <Contact
                     key={item.id}
+                    user={item}
                     onClick={() => selectContact(item.id)}
                     selected={selectedUserList.filter(u => u.id == item.id)[0]}
                 />
