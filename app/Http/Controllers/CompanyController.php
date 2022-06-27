@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class CompanyController extends Controller
 {
@@ -69,8 +70,8 @@ class CompanyController extends Controller
         if ($request->has('logo')) {
             $image = $request->logo;
             $file_name = 'logo' . $request->name . time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/users'), $file_name);
-            $path = "public/images/users/$file_name";
+            $image->move(public_path('images/company'), $file_name);
+            $path = "public/images/company/$file_name";
 
             $data = Company::updateOrCreate([
                 'name' => $request->name,
@@ -80,10 +81,11 @@ class CompanyController extends Controller
                 'postcode' => $request->postcode,
                 'website' => $request->website,
                 'logo' => $path,
-                'email' => $request->email
+                'email' => $request->email,
+                'company_id_token' => Str::random(256)
             ]);
             $response["status"] = "successs";
-            $response["message"] = "Success! image(s) uploaded";
+            $response["message"] = "Success! Company has been created along with the uploaded company logo.";
             $response["company"] = $data;
         } else {
             $response["status"] = "failed";
@@ -95,13 +97,9 @@ class CompanyController extends Controller
         $user = User::where('id', $user_id)->first();
         $user->update(['company_id' => $company_id]);
         $updatedResult = $user->refresh();
-        $response["user"] = $updatedResult;
 
         // lastly update the user record with the company id
         return response()->json($response);
-
-
-        // return Company::create($request->all());
     }
 
     /**
