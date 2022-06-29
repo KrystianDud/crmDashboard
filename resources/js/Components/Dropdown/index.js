@@ -38,7 +38,7 @@ const Dropdown = forwardRef(({ type, position, open, list, caller, callback, sta
     )
 
     const cart = (
-        <div>
+        <div className='color-black'>
             {list.length > 0 && type == 'cart' ? list.map(({ id, name, price, slug, quantity }) => (
                 <div key={id + '.' + uniqueId()} className='flexRow dropdown-content' onClick={(e) => caller(e, id)}>
                     <div className="content-image w100" style={{ backgroundImage: `url(${slug.slice(6)})`, }} />
@@ -73,7 +73,7 @@ const Dropdown = forwardRef(({ type, position, open, list, caller, callback, sta
     return (
         <div
             ref={ref}
-            className={`dropdown smooth-shadow absolute`}
+            className={`dropdown smooth-shadow absolute color-black`}
             style={{
                 left: `${position.x}px`,
                 top: `${position.y}px`,
