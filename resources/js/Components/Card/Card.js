@@ -12,6 +12,20 @@ const icons = {
 
 }
 
+/**
+ * Card props
+ * 
+ * shape: square, row, column
+ * sizeX: 2x
+ * sizeY: 2x
+ * 
+ * icon
+ * 
+ * 
+ * 
+ */
+
+
 export default function Card({ icon, title, value }) {
     return (
         <div className="shape smooth-shadow flexColumn alignContentCenter flexBetween" >
