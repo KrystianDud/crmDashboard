@@ -77,23 +77,23 @@ export default function Login({ processUser, block }) {
         })
             .then((response) => {
                 if (response.status == 200) {
-                    console.log(response)
-                    let user = response.data.user;
-                    let userData = {
-                        id: user.id,
-                        email: user.email,
-                        name: user.name,
-                        type: user.type,
-                        company_id: user.company_id,
-                        privilege: user.privilege,
-                    }
-                    if (typeof user.type != 'undefined' || user.type != '') {
-                        const type = { type: user.type }
-                        Object.assign(userData, type)
-                    }
+                    // console.log(response)
+                    // let user = response.data.user;
+                    // let userData = {
+                    //     id: user.id,
+                    //     email: user.email,
+                    //     name: user.name,
+                    //     type: user.type,
+                    //     company_id: user.company_id,
+                    //     privilege: user.privilege,
+                    // }
+                    // if (typeof user.type != 'undefined' || user.type != '') {
+                    //     const type = { type: user.type }
+                    //     Object.assign(userData, type)
+                    // }
                     localStorage.setItem('token', JSON.stringify(response.data.token))
-
-                    processUser(userData)
+                    localStorage.setItem('userData', JSON.stringify(response.data.user))
+                    processUser(response.data.user)
                 }
                 else if (response.status == 201) {
                     setToastList([...toastList, NewToast('New account has been created', 'Success')])
