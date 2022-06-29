@@ -1,6 +1,5 @@
 .messages-window{
     background-color: #fff;
     border-radius: 15px;
-    height: 100%;
-    width: 100%;
+    box-sizing: border-box;
 }
