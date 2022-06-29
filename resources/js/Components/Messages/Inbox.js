@@ -6,13 +6,13 @@ import Button from '../Button/index'
 
 import InboxHead from './SubComponents/InboxHead'
 
-export default function Inbox({ user, updateMessageView }) {
+export default function Inbox({ user, updateActiveChatId  }) {
     const [messages, setMessages] = useState([])
     const [selected, setSelected] = useState(null)
 
     const selectMessage = (id) => {
         setSelected(id)
-        updateMessageView(id)
+        updateActiveChatId(id)
     }
 
     useEffect(() => {

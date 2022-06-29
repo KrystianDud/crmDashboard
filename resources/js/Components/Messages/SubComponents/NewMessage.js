@@ -67,7 +67,7 @@ export default function NewMessage({ user, updateMessageView }) {
             return
         }
 
-        updateMessageView()
+        updateMessageView(subject, userList)
     }
 
     return (

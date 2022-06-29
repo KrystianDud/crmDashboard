@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
-import '../index.css'
+import React, { useState } from 'react';
+
+import '../index.css';
+import '../../../../css/globals.css'
 import Moment from 'react-moment';
 
 
@@ -9,7 +11,7 @@ export default function InboxHead({ message, onClick, selected }) {
 
     return (
         <div
-            className={`${selected == message.id ? 'messages-inbox-head-selected' : ''} messages-inbox-head flexRow alignCenter flexBetween mb5`}
+            className={`${selected ? 'background-normal-secondary' : 'background-white hover-grey-primary'} messages-inbox-head flexRow alignCenter flexBetween mb5`}
             onClick={onClick}
         >
             <div
@@ -21,7 +23,7 @@ export default function InboxHead({ message, onClick, selected }) {
                     <p className='m0 fw4'>{message.lines[0].name} {message.lines[0].surname}</p>
                     <Moment format="ddd, hh:mm A" date={message.created_at} className="fw3" />
                 </div>
-                <p className='m0 fw6'>Subject: {message.subject}</p>
+                <p className='m0 fw3'>Subject: {message.subject}</p>
             </div>
         </div>
     )

@@ -5,7 +5,7 @@ import '../../../../css/globals.css'
 export default function MessageViewLine({ user, message }) {
 
     return (
-        <div className={`flexRow ${user.id == message.user_id ? 'flexRowRev' : 'flexRow'}`}>
+        <div className={`flexRow mb5 ${user.id == message.user_id ? 'flexRowRev' : 'flexRow'}`}>
             <div id={message.user_id}
                 className={`messages-inbox-profile m5 `}
                 style={{
