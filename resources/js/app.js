@@ -3,6 +3,7 @@ import React, { createContext, useState, useEffect, useMemo } from 'react'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 
+import '../css/globals.css'
 import './app.css';
 import '../css/mainApp.css'
 
@@ -39,13 +40,14 @@ export const CompanyDataContext = createContext({
 });
 
 function App() {
-    const [scrren, setScreen] = useState({ x: window.innerWidth, y: window.innerHeight })
     const [userAuth, setUserAuth] = useState(JSON.parse(localStorage.getItem('auth')))
+    const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('userData')))
+    const [companyData, setCompanyData] = useState({})
+
+    const [scrren, setScreen] = useState({ x: window.innerWidth, y: window.innerHeight })
     const [section, setSection] = useState(0)
     const [toastList, setToastList] = useState([])
 
-    const [userData, setUserData] = useState({})
-    const [companyData, setCompanyData] = useState({})
 
     const [openModal, setOpenModal] = useState(false)
     const [modalData, setModalData] = useState({});
@@ -69,58 +71,35 @@ function App() {
 
     useEffect(() => {
         // do auth check on page load. if not here the page will route to login page
-        let userAuthVar
-        if (!userAuth) {
-            let auth = JSON.parse(localStorage.getItem('auth'));
-            if (auth) {
-                setUserAuth(true);
-                userAuthVar = auth;
-                processUser()
-            }
-        }
-        // update session from the storage if available, otherwise ask to login.
-        let userItems = JSON.parse(localStorage.getItem('userData'));
-        if (!isEmpty(userItems)) {
-            setUserData(userItems)
-        }
-        let companyItems = JSON.parse(localStorage.getItem('companyData'));
-        if ((userAuthVar || userAuth) && isEmpty(companyItems) && userData.company_id) {
-            axios.get(`api/get_company/${userItems.company_id}`)
-                .then((response) => {
-                    setCompanyData(response.data);
-                })
-                .catch((error) => {
-                    let message = 'Could not update company data!'
-                    setToastList([...toastList, NewToast(message, 'Danger')])
-                })
-            switch (window.location.pathname) {
-                case "/":
-                    setSection(0)
-                    break;
-                case "/Orders":
-                    setSection(1)
-                    break;
-                case "/Products":
-                    setSection(2)
-                    break;
-                case "/Overview":
-                    setSection(3)
-                    break;
-                case "/Customer":
-                    setSection(4)
-                    break;
-                    setSection(5)
-                case "/Message":
-                    setSection(6)
-                    break;
-                case "/Settings":
-                    setSection(7)
-                    break;
-            }
-        }
-        else if (userAuthVar) {
-            setCompanyData(companyItems)
-            getUserData()
+        // if (userAuth) {
+        // getUserData();
+        // }
+
+        // getCompany()
+
+        switch (window.location.pathname) {
+            case "/":
+                setSection(0)
+                break;
+            case "/Orders":
+                setSection(1)
+                break;
+            case "/Products":
+                setSection(2)
+                break;
+            case "/Overview":
+                setSection(3)
+                break;
+            case "/Customer":
+                setSection(4)
+                break;
+                setSection(5)
+            case "/Message":
+                setSection(6)
+                break;
+            case "/Settings":
+                setSection(7)
+                break;
         }
 
     }, [])
@@ -129,55 +108,80 @@ function App() {
         setScreen({ x: window.innerWidth, y: window.innerHeight })
     }, [window.innerHeight, window.innerWidth])
 
+    const getCompany = () => {
+        let companyItems = JSON.parse(localStorage.getItem('companyData'));
+        if ((userAuth) && isEmpty(companyItems)) {
+            axios.get(`api/get_company/${userData.company_id}`)
+                .then((response) => {
+                    setCompanyData(response.data);
+                })
+                .catch((error) => {
+                    let message = 'Could not update company data!'
+                    setToastList([...toastList, NewToast(message, 'Danger')])
+                })
+        }
+        else {
+            setCompanyData(companyItems)
+        }
+    }
+
     const getUserData = () => {
         axios.get(`api/get_user/${userData.id}`)
-        .then((response) => {
-            console.log
-            setUserData(response.data.response)
-            localStorage.setItem('userData', JSON.stringify(response.data.response))
-        })
+            .then((response) => {
+                console.log
+                setUserData(response.data.response)
+                localStorage.setItem('userData', JSON.stringify(response.data.response))
+            })
     }
 
     // Function from the Login component once user logs in
     const processUser = (userData) => {
         // Before user can start journey, they should be asked few more details to complete the user profile. only then the user data can be saved and state updated.
         // toast={setToastList([...toastList, NewToast('File uploaded successfully, 'Success')])}
-        let modalData = {
-            sendRequest: (data, callback) => {
-                console.log('inside of send reuest method: ', data)
-                axios.post(`api/update_user/${userData.id}?_method=put`, data)
-                    .then((response) => {
-                        console.log(response, ' data: ', data)
-                        if (response.status === 200) {
-                            let updateData = response.data.response;
-                            if (updateData.privilege === 'admin') {
-                                updateData.reminderContext = ['company']
+        if (typeof userData.avatar == 'undefined' && typeof userData.position == 'undefined') {
+            let modalData = {
+                sendRequest: (data, callback) => {
+                    console.log('inside of send reuest method: ', data)
+                    axios.post(`api/update_user/${userData.id}?_method=put`, data)
+                        .then((response) => {
+                            console.log(response.data.response)
+                            console.log(userData)
+                            if (response.status === 200) {
+                                let updateData = response.data.response;
+                                if (updateData.privilege === 'admin') {
+                                    updateData.reminderContext = ['company']
+                                }
+                                else {
+                                    updateData.reminderContext = []
+                                }
+                                localStorage.setItem('userData', JSON.stringify(response.data.response))
+                                setUserData(response.data.response);
+                                callback(response.data.message)
                             }
-                            else {
-                                updateData.reminderContext = []
-                            }
-                            localStorage.setItem('userData', JSON.stringify(response.data.response))
-                            setUserData(userData);
-                            callback(response.data.message)
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error, ' data: ', data)
-                    })
-                    .then(() => {
-                    })
-            },
-            title: 'User Details',
-            confirmationMessage: 'Complete',
-            cancelMessage: 'Dismiss',
-            component: <UserDetails
-                userData={userData}
-                showToast={() => setToastList([...toastList, NewToast('File uploaded successfully', 'Success')])}
-            />,
-            width: '50%',
-            activationData: ['name, surname']
+                        })
+                        .catch((error) => {
+                            console.log(error, ' data: ', data)
+                        })
+                        .then(() => {
+                        })
+                },
+                title: 'User Details',
+                confirmationMessage: 'Complete',
+                cancelMessage: 'Dismiss',
+                component: <UserDetails
+                    user={userData}
+                    showToast={() => setToastList([...toastList, NewToast('File uploaded successfully', 'Success')])}
+                />,
+                width: '50%',
+                activationData: ['name, surname']
+            }
+            activateModal(modalData)
         }
-        activateModal(modalData)
+        else {
+            localStorage.setItem('auth', JSON.stringify(true))
+            setUserAuth(true);
+        }
+        getCompany();
     }
 
     // opens on Click from components that need modal to display data
@@ -192,17 +196,8 @@ function App() {
     }
 
     const processData = (message) => {
-        if (!userAuth) {
-            localStorage.setItem('auth', JSON.stringify(true))
-            setUserAuth(true);
-        }
-        if (!userData.company_id) {
-            getUserData()
-        }
-        if (!userData.avatar) {
-            const userItems = JSON.parse(localStorage.getItem('userData'));
-            setUserData(userItems)
-        }
+        localStorage.setItem('auth', JSON.stringify(true))
+        setUserAuth(true);
 
         setOpenModal(false)
         setModalData({});
@@ -285,56 +280,45 @@ function App() {
         <ToastContext.Provider value={toastState}>
             <UserDataContext.Provider value={userDataState} >
                 <CompanyDataContext.Provider value={companyDataState}>
-                    {/* initialise and apply the size of the screen to the app view to hold proportions */}
-                    <div className="App"
-                    // style={{ width: window.innerWidth, height: window.innerHeight }}
-                    >
+                    <div className="App" >
                         <Router >
-                            {userAuth ? <Sidebar
-                                getDirectory={getDirectory}
-                                section={section}
-                            /> : null}
-
+                            {userAuth && userData ?
+                                <Navbar
+                                    section={section}
+                                    logoutUser={logoutUser}
+                                    shoppingCart={shoppingCart}
+                                    updateCart={updateShoppingCart}
+                                    user={userData}
+                                    company={companyData}
+                                    activateModal={activateModal}
+                                /> : null
+                            }
                             <div className="view">
 
                                 {userAuth ?
-                                    <Navbar
+                                    <Sidebar
+                                        getDirectory={getDirectory}
                                         section={section}
-                                        logoutUser={logoutUser}
-                                        shoppingCart={shoppingCart}
-                                        updateCart={updateShoppingCart}
-                                        user={userData}
-                                        company={companyData}
-                                        activateModal={activateModal}
                                     /> : null
                                 }
-
                                 <Routes>
-                                    <Route path="/" element={userAuth ? <Dashboard user={userData.name} activateModal={activateModal} /> : <Navigate to="login" />} />
-
+                                    <Route path="/" element={userAuth ? <Dashboard user={userData} activateModal={activateModal} /> : <Navigate to="login" />} />
                                     <Route path="orders" element={userAuth ? <Orders user={userData} /> : <Navigate to="login" />} />
-
-                                    <Route path="products" element={userAuth ? <Products user={userData.name} updateCart={updateShoppingCart} openModal={openModal} /> : <Navigate to="login" />} />
-
-                                    <Route path="overview" element={userAuth ? <Dashboard user={userData.name} /> : <Navigate to="login" />} />
-
-                                    <Route path="customer" element={userAuth ? <Dashboard user={userData.name} /> : <Navigate to="login" />} />
-
+                                    <Route path="products" element={userAuth ? <Products user={userData} updateCart={updateShoppingCart} openModal={openModal} /> : <Navigate to="login" />} />
+                                    <Route path="overview" element={userAuth ? <Dashboard user={userData} /> : <Navigate to="login" />} />
+                                    <Route path="customer" element={userAuth ? <Dashboard user={userData} /> : <Navigate to="login" />} />
                                     <Route path="message" element={userAuth ? <Messages user={userData} /> : <Navigate to="login" />} />
-
-                                    <Route path="settings" element={userAuth ? <Dashboard user={userData.name} /> : <Navigate to="login" />} />
+                                    <Route path="settings" element={userAuth ? <Dashboard user={userData} /> : <Navigate to="login" />} />
 
                                     <Route path="/register:comapny_id" element={userAuth ? <Navigate to="/" /> : <Login processUser={processUser} />} />
-
                                     <Route path="/login" element={userAuth ? <Navigate to="/" /> : <Login processUser={processUser} />} />
-
                                     <Route path="/register" element={userAuth ? <Navigate to="/" /> : <Login processUser={processUser} />} />
-
                                     <Route path={`/register/:id`} element={<Login processUser={processUser} block={true} />} />
-
                                 </Routes>
+
                             </div>
                         </Router>
+
                         <Toast
                             toastList={toastList}
                             autoDelete={true}
