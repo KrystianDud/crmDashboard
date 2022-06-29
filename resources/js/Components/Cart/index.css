@@ -1,19 +1,9 @@
 .cart {
     width: 40px;
     height: 40px;
-    background: none;
-
     border: none;
     border-radius: 50%;
     margin-inline: 15px;
     padding: 5px;
     cursor: pointer;
-}
-
-.cart:hover {
-    background-color: rgb(139, 139, 132);
-}
-
-.cart:focus {
-    background-color: rgb(87, 87, 81);
 }

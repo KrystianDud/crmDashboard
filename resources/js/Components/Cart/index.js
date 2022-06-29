@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react'
-import './index.css'
-import '../../../css/globals.css'
+import React, { useState, useRef } from 'react';
+
+import './index.css';
+import '../../../css/globals.css';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import CheckoutDetails from '../Modal/ModalBody/CheckoutDetails/index'
@@ -44,9 +46,10 @@ export default function Cart({ shoppingCart, updateCart, activateModal, company,
 
         activateModal(data)
     }
+
     return (
         <div className='relative' onMouseLeave={() => setOpen(false)}>
-            <button className='cart' onClick={(e) => openDropdown(e)}>
+            <button className='cart color-white hover-white' onClick={(e) => openDropdown(e)}>
                 <FontAwesomeIcon size='xl' icon={faCartShopping} />
             </button>
             <Dropdown
