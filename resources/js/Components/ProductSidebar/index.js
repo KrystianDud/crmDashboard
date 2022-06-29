@@ -9,7 +9,6 @@ import BorderLine from '../BorderLine'
 import Button from '../Button'
 import FileUpload from '../FileUpload'
 
-
 export default function ProductSidebar({ getList, showSidebar, closeItem, newItem, showToast, productList, selectedProduct }) {
 
     const [product, setProduct] = useState({
@@ -17,7 +16,8 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
         name: '',
         description: '',
         price: 0,
-        prod_pic: ''
+        prod_pic: '',
+        stock: 0
     })
 
     useEffect(() => {
@@ -42,6 +42,7 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
         }
     }, [selectedProduct])
 
+
     const createProduct = (value, id) => {
         setProduct(prevState => ({
             ...prevState, [id]: value
@@ -55,6 +56,9 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
         data.append('description', product.description)
         data.append('price', product.price)
         data.append('prod_pic', product.prod_pic, product.prod_pic.name)
+        data.append('stock', product.stock)
+        data.append('allowed', 1)
+
 
         let url
         if (product.id) {
@@ -70,6 +74,14 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
             .then((response) => {
                 let message = 'New item was saved successfully!'
                 showToast(message, 'Success')
+                setProduct({
+                    id: null,
+                    name: '',
+                    description: '',
+                    price: 0,
+                    prod_pic: '',
+                    stock: 0
+                })
                 getList()
             })
             .catch(function (error) {
@@ -81,7 +93,7 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
     }
 
     return (
-        <div className={`${showSidebar ? 'sidebarBody pInline5 flexColumn  h100 alignCenter  sideScreenShow' : 'sideScreenHide'}`}>
+        <div className={`${showSidebar ? 'sidebarBody pInline5 flexColumn  h100 alignCenter  sideScreenShow background-white' : 'sideScreenHide'}`}>
 
             <div>
                 <div className='topSection' >
@@ -89,17 +101,20 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
                         <FontAwesomeIcon icon={faClose} />
                     </div>
                 </div>
+
                 <BorderLine />
+
                 <div className="w100">
                     <div className='flexColumn flexLeft w100 m5 product-head'>
                         <h4>Product creation</h4>
                         <p className='product-subtext'>Create or update product details.</p>
                     </div>
                 </div>
+
                 <BorderLine />
 
+                {/* Product Name */}
                 <div className="w100 minH10vh">
-
                     <div className='flexColumn flexLeft w100 m5 product-stack'>
                         <p className='stack-heading'>Product name</p>
                         <p className='stack-thin'>Add name of product visible for everyone.</p>
@@ -109,14 +124,12 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
                             <input id='name' type='text' className='subtleInput' value={product.name} onChange={(e) => createProduct(e.target.value, e.target.id)} />
                         }
                     </div>
-
-                    <h4 className="showTitle">{product.name}</h4>
                 </div>
 
                 <BorderLine />
 
+                {/* Product Description */}
                 <div className="w100 minH10vh">
-
                     <div className='flexColumn flexLeft m5 product-stack' style={{ margin: '5px 0 5px 5px' }}>
                         <p className='stack-heading'>Product Description</p>
                         <p className='stack-thin'>Provide information about the product.</p>
@@ -126,12 +139,11 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
                             <textarea id='description' type='text' maxLength='200' rows='5' className='subtleInput ' onChange={(e) => createProduct(e.target.value, e.target.id)} />
                         }
                     </div>
-
-                    <p className="showTitle">{product.description}</p>
                 </div>
 
                 <BorderLine />
 
+                {/* Product price */}
                 <div className="w100 minH10vh m5">
                     {newItem ?
                         <div className="flexColumn flexLeft m5 product-stack">
@@ -152,6 +164,8 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
                 </div>
 
                 <BorderLine />
+
+                {/* Product Image */}
                 <div className="w100 minH10vh m5">
                     <div className="flexColumn flexLeft m5 product-stack">
                         <p className='stack-heading'>Image upload</p>
@@ -168,8 +182,23 @@ export default function ProductSidebar({ getList, showSidebar, closeItem, newIte
                     />
                 </div>
 
+                <BorderLine />
+
+                {/* Product Stock */}
+                <div className="w100 minH10vh">
+                    <div className='flexColumn flexLeft m5 product-stack' style={{ margin: '5px 0 5px 5px' }}>
+                        <p className='stack-heading'>Product Inventory</p>
+                        <p className='stack-thin'>Provide number of this item in the stock.</p>
+                        {newItem ?
+                            <input type="number" min="1" max="10000" className="subtleInput" id="stock" onChange={(e) => createProduct(e.target.value, e.target.id)} style={{ paddingLeft: '15px' }} />
+                            :
+                            <input type="number" min="1" max="10000" value={product.stock} className="subtleInput" id="price" onChange={(e) => createProduct(e.target.value, e.target.id)} style={{ paddingLeft: '15px' }} />
+                        }
+                    </div>
+                </div>
 
                 <BorderLine />
+
             </div>
 
             <div className="w100" style={{ margin: 'auto' }}>

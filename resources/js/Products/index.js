@@ -132,16 +132,32 @@ export default function Products({ updateCart, openModal }) {
         <Table
             columns={columns}
             list={productList}
+
             showDetails={showDetails}
             options={true}
+            provideOptions={provideOptions}
             editItem={editItem}
-            onClick={userData.type == 'service' ? editItem : updateCart}
-            user={userData}
+            showSlider={false}
+        />
+    );
+
+    // When the options are set to true on the table we can provide them in the parent
+    // Due to the fact that not always table will have this functionality and also they might need
+    // to be configured in different ways depending on the client and service needs
+    const provideOptions = (
+        <Button
+            text={'View'}
+            type={'contained'}
+            disabled={false}
+            color={'normal'}
+            size={'sm'}
+            icon={null}
+            callback={() => editItem(index)}
         />
     );
 
     return (
-        <div className='viewProducts'>
+        <div className='viewWindow flexRow'>
             <div className='mainView'>
                 <h3 className='m5'>List of Items</h3>
 
