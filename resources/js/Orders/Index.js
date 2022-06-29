@@ -76,28 +76,26 @@ export default function Orders({ user }) {
     );
 
     return (
-        <div style={{ height: '90%' }} >
-            <div className='mainView'>
-                <div className='table-control'>
-                    <ButtonRectangle
-                        icon={faFilter}
-                        onClick={filterList}
-                    />
-                </div>
-                {currentTransactions && columnsClient ?
-                    <Table
-                        columns={columnsClient}
-                        list={currentTransactions}
-
-                        showDetails={null}
-                        options={true}
-                        provideOptions={provideOptions}
-                        editItem={null} 
-
-                        showSlider={true}
-                        sliderData={sliderData} 
-                    /> : null}
+        <div className='viewWindow'>
+            <div className='table-control'>
+                <ButtonRectangle
+                    icon={faFilter}
+                    onClick={filterList}
+                />
             </div>
+            {currentTransactions && columnsClient ?
+                <Table
+                    columns={columnsClient}
+                    list={currentTransactions}
+
+                    showDetails={null}
+                    options={true}
+                    provideOptions={provideOptions}
+                    editItem={null}
+
+                    showSlider={true}
+                    sliderData={sliderData}
+                /> : null}
         </div>
     )
 } 
