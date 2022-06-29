@@ -5,17 +5,17 @@ import '../../../../../css/globals.css'
 
 import FileUpload from '../../../FileUpload';
 
-export default function UserDetails({userData, showToast, setComputedData }) {
+export default function UserDetails({user, showToast, setComputedData }) {
     const [writeData, setWriteData] = useState({
         method_field: 'put',
-        name: userData.name,
+        name: user.name,
         surname: ''
     })
 
     const canvasRef = useRef(null)
 
     useEffect(() => {
-        if (userData && writeData.name.length < 1) setWriteData(userData.name)
+        if (user && writeData.name.length < 1) setWriteData(user.name)
 
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
