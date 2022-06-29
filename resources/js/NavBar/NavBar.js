@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import './index.css'
+import React, { useState, useEffect } from 'react';
+
+import '../../css/globals.css';
+import './index.css';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import Avatar from '../Components/Avatar';
 import Cart from '../Components/Cart';
 import { UserDataContext } from '../app';
+
 export default function Navbar({ section, logoutUser, shoppingCart, updateCart, user, activateModal, company }) {
-
-
     return (
-        <div className="navBar">
+        <div className="navBar background-normal color-white">
             <div>
                 <h2 className='section'>{section != null ? sections[section] : ''}</h2>
             </div>
