@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import './index.css';
 import '../../css/globals.css'
 
-import Card from '../Components/Card/Index'
+import Card from '../Components/Card/Card'
 import History from '../Components/History/index'
 import Reminder from '../Components/Reminder';
 import Invite from '../Components/Invite';
@@ -57,9 +57,9 @@ export default function Dashboard({ user, activateModal }) {
     return (
         <div className="viewWindow">
             <div className='fitW m15'>
-                <h2>{`Welcome ${user}!`}</h2>
+                <h2>{`Welcome ${typeof user != 'undefined' ? user.name : ''}!`}</h2>
             </div>
-            {displayReminders}
+            {user ? displayReminders : null}
             <div className='card-inline'>
                 {cardElements.map(({ icon, title, value }, index) => (
                     <Card
