@@ -27,7 +27,7 @@ export default function Sidebar({ getDirectory, section }) {
     }
 
     const showMenuItems = options.map((option, index) => (
-        <div className={`flexRow justifyCenter hover-normal-secondary pB5 pT5 color-black font-body1
+        <div className={`flexRow justifyStart hover-normal-secondary pB5 pT5 color-black font-body1 
             ${index === section ? 'borderNormal optionSelected  background-normal-secondary' : ''} 
             ${open ? 'flexCenter justifyCenter' : 'flexCenter justifyStart'}
             ${index === section & !open ? 'borderWhite' : 'borderNormal'}
@@ -44,7 +44,7 @@ export default function Sidebar({ getDirectory, section }) {
                 <div style={{ margin: '5px 10px' }}>
                     <FontAwesomeIcon icon={icons[index]} style={{ color: `${open ? '#fff' : '#000000 !important'}` }} />
                 </div>
-                <p className={open ? 'textDisplay' : 'textCover '} style={{ color: 'inherit' }}>{option}</p>
+                <p className={ `${open ? 'textDisplay' : 'textCover '} fs-1r fw5`} style={{ color: 'inherit' }}>{option}</p>
             </Link>
         </div>
     ))
