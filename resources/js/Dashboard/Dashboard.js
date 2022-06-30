@@ -14,6 +14,10 @@ export default function Dashboard({ user, activateModal }) {
     const { companyData, setCompanyData } = useContext(CompanyDataContext);
 
     useEffect(() => {
+        console.log(user)
+    }, [])
+    
+    useEffect(() => {
         checkReminders()
     }, [userData])
 
