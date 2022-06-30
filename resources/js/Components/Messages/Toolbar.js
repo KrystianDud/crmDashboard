@@ -5,7 +5,7 @@ import '../../../css/globals.css'
 
 export default function Toolbar() {
     return (
-        <div className="messages-toolbar flexColumn flexCenter h100 ">
+        <div className="messages-toolbar flexColumn flexCenter h100 pT15">
             <div className='flexColumn flexCenter'>
                 <div className='mb15 fitW fitH'>
                     <FontAwesomeIcon size='xl' icon={faStar} />

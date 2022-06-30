@@ -3,7 +3,6 @@
 .messages-toolbar {
     border-right: 1px solid #D9D9D9;
     padding-inline: 10px;
-
 }
 
 /* INBOX */
@@ -22,15 +21,20 @@
 
 
 .messages-inbox-profile {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
 }
 
-.messages-inbox-snippets {
-    width: max-content;
+.messages-inbox-snippets { 
     padding-right: 10px;
     font-size: 1rem;
+
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 250px;
+
+    flex: 1;
 }
 
 .messages-inbox-snippets p:nth-child(3) {
@@ -38,15 +42,9 @@
     margin-top: 5px;
 }
 
-.messages-inbox-nameTime {
-    font-size: 1rem;
-}
-
 .messages-inbox-nameTime p:first-child {
     margin-right: 15px;
 }
-
-
 
 /* MESSAGEVIEW */
 

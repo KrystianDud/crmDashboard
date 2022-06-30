@@ -33,11 +33,11 @@ export default function ProductSummary({ cart }) {
             <div className="summary-costs">
                 <div className="summary-total">
                     <p className='summary-text-titles'>Products Total:</p>
-                    <p className='summary-text-prices'>£{costs.productsTotal}</p>
+                    <p className='summary-text-prices'>£{Number.parseFloat(costs.productsTotal).toFixed(2)}</p>
                 </div>
                 <div className="summary-total">
                     <p className='summary-text-titles'>Shipping:</p>
-                    <p className='summary-text-prices'>£{costs.shipping}</p>
+                    <p className='summary-text-prices'>£{costs.shipping}</p> 
                 </div>
                 <div className="summary-total">
                     <p className='summary-text-titles'>VAT:</p>

@@ -41,49 +41,55 @@ class OrderController extends Controller
             ], 400);
         }
 
-        // return response()->json($request->all());
+        $transaction = NULL;
+        $columns = ['id', 'date', 'status', 'payment', 'options'];
         if ($request->user_id && $request->company_id) {
             $transaction = Transaction::where('user_id', $request->user_id)
                 ->where('company_id', $request->company_id)
                 ->select(array('id', 'order_date', 'status', 'payment'))
                 ->get();
-
-            // get products associtaed with this transaction
-            $product_list = new stdClass; 
-            $invoice_list = new stdClass;
-
-            // create invoice and product list referenced by transaction id
-            foreach ($transaction as $value) {
-                // get all orders related to this transaction
-                $transaction_id = $value['id'];
-                $orders = Order::where('transaction_id', $transaction_id)->pluck('product_id')->all();
-                // loop through all orders and provide product for that.
-                if (count($orders) > 1) {
-                    $products = Product::whereIn('id', $orders)->get();
-                } else {
-                    $products = Product::where('id', $orders)->get();
-                }
-                // $transaction_id_list = $transaction_id_list[strval($transaction_id)] => $products;
-                $product_list->$transaction_id = $products;
-
-                $invoices = Invoicing::where('transaction_id', $transaction_id)->get();
-                $invoice_list->$transaction_id = $invoices;
-            }
-
-            $slider = ['products' => $product_list,'invoices' => $invoice_list];
-            $columns = ['id', 'date', 'status', 'payment', 'options'];
-
-            return response([
-                "status" => "success",
-                "message" => "Retrived transactions for single user",
-                "transactions" => $transaction,
-                "slider" => $slider,
-                "columns" => $columns
-            ]);
-        } else {
-            $data = Transaction::all();
-            return response()->json($data);
+        } 
+        else if($request->user_id && $request->company_id == 0){
+            $transaction = Transaction::select(array('id', 'order_date', 'status', 'payment'))->get();
         }
+        else {
+            return response([
+                "status" => "failed",
+                "message" => "Unable to get the order details"
+            ], 422);
+        }
+
+        // get products associtaed with this transaction
+        $product_list = new stdClass;
+        $invoice_list = new stdClass;
+
+        // create invoice and product list referenced by transaction id
+        foreach ($transaction as $value) {
+            // get all orders related to this transaction
+            $transaction_id = $value['id'];
+            $orders = Order::where('transaction_id', $transaction_id)->pluck('product_id')->all();
+            // loop through all orders and provide product for that.
+            if (count($orders) > 1) {
+                $products = Product::whereIn('id', $orders)->get();
+            } else {
+                $products = Product::where('id', $orders)->get();
+            }
+            $product_list->$transaction_id = $products;
+
+            $invoices = Invoicing::where('transaction_id', $transaction_id)->first();
+            $invoice_list->$transaction_id = $invoices;
+        }
+
+        $slider = ['products' => $product_list, 'invoices' => $invoice_list];
+
+
+        return response([
+            "status" => "success",
+            "message" => "Retrived transactions for single user",
+            "transactions" => $transaction,
+            "slider" => $slider,
+            "columns" => $columns
+        ],);
     }
 
     /**

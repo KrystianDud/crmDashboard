@@ -20,8 +20,21 @@ class ProductController extends Controller
     public function index()
     {
         $data = Product::join('inventories', 'inventories.product_id', '=', 'products.id')
-        ->get(['products.*', 'inventories.stock']);
-        return response()->json($data);
+            // ->select('slug', 'id', 'name', 'description', 'price', 'stock', 'options')
+            // ->get(['products.*', 'inventories.stock']);
+            // ->get();
+        // return response()->json($data);
+
+        ->select('slug', 'id', 'name', 'description', 'price', 'stock', 'options')->get();
+
+        $columns = ['', 'id', 'name', 'description', 'price', 'stock', 'options'];
+
+        return response([
+            "status" => "success",
+            "message" => "Retrived transactions for single user",
+            "products" => $data,
+            "columns" => $columns
+        ]);
     }
 
     /**
@@ -69,7 +82,7 @@ class ProductController extends Controller
         $product_id = $data->id;
         $stock = $request->stock;
         $allowed = NULL;
-        if($request->allowed) $allowed = $request->allowed;
+        if ($request->allowed) $allowed = $request->allowed;
 
         $stock = Inventory::create([
             'product_id' => $product_id,
@@ -80,7 +93,7 @@ class ProductController extends Controller
         $data["stock"] = $stock->stock;
         $response["status"] = "successs";
         $response["message"] = "Success! Created new product";
-        $response["product"] = $data; 
+        $response["product"] = $data;
 
 
         return response()->json($response);
@@ -107,9 +120,9 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
-        $data = NULL; 
+        $data = NULL;
         $response = NULL;
-        if($request->has('prod_pic')){
+        if ($request->has('prod_pic')) {
             $data = $request->except('prod_pic');
 
             $image = $request->logo;
@@ -123,11 +136,10 @@ class ProductController extends Controller
         } else {
             $product->update($request->all());
         }
-        
+
         return $product;
 
         return response()->json($response);
-
     }
 
     /**
