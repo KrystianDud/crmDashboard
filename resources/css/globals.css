@@ -42,14 +42,6 @@
     margin: 5px;
 }
 
-.mt5 {
-    margin-top: 5px;
-}
-
-.mb5 {
-    margin-bottom: 5px;
-}
-
 .m15 {
     margin: 15px;
 }
@@ -62,8 +54,16 @@
     margin: 50%;
 }
 
+.mt5 {
+    margin-top: 5px;
+}
+
 .mt15 {
     margin-top: 15px;
+}
+
+.mb5 {
+    margin-bottom: 5px;
 }
 
 .mb15 {
@@ -175,7 +175,6 @@
 
 .justifyStart {
     justify-content: flex-start;
-
 }
 
 .justifyEnd {
@@ -219,6 +218,7 @@
 .w100 {
     width: 100%;
 }
+
 .fitW {
     width: fit-content;
 }
@@ -506,6 +506,13 @@
 
 .borderWhite {
     border-color: #ffffff;
+}
+
+.borderGreyPrimary {
+    border-color: #f7f7f7;
+}
+.borderGreySecondary {
+    border-color: #dddddd;
 }
 
 .borderSuccess {}
