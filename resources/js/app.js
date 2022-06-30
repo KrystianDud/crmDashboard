@@ -18,6 +18,7 @@ import Products from './Products/index'
 import Toast from './Components/Toast/Index';
 import Modal from './Components/Modal';
 import Messages from './Messages';
+import Overview from './Overview/index'
 import axios from 'axios';
 
 import { NewToast } from './Components/Toast';
@@ -44,7 +45,6 @@ function App() {
     const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('userData')))
     const [companyData, setCompanyData] = useState({})
 
-    const [scrren, setScreen] = useState({ x: window.innerWidth, y: window.innerHeight })
     const [section, setSection] = useState(0)
     const [toastList, setToastList] = useState([])
 
@@ -75,7 +75,7 @@ function App() {
         // getUserData();
         // }
 
-        // getCompany()
+        
 
         switch (window.location.pathname) {
             case "/":
@@ -101,16 +101,16 @@ function App() {
                 setSection(7)
                 break;
         }
-
     }, [])
 
     useEffect(() => {
-        setScreen({ x: window.innerWidth, y: window.innerHeight })
-    }, [window.innerHeight, window.innerWidth])
+        getCompany()
+    }, [userData.company_id])
+    
 
     const getCompany = () => {
         let companyItems = JSON.parse(localStorage.getItem('companyData'));
-        if ((userAuth) && isEmpty(companyItems)) {
+        if ((userAuth) && isEmpty(companyItems) && userData.company_id) {
             axios.get(`api/get_company/${userData.company_id}`)
                 .then((response) => {
                     setCompanyData(response.data);
@@ -140,12 +140,9 @@ function App() {
         // toast={setToastList([...toastList, NewToast('File uploaded successfully, 'Success')])}
         if (typeof userData.avatar == 'undefined' && typeof userData.position == 'undefined') {
             let modalData = {
-                sendRequest: (data, callback) => {
-                    console.log('inside of send reuest method: ', data)
+                sendRequest: (data, callback) => { 
                     axios.post(`api/update_user/${userData.id}?_method=put`, data)
-                        .then((response) => {
-                            console.log(response.data.response)
-                            console.log(userData)
+                        .then((response) => { 
                             if (response.status === 200) {
                                 let updateData = response.data.response;
                                 if (updateData.privilege === 'admin') {
@@ -195,12 +192,16 @@ function App() {
         setOpenModal(false)
     }
 
-    const processData = (message) => {
+    const processData = (message, api) => {
         localStorage.setItem('auth', JSON.stringify(true))
         setUserAuth(true);
 
         setOpenModal(false)
         setModalData({});
+
+        if(typeof api != 'undefined' && api === 'api/orders'){
+            setShoppingCart([])
+        }
 
         // let message = 'Company information was saved successfully!'
         setToastList([...toastList, NewToast(message, 'Success')])
@@ -305,7 +306,7 @@ function App() {
                                     <Route path="/" element={userAuth ? <Dashboard user={userData} activateModal={activateModal} /> : <Navigate to="login" />} />
                                     <Route path="orders" element={userAuth ? <Orders user={userData} /> : <Navigate to="login" />} />
                                     <Route path="products" element={userAuth ? <Products user={userData} updateCart={updateShoppingCart} openModal={openModal} /> : <Navigate to="login" />} />
-                                    <Route path="overview" element={userAuth ? <Dashboard user={userData} /> : <Navigate to="login" />} />
+                                    <Route path="overview" element={userAuth ? <Overview user={userData} /> : <Navigate to="login" />} />
                                     <Route path="customer" element={userAuth ? <Dashboard user={userData} /> : <Navigate to="login" />} />
                                     <Route path="message" element={userAuth ? <Messages user={userData} /> : <Navigate to="login" />} />
                                     <Route path="settings" element={userAuth ? <Dashboard user={userData} /> : <Navigate to="login" />} />
