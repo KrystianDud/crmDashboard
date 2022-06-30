@@ -5,7 +5,8 @@ import { UserDataContext } from '../app'
 import Table from '../Components/Table';
 import ButtonRectangle from '../Components/IconButtons/ButtonRectangle';
 import Button from '../Components/Button';
-import Slider from './Slider';
+import Slider from '../Components/Table/Slider';
+import TableDetails from './TableDetails/TableDetails'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faPaperclip, faList } from '@fortawesome/free-solid-svg-icons';
@@ -20,6 +21,7 @@ export default function Orders({ user }) {
     const [sliderData, setSliderData] = useState(null)
     const [columnsClient, setColumnsClient] = useState(null);
 
+    let tableChildComponent = { Component: TableDetails }
 
     useEffect(() => {
         axios.get('/api/orders', {
@@ -27,7 +29,6 @@ export default function Orders({ user }) {
                 user_id: user.id,
                 company_id: user.company_id
             }
-
         })
             .then((response) => {
                 console.log(response)
@@ -63,39 +64,41 @@ export default function Orders({ user }) {
     // When the options are set to true on the table we can provide them in the parent
     // Due to the fact that not always table will have this functionality and also they might need
     // to be configured in different ways depending on the client and service needs
-    const provideOptions = (
-        <Button
-            text={'View'}
-            type={'contained'}
-            disabled={false}
-            color={'normal'}
-            size={'sm'}
-            icon={null}
-            callback={() => editItem(index)}
-        />
-    );
+
+    const optionsProps = {
+        text: 'View',
+        type: 'contained',
+        disabled: false,
+        color: 'normal',
+        size: 'sm',
+        icon: null,
+    }
 
     return (
-        <div className='viewWindow'>
-            <div className='table-control'>
-                <ButtonRectangle
-                    icon={faFilter}
-                    onClick={filterList}
-                />
+        <div className='viewWindow flexColumn'>
+            <div className='m15 h100'>
+                <div className='table-control fw2 fs-08r'>
+                    <ButtonRectangle
+                        icon={faFilter}
+                        onClick={filterList}
+                    />
+                </div>
+                {currentTransactions && columnsClient ?
+                    <Table
+                        columns={columnsClient}
+                        list={currentTransactions}
+
+                        showDetails={true}
+                        provideDetails={TableDetails}
+
+                        options={true}
+                        provideOptions={Button}
+                        optionsProps={optionsProps}
+                        defaultOptionFunction={true}
+                        optionFunction={null}
+                        sliderData={sliderData}
+                    /> : null}
             </div>
-            {currentTransactions && columnsClient ?
-                <Table
-                    columns={columnsClient}
-                    list={currentTransactions}
-
-                    showDetails={null}
-                    options={true}
-                    provideOptions={provideOptions}
-                    editItem={null}
-
-                    showSlider={true}
-                    sliderData={sliderData}
-                /> : null}
         </div>
     )
 } 
