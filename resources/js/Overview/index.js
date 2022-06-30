@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React, { useEffect } from 'react'
 
+import '../../css/globals.css'
+import './index.css'
 /**
  * Display the users related to the company which will include
  * 
@@ -19,15 +21,15 @@ export default function Overview() {
     // Table Columns 
     // Name, email, role, purchases, created
     useEffect(() => {
-        axios.get()
+        // axios.get()
         
     }, [])
     
     return (
-        <div>
-            <Table 
+        <div className='viewWindow flexRow'>
+            {/* <Table 
 
-            />
+            /> */}
         </div>
     )
 }
