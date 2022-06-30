@@ -17,10 +17,6 @@ import axios from 'axios';
 export default function Modal({ sendRequest, title, confirmationMessage, cancelMessage, onClose, onAccept, BodyComponent, widthSize, activationData }) {
     const [computedData, setComputedData] = useState(null);
 
-    useEffect(() => {
-        console.info('on boot of modal, data passed: ', sendRequest)
-    }, [])
-
     const sendData = () => {
         sendRequest(computedData, onAccept);
     }
