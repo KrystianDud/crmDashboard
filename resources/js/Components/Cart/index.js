@@ -34,13 +34,19 @@ export default function Cart({ shoppingCart, updateCart, activateModal, company,
 
     const updateModalData = () => {
         const data = {
-            method: 'POST',
-            api: '/api/orders',
-            apiParameter: '',
+            sendRequest: (data, callback) => {
+                axios.post('api/orders', data)
+                    .then((response) => {
+                        callback(response.data.message, 'api/orders')
+                    })
+                    .catch((error) => {
+                        console.log(error, ' data: ', data)
+                    })
+            },
             title: 'Cart Checkout',
             confirmationMessage: 'Purchase',
             cancelMessage: 'Cancel',
-            component: <CheckoutDetails shoppingCart={shoppingCart} company={company} user={user}/>,
+            component: <CheckoutDetails shoppingCart={shoppingCart} company={company} user={user} />,
             width: '80%'
         }
 
