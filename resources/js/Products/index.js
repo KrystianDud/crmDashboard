@@ -27,7 +27,6 @@ export default function Products({ updateCart, openModal, user }) {
 
     const [newItem, setNewItem] = useState(false);
     const [productList, setProductList] = useState([])
-    const [productListTable, setProductListTable] = useState([])
 
     const [selectedProduct, setSelectedProduct] = useState(null)
 
@@ -69,29 +68,7 @@ export default function Products({ updateCart, openModal, user }) {
                 if (response.status == 200) {
                     // console.log(response.data)
                     setProductList(response.data.products);
-                    setColumns(response.data.columns)
-
-
-                    // This column list will be used behind the scenes and should not be displayed on the user screen
-                    const columnQueue = ['slug', 'id', 'name', 'description', 'price', 'stock', 'options'];
-                    let tempTableArray = [];
-
-                    let data = response.data.products.forEach((item, index) => {
-                        const len = Object.keys(item).length-1;
-                        let key
-                        for(let i = 0; i < len; i++){
-                            key = Object.keys(item)[i]
-                            console.log(item[key])
-                            // console.log(key)
-                            if(!columnQueue.includes(key)){
-                                delete item[key]
-                            }
-                        } 
-                        
-                    })
-                    console.log(data)
-
-                    // setProductListTable(tableList)
+                    setColumns(response.data.columns);
                 }
             })
     }
@@ -144,6 +121,12 @@ export default function Products({ updateCart, openModal, user }) {
         setToastList([...toastList, NewToast(message, type)])
     }
 
+    const getProductObj = (id) => {
+        let productObject = productList.filter(item => item.id === id)
+
+        updateCart(...productObject)
+    }
+
     const DisplayCardList = (
         <CardList
             list={productList}
@@ -155,7 +138,7 @@ export default function Products({ updateCart, openModal, user }) {
     );
 
     const optionsProps = {
-        text: 'View',
+        text: userData.type == 'service' ? 'Edit' : 'Buy',
         type: 'contained',
         disabled: false,
         color: 'normal',
@@ -172,11 +155,11 @@ export default function Products({ updateCart, openModal, user }) {
                 showDetails={false}
                 provideDetails={null}
 
-                options={user.type == 'service' ? true : false}
+                options={true}
                 provideOptions={Button}
                 optionsProps={optionsProps}
-                defaultOptionFunction={true}
-                optionFunction={null}
+                defaultOptionFunction={false}
+                optionFunction={userData.type == 'service' ? editItem : getProductObj}
                 sliderData={null}
             /> : null
     );
