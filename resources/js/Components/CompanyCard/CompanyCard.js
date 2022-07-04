@@ -5,7 +5,7 @@ import './index.css'
 
 import Button from '../Button'
 
-export default function CompanyCard({ slug, statOne, statTwo, buttonProps }) {
+export default function CompanyCard({ slug, statOne, statTwo, buttonProps, id }) {
     return (
         <div className='flexColumn background-white companyCard m15 flexBetween'>
             <div className='w100'>
