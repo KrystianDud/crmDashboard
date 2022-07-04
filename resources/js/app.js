@@ -223,7 +223,7 @@ function App() {
         setUserAuth(false)
     }
 
-    const updateShoppingCart = (product, func) => {
+    const updateShoppingCart = (product, func='add') => {
         let elementPos = ''
         // check if given product exists in the list
         if (shoppingCart.some(item => item.id == product.id)) {
