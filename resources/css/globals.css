@@ -81,6 +81,14 @@
     margin-inline: 20px;
 }
 
+.p5 {
+    padding: 5px;
+}
+
+.p10 {
+    padding: 10px;
+}
+
 .pT5 {
     padding-top: 5px;
 }
@@ -545,8 +553,6 @@
     background-color: rgb(217 217 217 / 40%);
 }
 
-.hover-grey-primary {}
-
 .hover-grey-primary:hover {
     background-color: #f7f7f7;
 }
@@ -554,8 +560,6 @@
 .hover-grey-primary:focus {
     background-color: #f7f7f7;
 }
-
-.hover-normal-secondary {}
 
 .hover-normal-secondary:hover {
     background-color: rgb(194 222 253);

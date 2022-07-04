@@ -6,3 +6,8 @@
 
     border-radius: 15px;
 }
+
+.card-logo-line{
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
