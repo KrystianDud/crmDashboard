@@ -10,8 +10,7 @@
 /* SIZING */
 
 .w100 {
-    width: 100%;
-    margin: 10px 0;
+    width: 100%; 
 }
 
 .w80 {
@@ -257,6 +256,21 @@
     position: absolute;
 }
 
+/* FONT ALIGN POSITION */
+
+.textAS {
+    text-align: center;
+}
+
+.textAC {
+    text-align: center;
+}
+
+.textAE {
+    text-align: center;
+}
+
+
 /* FONT WEIGHT */
 
 .fw2 {
@@ -412,9 +426,6 @@
 
 }
 
-.textAC {
-    text-align: center;
-}
 
 /* SHADOW */
 
@@ -511,6 +522,7 @@
 .borderGreyPrimary {
     border-color: #f7f7f7;
 }
+
 .borderGreySecondary {
     border-color: #dddddd;
 }
@@ -563,4 +575,29 @@ for example background
 /* greys for borders */
 .border-grey-secondary {
     border-color: #d3d3d3
+}
+
+.avatar-image {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+
+    background-color: black;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+    background-size: cover;
+    margin: auto;
+}
+
+.logo-image {
+    border-radius: 50%;
+    width: 60px;
+    height: 40px;
+
+    /* background-color: black; */
+    background-position: center;
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+    background-size: cover; 
 }
