@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+
 import './index.css'
 import '../../../css/globals.css'
 import { uniqueId } from 'lodash';
@@ -48,7 +49,13 @@ export default function Table({ columns, list, showDetails, provideDetails, opti
 
     const sanitiseDate = (rowKey, rowValue) => {
         if (rowKey == 'order_date') {
-            return <Moment format="ddd, hh:mm A" date={rowValue}/>
+            return <Moment format="ddd, hh:mm A" date={rowValue} />
+        }
+        else if (rowKey == 'slug') {
+            return <div className="avatar-image w100" style={{ backgroundImage: `url(${rowValue.slice(6)})`, }} />
+        }
+        else if (rowKey == 'description') {
+            return <div className="textAS font-caption">{rowValue}</div>
         }
         else if (rowKey == 'price') {
             return '£' + rowValue
@@ -70,7 +77,7 @@ export default function Table({ columns, list, showDetails, provideDetails, opti
             <div className="table-body font-subtitle1 ">
                 {list.map((row, index) => (
                     <React.Fragment key={row.id} >
-                        <div className={`table-control table-row ${sliderId == row.id ? 'table-row-selected' : ''}`}>
+                        <div className={`table-control table-row borderGreyPrimary${sliderId == row.id ? 'table-row-selected' : ''}`}>
                             {Object.keys(row).map((rowData) => (
                                 <div key={uniqueId() + '.' + row.order_date} className='table-cell fw3'>
                                     {/* {row[rowData] == 'price' ? `£${row[rowData]}` : row[rowData]} */}
@@ -80,7 +87,7 @@ export default function Table({ columns, list, showDetails, provideDetails, opti
 
                             {options ?
                                 <div className='table-cell'>
-                                    <OptionComponent {...optionsProps} callback={() => insertDetailsContainer(row.id)} />
+                                    <OptionComponent {...optionsProps} callback={defaultOptionFunction ? () => insertDetailsContainer(row.id) : () => optionFunction(row.id)} />
                                 </div>
                                 : null
                             }

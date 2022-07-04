@@ -8,10 +8,9 @@
 .table-head {
     margin: 15px 0 9;
     height: 20px;
-    
+    padding-bottom: 5px;
     border-bottom-width: 1px;
     border-bottom-style: solid;
-
 }
 
 .table-control {
@@ -38,6 +37,9 @@
 .table-row {
     height: 30px;
     transition: 0.5s;
+    
+    border-bottom-style:solid;
+    border-bottom-width: 1px;
 }
 
 .table-row:hover {
