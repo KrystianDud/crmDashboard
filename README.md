@@ -1,64 +1,59 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## WIP SaaS Project 
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project is focused around providing a management service for the vendors and dashboarding for both, existing clients and the service providers.
+Think of this platform like Amazon shop for small or specilised companies that are unable to invest in the dev team but would like to have a seperated system that would enable to sell and manage products.
 
-## About Laravel
+Currently there are still areas that needs improvement and do not represent the final look of the platform.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Motivation:
+- Create a SaaS platform independently using only React js
+- Create the backend and database server that will provide an access to carry out CRUD operations.
+- Use handcrafted components without any UI libraries to test the ability and study potential problems around each of the components and their requirements.
+- Study the requirements of backend to create specific API points
+- Create full scale project to study the pitfals of poor project management
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+### What full service will offer?
+#### Service 
+A subscription based model providing an access for the vendor. (service provider)
+Ability to register and onboard Clients using the dynamic approach.
+Possibility of adding the products along with the image and stock information.
+Communication with the company members and clients using built in messaging system.
+Manage stock of the products and update their price or discount.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### Client
+Ability to view the products, purchase them and create company structure within the platform to effectively manage the stocks and provide statistics based on the purchase trends including the potential savings and change in the businees stock requirements.
+Keep track of invoices and generate them for accounting purposes.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Everyone
 
-## Laravel Sponsors
+Message using built in messaging service.
+Edit user details and add user avatar.
+Edit company details and it's structure.
+View products and reference them in the messages as a point of interest.
+View and manage users involved.
+Provide user privileges to ensure that certain information will not be exposed.
+Share statistics and overview of the platform externally.
+Search contents of the platform using tags or special namespaces such as product, invoice, user name 
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Project
+Currently the project consists of the main features but there is still a lot of work to do.
+Managed using simple concepts.
+Platform has simple system of adding and buying the products and their transactions are being tracked on the client side.
+Users can send messages accros but it lacks functionality such as delete, draft and favourite.
+Messaging system will have implemented channel that will allow to load new messages instantly.
+There is missing attachement system for each message which will be implemented shortly.
+Certain Widgets are not functinal and are placed there only provisionally.
 
-### Premium Partners
+In order to limit the number of unnecessary styling, I have created a globals.css stylesheet which in future will be broken down in to smaller chunks to allow loading of different styles based on the categories such as spacing, borders, colours or typography in general.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Platform does not possess the ability to filter content using general components such as tables. I intend to create a serverside lazyloading feature to manage the data expectations.
 
-## Contributing
+### Bugs
+The list of the bugs is currently kept in the private location and will be shared later once the project will have first official test run.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### Notes
+This project has no intention of shipping to production officially and certain methods used inside are not save for production!!!
+This is a side project and it's intention was to demonstrate the pitfalls of developing complex service with limited manpower and time.
+The case study will be described shortly in private blog post.
